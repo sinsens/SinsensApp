@@ -1,0 +1,33 @@
+{
+  "culture": "pt-BR",
+  "texts": {
+    "Menu:Home": "Principal",
+    "Welcome": "Seja bem-vindo!",
+    "LongWelcomeMessage": "Bem-vindo a esta aplicação. Este é um projeto inicial baseado no ABP framework. Para mais informações, visite abp.io.",
+    "Permission:Transaction": "Transaction",
+    "Permission:Create": "Create",
+    "Permission:Update": "Update",
+    "Permission:Delete": "Delete",
+    "Menu:Transaction": "MenuTransaction",
+    "Transaction": "Transaction",
+    "TransactionSyncState": "TransactionSyncState",
+    "TransactionAccountFrom": "TransactionAccountFrom",
+    "TransactionAccountTo": "TransactionAccountTo",
+    "TransactionCategory": "TransactionCategory",
+    "TransactionTags": "TransactionTags",
+    "TransactionDate": "TransactionDate",
+    "TransactionAmount": "TransactionAmount",
+    "TransactionExchangeRate": "TransactionExchangeRate",
+    "TransactionNote": "TransactionNote",
+    "TransactionTransactionState": "TransactionTransactionState",
+    "TransactionTransactionType": "TransactionTransactionType",
+    "TransactionIncludeInReports": "TransactionIncludeInReports",
+    "TransactionAttachments": "TransactionAttachments",
+    "TransactionOwnerUserId": "TransactionOwnerUserId",
+    "TransactionOwnerAppUser": "TransactionOwnerAppUser",
+    "CreateTransaction": "CreateTransaction",
+    "EditTransaction": "EditTransaction",
+    "TransactionDeletionConfirmationMessage": "Are you sure to delete the transaction {0}?",
+    "SuccessfullyDeleted": "Successfully deleted"
+  }
+}

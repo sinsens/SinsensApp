@@ -1,0 +1,33 @@
+{
+  "culture": "nl",
+  "texts": {
+    "Menu:Home": "Home",
+    "Welcome": "Welkom",
+    "LongWelcomeMessage": "Welkom bij de applicatie. Dit is een startup-project gebaseerd op het ABP-framework. Bezoek abp.io voor meer informatie.",
+    "Permission:Transaction": "Transaction",
+    "Permission:Create": "Create",
+    "Permission:Update": "Update",
+    "Permission:Delete": "Delete",
+    "Menu:Transaction": "MenuTransaction",
+    "Transaction": "Transaction",
+    "TransactionSyncState": "TransactionSyncState",
+    "TransactionAccountFrom": "TransactionAccountFrom",
+    "TransactionAccountTo": "TransactionAccountTo",
+    "TransactionCategory": "TransactionCategory",
+    "TransactionTags": "TransactionTags",
+    "TransactionDate": "TransactionDate",
+    "TransactionAmount": "TransactionAmount",
+    "TransactionExchangeRate": "TransactionExchangeRate",
+    "TransactionNote": "TransactionNote",
+    "TransactionTransactionState": "TransactionTransactionState",
+    "TransactionTransactionType": "TransactionTransactionType",
+    "TransactionIncludeInReports": "TransactionIncludeInReports",
+    "TransactionAttachments": "TransactionAttachments",
+    "TransactionOwnerUserId": "TransactionOwnerUserId",
+    "TransactionOwnerAppUser": "TransactionOwnerAppUser",
+    "CreateTransaction": "CreateTransaction",
+    "EditTransaction": "EditTransaction",
+    "TransactionDeletionConfirmationMessage": "Are you sure to delete the transaction {0}?",
+    "SuccessfullyDeleted": "Successfully deleted"
+  }
+}

@@ -1,0 +1,58 @@
+﻿[
+  {
+    "Code": "USD",
+    "Symbol": "US$",
+    "SymbolPosition": 2,
+    "DecimalSeparator": ".",
+    "GroupSeparator": ",",
+    "DecimalCount": 2
+  },
+  {
+    "Code": "EUR",
+    "Symbol": "€",
+    "SymbolPosition": 2,
+    "DecimalSeparator": ".",
+    "GroupSeparator": ",",
+    "DecimalCount": 2
+  },
+  {
+    "Code": "CNY",
+    "Symbol": "￥",
+    "SymbolPosition": 2,
+    "DecimalSeparator": ".",
+    "GroupSeparator": ",",
+    "DecimalCount": 2
+  },
+  {
+    "Code": "GBP",
+    "Symbol": "£",
+    "SymbolPosition": 2,
+    "DecimalSeparator": ".",
+    "GroupSeparator": ",",
+    "DecimalCount": 2
+  },
+  {
+    "Code": "INR",
+    "Symbol": "₹",
+    "SymbolPosition": 2,
+    "DecimalSeparator": ".",
+    "GroupSeparator": ",",
+    "DecimalCount": 2
+  },
+  {
+    "Code": "JPY",
+    "Symbol": "JP¥",
+    "SymbolPosition": 2,
+    "DecimalSeparator": ".",
+    "GroupSeparator": ",",
+    "DecimalCount": 0
+  },
+  {
+    "Code": "RUB",
+    "Symbol": "RUB",
+    "SymbolPosition": 2,
+    "DecimalSeparator": ".",
+    "GroupSeparator": ",",
+    "DecimalCount": 2
+  }
+]

@@ -1,0 +1,109 @@
+﻿{% if HasOperations -%}
+{% if GenerateClientInterfaces -%}
+{% if ExportTypes %}export {% endif %}interface I{{ Class }} {
+{%     for operation in Operations -%}
+    {% template Client.Method.Documentation %}
+    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}({% for parameter in operation.Parameters %}{{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}, {% endif %}{% endfor %}): Promise<{{ operation.ResultType }}>;
+{%     endfor -%}}
+{% endif -%}
+
+{% if ExportTypes %}export {% endif %}class {{ Class }} {% if HasBaseClass %}extends {{ BaseClass }} {% endif %}{% if GenerateClientInterfaces %}implements I{{ Class }} {% endif %}{
+    private baseUrl: string;
+    protected jsonParseReviver: {% if SupportsStrictNullChecks %}((key: string, value: any) => any) | undefined{% else %}(key: string, value: any) => any{% endif %} = undefined;
+
+{% if HasExtendedConstructor == false -%}
+    constructor({% if HasConfigurationClass %}configuration: {{ ConfigurationClass }}, 
+    {% endif %}baseUrl?: string) {
+{%     if HasBaseClass -%}
+        super({% if HasConfigurationClass %}configuration{% endif %});
+{%     endif -%}
+{%     if UseGetBaseUrlMethod -%}
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : this.getBaseUrl("{{ BaseUrl }}");
+{%     else -%}
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "{{ BaseUrl }}";
+{%     endif -%}
+    }
+{% endif -%}
+{% if HasExtensionCode -%}
+
+    {{ ExtensionCode }}
+{% endif -%}
+{% for operation in Operations -%}
+
+    {% template Client.Method.Documentation %}
+    {{ operation.MethodAccessModifier }}{{ operation.ActualOperationName }}
+    ({% for parameter in operation.Parameters %}{{ parameter.VariableName }}
+    {% if GenerateOptionalParameters and parameter.IsOptional %}
+        ?{% endif %}: {{ parameter.Type }}{{ parameter.TypePostfix }}{% if parameter.IsLast == false %}
+        , {% endif %}{% endfor %} {% if operation.Parameters.size > 0 %}
+        ,{%endif%}): Promise<{{ operation.ResultType }}> {
+        {% template Client.RequestUrl %}
+
+{%     if operation.HasBody -%}
+        {% template Client.RequestBody %}
+
+{%     endif -%}
+        {%     if UseTransformOptionsMethod -%}
+        return this.transformOptions({
+            {%     if operation.HasBody -%}
+                        data: content_,
+            {%     endif -%}
+            {%     if operation.IsFile -%}
+                        responseType: "blob",
+            {%     endif -%}
+                        method: "{{ operation.HttpMethodUpper | upcase }}",
+                        url: url_,
+                        header: {
+            {%     for parameter in operation.HeaderParameters -%}
+                            "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "",
+            {%     endfor -%}
+            {%     if operation.HasContent or operation.ConsumesFormUrlEncoded -%}
+                            "Content-Type": "{{ operation.Consumes }}",
+            {%     endif -%}
+            {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
+                            "Accept": "{{ operation.Produces }}"
+            {%     endif -%}
+                        },
+                    }).then(transformedOptions_ => {
+            return request(transformedOptions_);
+        }).catch((_error: any) => {
+{%     else -%}
+        return request({
+        {%     if operation.HasBody -%}
+                    data: content_,
+        {%     endif -%}
+        {%     if operation.IsFile -%}
+                    responseType: "blob",
+        {%     endif -%}
+                    method: "{{ operation.HttpMethodUpper | upcase }}",
+                    url: url_,
+                    header: {
+        {%     for parameter in operation.HeaderParameters -%}
+                        "{{ parameter.Name }}": {{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null ? "" + {{ parameter.VariableName }} : "",
+        {%     endfor -%}
+        {%     if operation.HasContent or operation.ConsumesFormUrlEncoded -%}
+                        "Content-Type": "{{ operation.Consumes }}",
+        {%     endif -%}
+        {%     if operation.HasResultType and operation.HasAcceptHeaderParameterParameter == false -%}
+                        "Accept": "{{ operation.Produces }}"
+        {%     endif -%}
+                    },
+                }).catch((_error: any) => {
+{%     endif -%}
+            throw _error;
+        }).then((_response) => {
+{%     if UseTransformResultMethod -%}
+            return this.process{{ operation.ActualOperationNameUpper }}(_response);
+{%     else -%}
+            return this.process{{ operation.ActualOperationNameUpper }}(_response);
+{%     endif -%}
+        });
+    }
+
+    protected process{{ operation.ActualOperationNameUpper }}(response): Promise<{{ operation.ResultType }}> {
+        const status = response.status || response.statusCode;
+        {% template Client.ProcessResponse %}
+    }
+{% endfor -%}
+}
+{% endif -%}

@@ -1,0 +1,132 @@
+/**
+ * 接口基类 options apiData
+ */
+
+import Taro from "@tarojs/taro";
+
+interface requestOption {
+  url: any
+  method: any
+  data?: any
+  params?: any
+}
+
+const getBaseUrl = (url) => {
+  let BASE_URL = "";
+  if (process.env.NODE_ENV === "development" || process.env.BUILD_ENV === "dev") { // 开发 测试
+    BASE_URL = "xxx";
+  } else if (process.env.BUILD_ENV === "test") { // 测试
+    BASE_URL = "xxx";
+  } else if (process.env.BUILD_ENV === "prd") { // 生产
+    BASE_URL = "xxx";
+  }
+  return BASE_URL;
+};
+
+
+class HttpRequest implements Taro.request.method {
+
+  OPTIONS: any = 'OPTIONS';
+  GET: any = 'GET';
+  HEAD: any = 'HEAD';
+  POST: any = 'POST';
+  PUT: any = 'PUT';
+  DELETE: any = 'DELETE';
+  TRACE: any = 'TRACE';
+  CONNECT: any = 'CONNECT';
+
+  getMethodName(method: string) {
+    if (method == undefined || typeof (method) !== 'string') return this.GET;
+    switch (method.toUpperCase()) {
+      case 'GET':
+      default:
+        return this.GET;
+
+      case 'POST':
+        return this.POST;
+
+      case 'OPTIONS':
+        return this.OPTIONS;
+
+      case 'DELETE':
+        return this.DELETE;
+
+      case 'PUT':
+        return this.PUT;
+    }
+  }
+
+  baseOptions(params, method = "GET", isShowLoading = true) {
+    isShowLoading && Taro.showLoading({ title: "加载中", mask: true });
+    let { url, data, contentType } = params;
+    let headerParam = {
+      Authorization: "bearer" + " " + Taro.getStorageSync("tokenInfo")
+    };
+    const BASE_URL = getBaseUrl(url);
+    return new Promise((resolve, reject) => {
+      Taro.request({
+        url: BASE_URL + url,
+        data: data,
+        method: this.getMethodName(method),
+        header: {
+          "content-type": contentType,
+          ...headerParam
+        },
+        success(res) {
+          isShowLoading && Taro.hideLoading();
+          resolve(res.data)
+        },
+        fail(err: object | any) {
+          const errRes = err.hasOwnProperty("data")
+            ? err.data
+            : { succeed: false, errorMsg: "请求异常" };
+          reject(errRes);
+        }
+      });
+    })
+  }
+  baseOptionsT<T = any>(params, method = "GET", isShowLoading = true): Promise<T> {
+    isShowLoading && Taro.showLoading({ title: "加载中", mask: true });
+    let { url, data, contentType } = params;
+    let headerParam = {
+      Authorization: "bearer" + " " + Taro.getStorageSync("tokenInfo")
+    };
+    const BASE_URL = getBaseUrl(url);
+    return new Promise((resolve, reject) => {
+      Taro.request({
+        url: BASE_URL + url,
+        data: data,
+        method: this.getMethodName(method),
+        header: {
+          "content-type": contentType,
+          ...headerParam
+        },
+        success(res) {
+          isShowLoading && Taro.hideLoading();
+          resolve(res.data)
+        },
+        fail(err: object | any) {
+          const errRes = err.hasOwnProperty("data")
+            ? err.data
+            : { succeed: false, errorMsg: "请求异常" };
+          reject(errRes);
+        }
+      });
+    })
+  }
+  get(url, data = "", isShowLoading = true, contentType = "application/json") {
+    let option = { url, data, contentType };
+    return this.baseOptions(option, "GET", isShowLoading);
+  }
+  post(url, data, isShowLoading = true, contentType = "application/json") {
+    let params = { url, data, contentType };
+    return this.baseOptions(params, "POST", isShowLoading);
+  }
+  request<T = any>(option: requestOption): Promise<T> {
+    let { url, data, method } = option
+    let para = { url, data, method }
+    return this.baseOptionsT<T>(para, method)
+  }
+}
+
+export default HttpRequest
