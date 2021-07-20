@@ -13,6 +13,8 @@ namespace SinsensApp.Wallets
             }
 
             return queryable
+                .Include(x=>x.Category)
+                .Include(x=>x.Tags)
                 // .Include(x => x.xxx) // TODO: AbpHelper generated
                 ;
         }

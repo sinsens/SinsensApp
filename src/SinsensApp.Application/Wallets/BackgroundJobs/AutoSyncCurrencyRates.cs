@@ -12,6 +12,7 @@ using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Json;
 using Volo.Abp.Threading;
+using Volo.Abp.Timing;
 using Volo.Abp.Uow;
 
 namespace SinsensApp.Wallets
@@ -24,6 +25,7 @@ namespace SinsensApp.Wallets
         private readonly IRepository<CurrencyRate, string> _repositoryCurrencyRate;
         private readonly IJsonSerializer _jsonSerializer;
         private readonly NullLogger _logger;
+        private readonly IClock _clock;
 
         public AutoSyncCurrencyRates(AbpTimer timer,
             IUnitOfWorkManager unitOfWorkManager,
@@ -31,7 +33,8 @@ namespace SinsensApp.Wallets
             IRepository<CurrencyRate, string> repositoryCurrencyRate,
             IRateRepository repositoryRate,
             IJsonSerializer jsonSerializer,
-            IServiceScopeFactory serviceScopeFactory
+            IServiceScopeFactory serviceScopeFactory,
+            IClock clock
             ) : base(timer, serviceScopeFactory)
         {
             _unitOfWorkManager = unitOfWorkManager;
@@ -40,6 +43,7 @@ namespace SinsensApp.Wallets
             _repositoryRate = repositoryRate;
             _jsonSerializer = jsonSerializer;
             _logger = NullLogger.Instance;
+            _clock = clock;
 
             timer.Period = 24 * 3600 * 1000; // 每天执行一次
 
@@ -55,9 +59,19 @@ namespace SinsensApp.Wallets
         {
             _logger.LogInformation("开始同步汇率数据");
             var query = await _repositoryCurrency.GetQueryableAsync();
-            var currencies = query.IncludeDetails().GetListAsync();
+
+            var currencies = query.IncludeDetails().ToList();
             foreach (var currency in currencies)
             {
+                if (currency.CurrencyRate != null)
+                {
+                    if (currency.CurrencyRate.Last_Updated.HasValue && DateTimeOffset.FromUnixTimeSeconds(currency.CurrencyRate.Last_Updated.Value).AddDays(1) >= _clock.Now)
+                    {
+                        _logger.LogInformation("货币 {0} 已于 {1} 更新过汇率", currency.Code, currency.CurrencyRate.Date);
+                        continue;
+                    }
+                }
+
                 _logger.LogInformation("同步货币 {0} 汇率", currency.Code);
                 await SyncRate(currency);
                 using (var ouw = _unitOfWorkManager.Begin(requiresNew: true, isTransactional: true))

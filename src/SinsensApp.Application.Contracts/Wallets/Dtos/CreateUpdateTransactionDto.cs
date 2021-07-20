@@ -14,11 +14,11 @@ namespace SinsensApp.Wallets.Dtos
             Attachments = new List<TransactionAttachmentDto>();
         }
 
-        public AccountDto AccountFrom { get; set; }
+        public Guid? AccountFromId { get; set; }
 
-        public AccountDto AccountTo { get; set; }
+        public Guid? AccountToId { get; set; }
 
-        public CategoryDto Category { get; set; }
+        public Guid? CategoryId { get; set; }
 
         public ICollection<string> TagsIds { get; set; }
 

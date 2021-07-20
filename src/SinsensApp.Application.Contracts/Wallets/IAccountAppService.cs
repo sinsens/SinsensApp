@@ -6,13 +6,12 @@ using Volo.Abp.Application.Services;
 namespace SinsensApp.Wallets
 {
     public interface IAccountAppService :
-        ICrudAppService< 
-            AccountDto, 
-            Guid, 
-            PagedAndSortedResultRequestDto,
+        ICrudAppService<
+            AccountDto,
+            Guid,
+            PagedAndSortedAccountResultRequestDto,
             AccountCreateUpdateDto,
             AccountCreateUpdateDto>
     {
-
     }
 }

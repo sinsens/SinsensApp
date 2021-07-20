@@ -1,18 +1,16 @@
-using System;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using SinsensApp.Permissions;
 using SinsensApp.Wallets.Dtos;
-using SinsensApp.Wallets.Event;
-using Volo.Abp.Application.Dtos;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 using Volo.Abp.EventBus.Local;
 using Volo.Abp.Users;
 
 namespace SinsensApp.Wallets
 {
-    public class AccountAppService : CrudAppService<Account, AccountDto, Guid, PagedAndSortedResultRequestDto, AccountCreateUpdateDto, AccountCreateUpdateDto>,
+    public class AccountAppService : CrudAppService<Account, AccountDto, Guid, PagedAndSortedAccountResultRequestDto, AccountCreateUpdateDto, AccountCreateUpdateDto>,
         IAccountAppService
     {
         protected override string GetPolicyName { get; set; } = SinsensAppPermissions.Account.Default;
@@ -32,12 +30,6 @@ namespace SinsensApp.Wallets
             _eventBus = eventBus;
         }
 
-        public override Task<PagedResultDto<AccountDto>> GetListAsync(PagedAndSortedResultRequestDto input)
-        {
-            //_eventBus.PublishAsync(new UserRegisterEventEto { UserId = CurrentUser.GetId() });
-            return base.GetListAsync(input);
-        }
-
         public override async Task<AccountDto> CreateAsync(AccountCreateUpdateDto input)
         {
             var entity = MapToEntity(input);
@@ -46,20 +38,34 @@ namespace SinsensApp.Wallets
             return MapToGetOutputDto(entity);
         }
 
-        protected override async Task<IQueryable<Account>> CreateFilteredQueryAsync(PagedAndSortedResultRequestDto input)
+        public override async Task<AccountDto> GetAsync(Guid id)
         {
-            var query = await Repository.GetQueryableAsync();
-
-            query = query.Where(x => x.IsDeleted == false)
-                .WhereIf(CurrentUser.Id.HasValue, x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id);
-            return await base.CreateFilteredQueryAsync(input);
+            var query = await DefaultQuery();
+            var account = await query.Where(x => x.Id == id).FirstOrDefaultAsync();
+            return MapToGetOutputDto(account);
         }
 
-        protected override async Task<AccountDto> MapToGetListOutputDtoAsync(Account entity)
+        protected override async Task<IQueryable<Account>> CreateFilteredQueryAsync(PagedAndSortedAccountResultRequestDto input)
         {
-            var dto = await base.MapToGetListOutputDtoAsync(entity);
+            var query = await DefaultQuery();
 
-            return dto;
+            query = ApplyDefaultSorting(query).Where(x => x.IsDeleted == false)
+                .WhereIf(CurrentUser.Id.HasValue, x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id)
+                .WhereIf(!input.Title.IsNullOrWhiteSpace(), x => x.Title.Contains(input.Title))
+                .WhereIf(input.IncludeInTotals.HasValue, x => x.IncludeInTotals == input.IncludeInTotals);
+
+            return query.PageBy(input);
+        }
+
+        protected override IQueryable<Account> ApplyDefaultSorting(IQueryable<Account> query)
+        {
+            return query.IncludeDetails(true).OrderByDescending(x => x.IncludeInTotals);
+        }
+
+        private async Task<IQueryable<Account>> DefaultQuery()
+        {
+            var query = await Repository.GetQueryableAsync();
+            return query.IncludeDetails().OrderByDescending(x => x.IncludeInTotals).ThenBy(x => x.Title);
         }
     }
 }

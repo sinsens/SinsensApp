@@ -9,8 +9,8 @@
 			<view class="" slot="body">
 				<view v-for="(item,index) in accounts" :key="index" @tap="toUpdate(item.id)"
 					class="u-body-item u-flex u-row-between u-p-b-0">
-					<view class="u-body-item-title u-line-2">{{item.title}}</view>
-					<view class="">{{item.balance}} ￥</view>
+					<view :class="'u-body-item-title u-line-2 ' + (item.includeInTotals? '' : ' info-color')">{{item.title}}</view>
+					<view :class="(item.includeInTotals? '' : ' info-color')">{{item.balance}} {{item.currency.symbol}}</view>
 				</view>
 			</view>
 		</u-card>
@@ -25,7 +25,7 @@
 		name: 'accounts',
 		onShow() {
 			request({
-				url: '/api/app/account?SkipCount=0&MaxResultCount=10'
+				url: '/api/app/account?SkipCount=0&MaxResultCount=100'
 			}).then(result => {
 				console.log(result)
 				this.accounts = result.data.items
@@ -71,26 +71,17 @@
 </script>
 
 <style scoped lang="scss">
-	.u-navbar-right {
-		margin-right: 20px;
+	.info-color {
+		color: $u-type-info-dark
 	}
 
-	.u-card-wrap {
-		background-color: $u-bg-color;
-		padding: 1px;
+	.u-navbar-right {
+		margin-right: 20px;
 	}
 
 	.u-body-item {
 		font-size: 32rpx;
 		color: #333;
 		padding: 20rpx 10rpx;
-	}
-
-	.u-body-item image {
-		width: 120rpx;
-		flex: 0 0 120rpx;
-		height: 120rpx;
-		border-radius: 8rpx;
-		margin-left: 12rpx;
 	}
 </style>

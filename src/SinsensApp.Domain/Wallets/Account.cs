@@ -33,6 +33,7 @@ namespace SinsensApp.Wallets
         /// <summary>
         /// 货币代码
         /// </summary>
+        [Required]
         [ForeignKey("Currency")]
         [StringLength(WalletsConsts.MaxTitleLength)]
         public string CurrencyCode { get; set; }

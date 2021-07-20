@@ -56,7 +56,7 @@
 		methods: {
 			refresh() {
 				request({
-					url: '/api/app/tag?SkipCount=0&MaxResultCount=10'
+					url: '/api/app/tag?SkipCount=0&MaxResultCount=100'
 				}).then(result => {
 					console.log(result)
 					this.tags = result.data.items

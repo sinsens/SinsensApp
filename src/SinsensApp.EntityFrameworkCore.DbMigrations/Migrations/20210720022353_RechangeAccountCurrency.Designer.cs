@@ -10,8 +10,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace SinsensApp.Migrations
 {
     [DbContext(typeof(SinsensAppMigrationsDbContext))]
-    [Migration("20210718074519_Initial")]
-    partial class Initial
+    [Migration("20210720022353_RechangeAccountCurrency")]
+    partial class RechangeAccountCurrency
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,6 +39,7 @@ namespace SinsensApp.Migrations
                         .HasColumnName("CreatorId");
 
                     b.Property<string>("CurrencyCode")
+                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("varchar(32) CHARACTER SET utf8mb4");
 
@@ -225,6 +226,11 @@ namespace SinsensApp.Migrations
                     b.Property<string>("CurrencyRateCode")
                         .HasColumnType("varchar(32) CHARACTER SET utf8mb4");
 
+                    b.Property<string>("FromCode")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("varchar(32) CHARACTER SET utf8mb4");
+
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime(6)");
 
@@ -235,7 +241,9 @@ namespace SinsensApp.Migrations
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("ToCode")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("varchar(32) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -2396,8 +2404,10 @@ namespace SinsensApp.Migrations
             modelBuilder.Entity("SinsensApp.Wallets.Account", b =>
                 {
                     b.HasOne("SinsensApp.Wallets.Currency", "Currency")
-                        .WithMany()
-                        .HasForeignKey("CurrencyCode");
+                        .WithMany("Accounts")
+                        .HasForeignKey("CurrencyCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Currency");
                 });
@@ -2732,6 +2742,8 @@ namespace SinsensApp.Migrations
 
             modelBuilder.Entity("SinsensApp.Wallets.Currency", b =>
                 {
+                    b.Navigation("Accounts");
+
                     b.Navigation("CurrencyRate");
                 });
 

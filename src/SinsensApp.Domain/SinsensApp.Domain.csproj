@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Wallets\BackgroundJobs\**" />
+    <EmbeddedResource Remove="Wallets\BackgroundJobs\**" />
+    <None Remove="Wallets\BackgroundJobs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SinsensApp.Application.Contracts\SinsensApp.Application.Contracts.csproj" />
     <ProjectReference Include="..\SinsensApp.Domain.Shared\SinsensApp.Domain.Shared.csproj" />
   </ItemGroup>

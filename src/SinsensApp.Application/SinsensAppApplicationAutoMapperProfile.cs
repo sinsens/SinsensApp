@@ -2,6 +2,7 @@ using SinsensApp.Wallets;
 using SinsensApp.Wallets.Dtos;
 using AutoMapper;
 using SinsensApp.Helper;
+using Volo.Abp.AutoMapper;
 
 namespace SinsensApp
 {
@@ -12,7 +13,6 @@ namespace SinsensApp
             /* You can configure your AutoMapper mapping configuration here.
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
-            CreateMap<Account, AccountDto>();
             CreateMap<CreateUpdateAccountDto, Account>(MemberList.Source);
             CreateMap<Tag, TagDto>();
             CreateMap<CreateUpdateTagDto, Tag>(MemberList.Source);
@@ -25,7 +25,7 @@ namespace SinsensApp
             CreateMap<TransactionCreateUpdateDto, Transaction>(MemberList.Source);
             CreateMap<Account, AccountDto>();
             CreateMap<AccountCreateUpdateDto, Account>(MemberList.Source);
-            CreateMap<Category, CategoryDto>();
+            CreateMap<CategoryDto, Category>();
             CreateMap<CategoryCreateUpdateDto, Category>(MemberList.Source);
             CreateMap<Tag, TagDto>();
             CreateMap<TagCreateUpdateDto, Tag>(MemberList.Source);

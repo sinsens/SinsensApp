@@ -10,6 +10,7 @@
 				<view v-for="(item,index) in categories.filter(x=>x.transactionType == 1)" :key="index"
 					class="u-body-item u-flex u-row-between u-p-b-0">
 					<view @click="handleChange(item)" class="u-body-item-title u-line-2">
+						<span class="color-preview" :style="{background:numberToColor(item.color)}"></span>
 						{{item.title}}
 					</view>
 				</view>
@@ -20,6 +21,7 @@
 				<view v-for="(item,index) in categories.filter(x=>x.transactionType == 2)" :key="index"
 					class="u-body-item u-flex u-row-between u-p-b-0">
 					<view @click="handleChange(item)" class="u-body-item-title u-line-2">
+						<span class="color-preview" :style="{background:numberToColor(item.color)}"></span>
 						{{item.title}}
 					</view>
 				</view>
@@ -30,6 +32,7 @@
 				<view v-for="(item,index) in categories.filter(x=>x.transactionType == 3)" :key="index"
 					class="u-body-item u-flex u-row-between u-p-b-0">
 					<view @click="handleChange(item)" class="u-body-item-title u-line-2">
+						<span class="color-preview" :style="{background:numberToColor(item.color)}"></span>
 						{{item.title}}
 					</view>
 				</view>
@@ -125,9 +128,12 @@
 		},
 		computed: {},
 		methods: {
+			numberToColor(val) {
+				return (val != undefined && val != null) ? '#' + Color.numberToHex(val) : 'white'
+			},
 			refresh() {
 				request({
-					url: '/api/app/category?SkipCount=0&MaxResultCount=10'
+					url: '/api/app/category?SkipCount=0&MaxResultCount=100'
 				}).then(result => {
 					console.log(result)
 					this.categories = result.data.items
@@ -150,10 +156,10 @@
 				this.updateModel.colorStyle = e.color
 				console.log(this.updateModel)
 			},
-			handleChange(e){
+			handleChange(e) {
 				this.showUpdateModal = true
 				this.updateModel = e
-				this.updateModel.colorStyle = '#' + Color.numberToHex(e.color)
+				this.updateModel.colorStyle = this.numberToColor(e.color)
 			},
 			onCreate() {
 				if (this.newCategory.title.length < 1) {
@@ -226,6 +232,14 @@
 </script>
 
 <style scoped lang="scss">
+	.color-preview {
+		display: inline-block;
+		vertical-align: bottom;
+		margin-right: 20rpx;
+		width: 40rpx;
+		height: 40rpx;
+	}
+
 	.u-navbar-right {
 		margin-right: 20px;
 	}

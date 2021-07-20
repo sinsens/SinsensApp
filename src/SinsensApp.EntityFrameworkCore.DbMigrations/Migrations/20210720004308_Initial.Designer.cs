@@ -10,8 +10,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace SinsensApp.Migrations
 {
     [DbContext(typeof(SinsensAppMigrationsDbContext))]
-    [Migration("20210718100200_testT4")]
-    partial class testT4
+    [Migration("20210720004308_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

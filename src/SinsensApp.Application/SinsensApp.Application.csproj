@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SinsensApp.Domain\SinsensApp.Domain.csproj" />
     <ProjectReference Include="..\SinsensApp.Application.Contracts\SinsensApp.Application.Contracts.csproj" />
+    <ProjectReference Include="..\SinsensApp.EntityFrameworkCore\SinsensApp.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

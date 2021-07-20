@@ -1,94 +1,50 @@
 <template>
 	<view>
-		<u-navbar :isBack="false" :title="maintitle"></u-navbar>
-		<view class="u-page">
-			<view v-if="current == 0">
-				<u-card @tap="toAccounts" title="账户" :sub-title="'包含在总计中 ' + total + '￥' ">
-					<view class="" slot="body">
-						<view v-for="(item,index) in accounts" :key="index"
-							class="u-body-item u-flex u-row-between u-p-b-0">
-							<view class="u-body-item-title u-line-2">{{item.title}}</view>
-							<view class="">
-								{{item.balance}} ￥
-							</view>
-						</view>
-					</view>
-				</u-card>
+		<u-navbar :isBack="false" title="总览">
+			<view slot="right" class="u-navbar-right-icon">
+				<u-icon name="list" @click="showLeftMenu=true"></u-icon>
+			</view>
+		</u-navbar>
+		<u-popup v-model="showLeftMenu">
+			<u-cell-group class="left-menu-container">
+				<u-cell-item v-for="(item, index) in menus" :key="index" @click="toUrl(item.path)">
+					<u-icon slot="icon" :name="item.iconPath"></u-icon>
+					{{item.text}}
+				</u-cell-item>
+			</u-cell-group>
+		</u-popup>
+		<u-card @tap="toAccounts" title="账户" :sub-title="'包含在总计中 ' + total + '￥' ">
+			<view class="" slot="body">
+				<view v-for="(item,index) in accounts.filter(x=>x.includeInTotals)" :key="index"
+					class="u-body-item u-flex u-row-between u-p-b-0">
+					<view class="u-body-item-title u-line-2">{{item.title}}</view>
+					{{item.balance}} {{item.currency ? item.currency.symbol : '￥'}}
+				</view>
+			</view>
+		</u-card>
 
-				<u-card @tap="toTransactions" title="交易" sub-title="包含在总计中">
-					<view class="" slot="body">
-						<view v-for="(item,index) in transactions" :key="index"
-							class="u-body-item u-flex u-row-between u-p-b-0">
-							<view class="u-body-item-title u-line-2">{{item.note}}</view>
-							<view class="">
-								{{item.transactionType === 1?'-':''}}{{item.amount}} ￥
-							</view>
-						</view>
-					</view>
-				</u-card>
+		<u-card @tap="toTransactions" title="交易" sub-title="包含在总计中">
+			<view class="" slot="body">
+				<view v-for="(item,index) in transactions.filter(x=>x.includeInTotals)" :key="index"
+					class="u-body-item u-flex u-row-between u-p-b-0">
+					<view class="u-body-item-title u-line-2">{{item.note}}</view>
+					{{item.transactionType === 1?'-':''}}{{item.amount}} {{item.symbol}}
+				</view>
 			</view>
-			<view v-if="current == 1">
-				<u-card @tap="toAccounts" title="账户" :sub-title="'包含在总计中 ' + total + '￥' ">
-					<view class="" slot="body">
-						<view v-for="(item,index) in accounts" :key="index"
-							class="u-body-item u-flex u-row-between u-p-b-0">
-							<view class="u-body-item-title u-line-2">{{item.title}}</view>
-							<view class="">{{item.balance}} ￥</view>
-						</view>
-					</view>
-				</u-card>
-			</view>
-			<view v-if="current == 2">
-				<u-card @tap="toTransactions" title="交易" sub-title="">
-					<view class="" slot="body">
-						<view v-for="(item,index) in transactions" :key="index"
-							class="u-body-item u-flex u-row-between u-p-b-0">
-							<view class="u-body-item-title u-line-2">{{item.note}}</view>
-							<view class="">
-								{{item.transactionType === 1?'-':''}}{{item.amount}} ￥
-							</view>
-						</view>
-					</view>
-				</u-card>
-			</view>
-			<view v-if="current == 3">
-				<u-card @tap="toCategories" title="分类" sub-title="">
-					<view class="" slot="body">
-						<view v-for="(item,index) in categories" :key="index"
-							class="u-body-item u-flex u-row-between u-p-b-0">
-							<view class="">
-								{{item.title}}
-							</view>
-						</view>
-					</view>
-				</u-card>
-			</view>
-			<view v-if="current == 4">
-				<u-card @tap="toTags" title="标签" sub-title="">
-					<view class="" slot="body">
-						<view v-for="(item,index) in tags" :key="index"
-							class="u-body-item u-flex u-row-between u-p-b-0">
-							<view class="">
-								{{item.title}}
-							</view>
-						</view>
-					</view>
-				</u-card>
-			</view>
-		</view>
-		<!-- 与包裹页面所有内容的元素u-page同级，且在它的下方 -->
-		<u-tabbar v-model="current" :list="list" :mid-button="true"></u-tabbar>
+		</u-card>
+	</view>
 	</view>
 </template>
 
 <script>
+	import Color from '@/common/color'
 	import {
 		request
 	} from '@/api/service-base'
 	export default {
 		onShow() {
 			request({
-				url: '/api/app/account?SkipCount=0&MaxResultCount=10'
+				url: '/api/app/account?SkipCount=0&MaxResultCount=100'
 			}).then(result => {
 				console.log(result)
 				this.accounts = result.data.items
@@ -97,97 +53,107 @@
 				url: '/api/app/transaction?SkipCount=0&MaxResultCount=10'
 			}).then(result => {
 				console.log(result)
-				this.transactions = result.data.items
-			})
-			request({
-				url: '/api/app/tag?SkipCount=0&MaxResultCount=10'
-			}).then(result => {
-				console.log(result)
-				this.tags = result.data.items
-			})
-			request({
-				url: '/api/app/category?SkipCount=0&MaxResultCount=10'
-			}).then(result => {
-				console.log(result)
-				this.categories = result.data.items
+				this.transactions = result.data.items.map(it => {
+					if (it.accountFrom && it.accountFrom.currency) {
+						it.symbol = it.accountFrom.currency.symbol
+					} else if (it.accountTo && it.accountTo.currency) {
+						it.symbol = it.accountTo.currency.symbol
+					} else {
+						it.symbol = '￥'
+					}
+					return it
+				})
 			})
 		},
 		data() {
 			return {
+				showLeftMenu: false,
 				accounts: [],
 				transactions: [],
-				tags: [],
-				categories: [],
-				list: [{
+				menus: [{
 						iconPath: "home",
 						selectedIconPath: "home-fill",
 						text: '总览',
-						customIcon: false,
-					},
-					{
-						iconPath: "grid",
-						selectedIconPath: "grid-fill",
-						text: '账户',
-						customIcon: false,
-					},
-					{
-						iconPath: "order",
-						selectedIconPath: "order",
-						text: '交易',
-						midButton: true,
-						customIcon: false,
-					},
-					{
-						iconPath: "play-right",
-						selectedIconPath: "play-right-fill",
-						text: '分类',
-						customIcon: false,
+						path: '/pages/wallets/index'
 					},
 					{
 						iconPath: "account",
-						selectedIconPath: "account-fill",
+						text: '账户',
+						path: '/pages/wallets/accounts/index'
+					},
+					{
+						iconPath: "order",
+						text: '交易',
+						path: '/pages/wallets/transactions/index'
+					},
+					{
+						iconPath: "grid",
+						text: '分类',
+						path: '/pages/wallets/categories/index'
+					},
+					{
+						iconPath: "tags",
 						text: '标签',
-						count: 23,
-						isDot: false,
-						customIcon: false,
+						path: '/pages/wallets/tags/index'
 					},
 				],
 				current: 0
 			}
 		},
 		computed: {
-			maintitle: function() {
-				return this.list[this.current].text
-			},
 			total: function() {
 				let tmp = 0.0;
 				this.accounts.map((it, index) => {
-					tmp += it.balance
+					if (it.includeInTotals)
+						tmp += it.balance
 				})
 				return tmp
 			}
 		},
 		methods: {
-			toAccounts() {
-				uni.navigateTo({
-					url: 'accounts/index'
+			numberToColor(val) {
+				return (val != undefined && val != null) ? '#' + Color.numberToHex(val) : 'white'
+			},
+			toUrl(url){
+				wx.navigateTo({
+					url: url
 				})
 			},
-			toTransactions() {
-				uni.navigateTo({
-					url: 'transactions/index'
-				})
+			toTransactions(){
+				this.toUrl('/pages/wallets/transactions/index')
 			},
-			toCategories() {
-				uni.navigateTo({
-					url: 'categories/index'
-				})
-			},
-			toTags() {
-				uni.navigateTo({
-					url: 'tags/index'
-				})
+			toAccounts(){
+				this.toUrl('/pages/wallets/accounts/index')
 			}
 		}
 	}
 </script>
+
+<style scoped lang="scss">
+	.info-color {
+		color: $u-type-info-dark
+	}
+
+	.u-navbar-right-icon {
+		margin-right: 40rpx;
+	}
+	
+	.left-menu-container{
+		margin-top: 80rpx;
+		width: 200rpx;
+	}
+
+	.color-preview {
+		display: inline-block;
+		vertical-align: bottom;
+		margin-right: 20rpx;
+		width: 40rpx;
+		height: 40rpx;
+	}
+
+	.u-body-item {
+		font-size: 32rpx;
+		color: #333;
+		padding: 20rpx 10rpx;
+	}
+</style>

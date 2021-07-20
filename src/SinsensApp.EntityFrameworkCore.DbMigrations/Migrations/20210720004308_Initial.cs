@@ -1246,7 +1246,8 @@ namespace SinsensApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    ToCode = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    FromCode = table.Column<string>(type: "varchar(32) CHARACTER SET utf8mb4", maxLength: 32, nullable: false),
+                    ToCode = table.Column<string>(type: "varchar(32) CHARACTER SET utf8mb4", maxLength: 32, nullable: false),
                     Ratio = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     CurrencyRateCode = table.Column<string>(type: "varchar(32) CHARACTER SET utf8mb4", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),

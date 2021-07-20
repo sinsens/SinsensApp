@@ -29,8 +29,8 @@ namespace SinsensApp.EntityFrameworkCore
             builder.Entity<Transaction>(b =>
             {
                 b.Ignore(c => c.AccountFrom).Ignore(c => c.AccountTo);
-                b.Property(c => c.AccountToId).IsRequired(false);
-                b.Property(c => c.AccountFromId).IsRequired(false);
+                //b.Navigation(c => c.AccountTo).IsRequired(false);
+                //b.Navigation(c => c.AccountFrom).IsRequired(false);
 
                 b.ToTable(SinsensAppConsts.WalletDbTablePrefix + "Transactions", SinsensAppConsts.DbSchema);
                 b.ConfigureByConvention();

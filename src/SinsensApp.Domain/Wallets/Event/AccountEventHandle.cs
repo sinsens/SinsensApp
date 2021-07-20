@@ -58,12 +58,12 @@ namespace SinsensApp.Wallets.Event
             };
             if (account.Balance < 0)
             {
-                transaction.AccountFromId = account.Id;
+                transaction.AccountFrom = account;
                 transaction.TransactionType = TransactionType.Expenditure;
             }
             else
             {
-                transaction.AccountToId = account.Id;
+                transaction.AccountTo = account;
                 transaction.TransactionType = TransactionType.Income;
             }
             await _transactions.InsertAsync(transaction);

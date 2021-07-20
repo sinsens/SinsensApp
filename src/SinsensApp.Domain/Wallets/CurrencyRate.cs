@@ -32,8 +32,6 @@ namespace SinsensApp.Wallets
         [ForeignKey("Currency")]
         public string Code { get; set; }
 
-        public virtual Currency Currency { get; set; }
-
         public IEnumerable<Rate> Rates { get; set; }
 
         /// <summary>

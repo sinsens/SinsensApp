@@ -5,36 +5,38 @@
 				<u-icon name="plus" @tap="toCreate"></u-icon>
 			</view>
 		</u-navbar>
-		<u-card title="交易" sub-title="">
-			<view class="" slot="body">
-				<view v-for="(item,index) in transactions" :key="index"
-					class="u-body-item u-flex u-row-between u-p-b-0">
-					<view class="u-body-item-title u-line-2">{{item.note}}</view>
-					<view class="">{{item.amount}} {{item.currencyCode}}</view>
+		<u-cell-group>
+			<u-cell-item v-for="(item,index) in list" :key="index"
+				:title="item.note || (item.category ? item.category.title : item.transactionTypeDescription)"
+				:label="item.date" @tap="toUpdate(item.id)">
+				<view class="u-body-item-title u-line-2">{{item.transactionType === 1?'-':''}}{{item.amount}}
+					{{item.symbol}}
 				</view>
-			</view>
-		</u-card>
+				<view v-for="(tag, tindex) in item.tags" :key="tindex">
+					<u-tag type="info">{{tag.title}}</u-tag>
+				</view>
+			</u-cell-item>
+		</u-cell-group>
 	</view>
 </template>
 
 <script>
-	import { request } from '@/api/service-base'
+	import {
+		request
+	} from '@/api/service-base'
 	export default {
 		name: 'accounts',
+		onReachBottom() {
+
+		},
 		onShow() {
-			request({
-				url:'/api/app/transaction?'
-			})
+			this.load(true)
 		},
 		data() {
 			return {
 				page: 1,
-				max: 10,
+				max: 20,
 				list: [],
-				flatArea: {
-					x: 0,
-					y: 0
-				}
 			}
 		},
 		computed: {
@@ -57,12 +59,32 @@
 			},
 			toUpdate(id) {
 				uni.navigateTo({
-					url: `/pages/wallets/accounts/update?id=${id}`
+					url: `/pages/wallets/transactions/update?id=${id}`
 				})
 			},
 			back() {
 				uni.reLaunch({
 					url: '/pages/wallets/index'
+				})
+			},
+			load(isRefresh = false) {
+				if (isRefresh) {
+					this.page = 1
+				}
+				request({
+					url: `/api/app/transaction?MaxResultCount=${this.max}&SkipCount=${this.max*(this.page-1)}`
+				}).then(result => {
+					this.list = result.data.items.map(it => {
+						if (it.accountFrom && it.accountFrom.currency) {
+							it.symbol = it.accountFrom.currency.symbol
+						} else if (it.accountTo && it.accountTo.currency) {
+							it.symbol = it.accountTo.currency.symbol
+						} else {
+							it.symbol = '￥'
+						}
+						it.date = it.date ? it.date.split('T')[0] : ''
+						return it
+					})
 				})
 			}
 		}

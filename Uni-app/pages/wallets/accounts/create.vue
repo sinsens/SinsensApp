@@ -8,12 +8,17 @@
 						<u-input v-model="model.title" required placeholder="主题" maxlength="32" />
 					</u-form-item>
 					<u-form-item label="余额" prop="balance">
-						<u-input type="digit" v-model="model.balance" required placeholder="账户余额" />
+						<u-input type="text" v-model="model.balance"
+							@tap="showKeyboard = true;keyboardValue = model.balance" required placeholder="账户余额" />
+						<u-keyboard mode="number" @backspace="backspace" @change="keyboardChange"
+							v-model="showKeyboard">
+							<view class="keyboard-tip" slot="default">当前输入内容：{{keyboardValue}}</view>
+						</u-keyboard>
 					</u-form-item>
-					<!--u-form-item label="货币" prop="currencyCode">
-						<u-select v-model="show" :list="currencies" @confirm="selectCurrency"></u-select>
+					<u-form-item label="货币" prop="currencyCode">
+						<u-select v-model="show" :list="currenciesItems" @confirm="selectCurrency"></u-select>
 						<view @tap="show = true">{{ model.currencyCode||'选择' }}</view>
-					</u-form-item-->
+					</u-form-item>
 					<u-form-item label="包含在总计" prop="includeInTotals">
 						<u-checkbox v-model="model.includeInTotals">是</u-checkbox>
 					</u-form-item>
@@ -36,32 +41,62 @@
 		request
 	} from '@/api/service-base'
 	import {
-		AccountDto
+		AccountCreateUpdateDto
 	} from '@/api/service-proxies'
 	export default {
 		data() {
 			return {
 				show: false,
-				model: new AccountDto(),
+				showKeyboard: false,
+				keyboardValue: '',
+				model: new AccountCreateUpdateDto(),
 				currencies: [],
+				currenciesItems: [],
 				rules: {
 					title: {
 						required: true,
 						message: '请输入主题'
 					},
-					/*
 					currencyCode: {
 						required: true,
 						message: '请选择货币'
-					}*/
+					}
 				}
 			}
 		},
-		mounted() {},
+		mounted() {
+			request({
+				url: '/api/app/currency?SkipCount=0&MaxResultCount=10'
+			}).then(result => {
+				console.log(result)
+				this.currencies = result.data.items
+				const list = []
+				result.data.items.map(it => {
+					list.push({
+						label: `${it.code} ${it.symbol}`,
+						value: it.code
+					})
+				})
+				this.currenciesItems = list
+			})
+		},
 		onReady() {
 			this.$refs.uForm.setRules(this.rules);
 		},
 		methods: {
+			keyboardChange(val) {
+				this.keyboardValue += val
+				this.model.balance = this.keyboardValue
+			},
+			backspace() {
+				if (typeof(this.keyboardValue) == 'number') {
+					this.keyboardValue = (this.keyboardValue).toString()
+				}
+				if (this.keyboardValue.length) this.keyboardValue = this.keyboardValue.substr(0, this.keyboardValue
+					.length - 1);
+				this.model.balance = this.keyboardValue
+				console.log(this.keyboardValue);
+			},
 			selectCurrency(e) {
 				if (e) {
 					this.model.currencyCode = e[0].value
@@ -107,5 +142,8 @@
 	}
 </script>
 
-<style>
+<style scoped lang="scss">
+	.keyboard-tip {
+		padding-left: 40rpx;
+	}
 </style>

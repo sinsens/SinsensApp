@@ -12,7 +12,7 @@ namespace SinsensApp.Wallets
                 return queryable;
             }
 
-            return queryable
+            return queryable.Include(x => x.CurrencyRate).ThenInclude(x => x.Rates)
                 // .Include(x => x.xxx) // TODO: AbpHelper generated
                 ;
         }

@@ -46,8 +46,7 @@ namespace SinsensApp.EntityFrameworkCore
                 options.AddRepository<Category, CategoryRepository>();
                 options.AddRepository<TransactionAttachment, TransactionAttachmentRepository>();
                 options.AddRepository<Currency, CurrencyRepository>();
-                options.AddRepository<Rate, CurrencyRepository>();
-                options.AddRepository<CurrencyRate, CurrencyRepository>();
+                options.AddRepository<CurrencyRate, CurrencyRateRepository>();
             });
 
             Configure<AbpDbContextOptions>(options =>

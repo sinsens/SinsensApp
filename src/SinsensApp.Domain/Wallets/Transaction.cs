@@ -33,15 +33,18 @@ namespace SinsensApp.Wallets
         /// </summary>
         public bool SyncState { get; set; }
 
+        [ForeignKey("AccountFrom")]
         public Guid? AccountFromId { get; set; }
 
-        [NotMapped]
         public virtual Account AccountFrom { get; set; }
 
+        [ForeignKey("AccountTo")]
         public Guid? AccountToId { get; set; }
 
-        [NotMapped]
         public virtual Account AccountTo { get; set; }
+
+        [ForeignKey("Category")]
+        public Guid? CategoryId { get; set; }
 
         /// <summary>
         /// 分类
