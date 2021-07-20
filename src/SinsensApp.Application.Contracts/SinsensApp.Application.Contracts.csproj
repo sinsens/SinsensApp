@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Wallets\Dtos\TransactionCreateUpdateDto.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SinsensApp.Domain.Shared\SinsensApp.Domain.Shared.csproj" />
   </ItemGroup>
 

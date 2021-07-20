@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.EventBus;
-using Volo.Abp.EventBus.Local;
 using Volo.Abp.Timing;
 using Volo.Abp.Uow;
 
@@ -24,12 +18,12 @@ namespace SinsensApp.Wallets.Event
         ILocalEventHandler<EntityDeletedEventData<Transaction>>
     {
         private readonly IClock _clock;
-        private readonly IAccountRepository _accounts;
+        private readonly IRepository<Account, Guid> _accounts;
         private readonly ITransactionRepository _transactions;
 
         public AccountEventHandle(
             IClock clock,
-            IAccountRepository accounts,
+            IRepository<Account, Guid> accounts,
             ITransactionRepository transactions
             )
         {
@@ -141,9 +135,10 @@ namespace SinsensApp.Wallets.Event
         [UnitOfWork]
         private async Task UpdateAccountBalance(Transaction transaction)
         {
-            Account accountFrom = await _accounts.FirstOrDefaultAsync(x => x.Id == transaction.AccountFromId);
-            Account accountTo = await _accounts.FirstOrDefaultAsync(x => x.Id == transaction.AccountToId);
+            Account accountFrom = _accounts.Where(x => x.Id == transaction.AccountFromId).FirstOrDefault();
+            Account accountTo = _accounts.Where(x => x.Id == transaction.AccountToId).FirstOrDefault();
 
+            // todo 汇率计算
             if (accountFrom != null)
             {
                 var income = _transactions.Where(x => x.AccountToId == accountFrom.Id).Sum(x => x.Amount);

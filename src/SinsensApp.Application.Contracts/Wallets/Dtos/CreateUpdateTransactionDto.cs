@@ -14,6 +14,8 @@ namespace SinsensApp.Wallets.Dtos
             Attachments = new List<TransactionAttachmentDto>();
         }
 
+        public CategoryDto Category { get; set; }
+
         public Guid? AccountFromId { get; set; }
 
         public Guid? AccountToId { get; set; }

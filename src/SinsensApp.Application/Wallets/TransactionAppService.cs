@@ -13,7 +13,7 @@ using Volo.Abp.Users;
 
 namespace SinsensApp.Wallets
 {
-    public class TransactionAppService : CrudAppService<Transaction, TransactionDto, Guid, PagedAndSortedResultRequestDto, TransactionCreateUpdateDto, TransactionCreateUpdateDto>,
+    public class TransactionAppService : CrudAppService<Transaction, TransactionDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateTransactionDto, CreateUpdateTransactionDto>,
         ITransactionAppService
     {
         protected override string GetPolicyName { get; set; } = SinsensAppPermissions.Transaction.Default;
@@ -39,9 +39,11 @@ namespace SinsensApp.Wallets
             return MapToGetOutputDto(entity);
         }
 
-        public override async Task<TransactionDto> UpdateAsync(Guid id, TransactionCreateUpdateDto input)
+        public override async Task<TransactionDto> UpdateAsync(Guid id, CreateUpdateTransactionDto input)
         {
-            var entity = MapToEntity(input);
+            var entity = await Repository.GetAsync(id);
+            
+            MapToEntity(input, entity);
 
             if (input.AccountFromId.HasValue)
             {
@@ -51,13 +53,17 @@ namespace SinsensApp.Wallets
             {
                 entity.AccountToId = input.AccountToId;
             }
+            if (input.Category != null)
+            {
+                entity.CategoryId = input.Category.Id;
+            }
 
             await Repository.UpdateAsync(entity);
 
             return MapToGetOutputDto(entity);
         }
 
-        public override async Task<TransactionDto> CreateAsync(TransactionCreateUpdateDto input)
+        public override async Task<TransactionDto> CreateAsync(CreateUpdateTransactionDto input)
         {
             var entity = MapToEntity(input);
             entity.UserId = CurrentUser.GetId();

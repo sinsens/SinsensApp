@@ -9,6 +9,11 @@ namespace SinsensApp.Wallets.Dtos
     {
         public AccountDto AccountFrom { get; set; }
 
+        public Guid? AccountFromId { get; set; }
+        public Guid? AccountToId { get; set; }
+
+        public Guid? CategoryId { get; set; }
+
         public AccountDto AccountTo { get; set; }
 
         public CategoryDto Category { get; set; }

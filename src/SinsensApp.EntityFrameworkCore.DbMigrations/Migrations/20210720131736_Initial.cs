@@ -483,20 +483,18 @@ namespace SinsensApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "WalletCurrencies",
+                name: "WalletCurrencyRates",
                 columns: table => new
                 {
                     Code = table.Column<string>(type: "varchar(32) CHARACTER SET utf8mb4", maxLength: 32, nullable: false),
-                    Symbol = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: true),
-                    SymbolPosition = table.Column<int>(type: "int", nullable: false),
-                    DecimalSeparator = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: true),
-                    GroupSeparator = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: true),
-                    DecimalCount = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: true),
+                    Last_Updated = table.Column<long>(type: "bigint", nullable: true),
+                    Provider = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
                     Id = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WalletCurrencies", x => x.Code);
+                    table.PrimaryKey("PK_WalletCurrencyRates", x => x.Code);
                 });
 
             migrationBuilder.CreateTable(
@@ -1110,56 +1108,52 @@ namespace SinsensApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "WalletAccounts",
+                name: "WalletCurrencies",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    SyncState = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    CurrencyCode = table.Column<string>(type: "varchar(32) CHARACTER SET utf8mb4", maxLength: 32, nullable: true),
-                    Title = table.Column<string>(type: "varchar(32) CHARACTER SET utf8mb4", maxLength: 32, nullable: true),
-                    Note = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    Balance = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    IncludeInTotals = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    UserId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                    Code = table.Column<string>(type: "varchar(32) CHARACTER SET utf8mb4", maxLength: 32, nullable: false),
+                    CurrencyRateCode = table.Column<string>(type: "varchar(32) CHARACTER SET utf8mb4", nullable: true),
+                    Symbol = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: true),
+                    SymbolPosition = table.Column<int>(type: "int", nullable: false),
+                    DecimalSeparator = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: true),
+                    GroupSeparator = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: true),
+                    DecimalCount = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WalletAccounts", x => x.Id);
+                    table.PrimaryKey("PK_WalletCurrencies", x => x.Code);
                     table.ForeignKey(
-                        name: "FK_WalletAccounts_WalletCurrencies_CurrencyCode",
-                        column: x => x.CurrencyCode,
-                        principalTable: "WalletCurrencies",
+                        name: "FK_WalletCurrencies_WalletCurrencyRates_CurrencyRateCode",
+                        column: x => x.CurrencyRateCode,
+                        principalTable: "WalletCurrencyRates",
                         principalColumn: "Code",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "WalletCurrencyRates",
+                name: "WalletCurrencyRateDetails",
                 columns: table => new
                 {
-                    Code = table.Column<string>(type: "varchar(32) CHARACTER SET utf8mb4", maxLength: 32, nullable: false),
-                    Date = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: true),
-                    Last_Updated = table.Column<long>(type: "bigint", nullable: true),
-                    Provider = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    Id = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true)
+                    Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    FromCode = table.Column<string>(type: "varchar(32) CHARACTER SET utf8mb4", maxLength: 32, nullable: false),
+                    ToCode = table.Column<string>(type: "varchar(32) CHARACTER SET utf8mb4", maxLength: 32, nullable: false),
+                    Ratio = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    CurrencyRateCode = table.Column<string>(type: "varchar(32) CHARACTER SET utf8mb4", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WalletCurrencyRates", x => x.Code);
+                    table.PrimaryKey("PK_WalletCurrencyRateDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WalletCurrencyRates_WalletCurrencies_Code",
-                        column: x => x.Code,
-                        principalTable: "WalletCurrencies",
+                        name: "FK_WalletCurrencyRateDetails_WalletCurrencyRates_CurrencyRateCo~",
+                        column: x => x.CurrencyRateCode,
+                        principalTable: "WalletCurrencyRates",
                         principalColumn: "Code",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1242,28 +1236,35 @@ namespace SinsensApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "WalletCurrencyRateDetails",
+                name: "WalletAccounts",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    FromCode = table.Column<string>(type: "varchar(32) CHARACTER SET utf8mb4", maxLength: 32, nullable: false),
-                    ToCode = table.Column<string>(type: "varchar(32) CHARACTER SET utf8mb4", maxLength: 32, nullable: false),
-                    Ratio = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    CurrencyRateCode = table.Column<string>(type: "varchar(32) CHARACTER SET utf8mb4", nullable: true),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    SyncState = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    CurrencyCode = table.Column<string>(type: "varchar(32) CHARACTER SET utf8mb4", maxLength: 32, nullable: false),
+                    Title = table.Column<string>(type: "varchar(32) CHARACTER SET utf8mb4", maxLength: 32, nullable: true),
+                    Note = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    Balance = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    IncludeInTotals = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     CreatorId = table.Column<Guid>(type: "char(36)", nullable: true),
                     LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true)
+                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WalletCurrencyRateDetails", x => x.Id);
+                    table.PrimaryKey("PK_WalletAccounts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WalletCurrencyRateDetails_WalletCurrencyRates_CurrencyRateCo~",
-                        column: x => x.CurrencyRateCode,
-                        principalTable: "WalletCurrencyRates",
+                        name: "FK_WalletAccounts_WalletCurrencies_CurrencyCode",
+                        column: x => x.CurrencyCode,
+                        principalTable: "WalletCurrencies",
                         principalColumn: "Code",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -1464,6 +1465,11 @@ namespace SinsensApp.Migrations
                 column: "CurrencyCode");
 
             migrationBuilder.CreateIndex(
+                name: "IX_WalletCurrencies_CurrencyRateCode",
+                table: "WalletCurrencies",
+                column: "CurrencyRateCode");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_WalletCurrencyRateDetails_CurrencyRateCode",
                 table: "WalletCurrencyRateDetails",
                 column: "CurrencyRateCode");
@@ -1632,7 +1638,7 @@ namespace SinsensApp.Migrations
                 name: "WalletTags");
 
             migrationBuilder.DropTable(
-                name: "WalletCurrencyRates");
+                name: "WalletCurrencies");
 
             migrationBuilder.DropTable(
                 name: "WalletTransactions");
@@ -1641,7 +1647,7 @@ namespace SinsensApp.Migrations
                 name: "AbpAuditLogs");
 
             migrationBuilder.DropTable(
-                name: "WalletCurrencies");
+                name: "WalletCurrencyRates");
 
             migrationBuilder.DropTable(
                 name: "WalletCategories");
