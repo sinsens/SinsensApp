@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SinsensApp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -9,9 +10,10 @@ using Volo.Abp.EntityFrameworkCore;
 namespace SinsensApp.Migrations
 {
     [DbContext(typeof(SinsensAppMigrationsDbContext))]
-    partial class SinsensAppMigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210721082732_TagTansactionRelation")]
+    partial class TagTansactionRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

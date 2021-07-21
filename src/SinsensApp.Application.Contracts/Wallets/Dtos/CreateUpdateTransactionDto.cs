@@ -10,19 +10,17 @@ namespace SinsensApp.Wallets.Dtos
     {
         public CreateUpdateTransactionDto()
         {
-            TagsIds = new List<string>();
+            Tags = new HashSet<TagDto>();
             Attachments = new List<TransactionAttachmentDto>();
         }
 
         public CategoryDto Category { get; set; }
 
-        public Guid? AccountFromId { get; set; }
+        public AccountDto AccountFrom { get; set; }
 
-        public Guid? AccountToId { get; set; }
+        public AccountDto AccountTo { get; set; }
 
-        public Guid? CategoryId { get; set; }
-
-        public ICollection<string> TagsIds { get; set; }
+        public ICollection<TagDto> Tags { get; set; }
 
         [Required(ErrorMessage = "请选择交易时间")]
         public DateTime Date { get; set; }

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SinsensApp.Permissions;
 using SinsensApp.Wallets.Dtos;
+using SinsensApp.Wallets.Event;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,6 +36,16 @@ namespace SinsensApp.Wallets
             var entity = MapToEntity(input);
             entity.UserId = CurrentUser.GetId();
             await Repository.InsertAsync(entity);
+            await _eventBus.PublishAsync(new AccountCreatedEventEto(entity));
+            return MapToGetOutputDto(entity);
+        }
+
+        public override async Task<AccountDto> UpdateAsync(Guid id, AccountCreateUpdateDto input)
+        {
+            var entity = await Repository.GetAsync(x => x.Id == id);
+            MapToEntity(input, entity);
+            await _eventBus.PublishAsync(new AccountUpdatingEventEto(entity));
+            await Repository.UpdateAsync(entity);
             return MapToGetOutputDto(entity);
         }
 

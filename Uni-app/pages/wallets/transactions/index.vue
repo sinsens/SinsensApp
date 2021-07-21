@@ -9,18 +9,20 @@
 			<u-cell-item v-for="(item,index) in list" :key="index"
 				:title="item.note || (item.category ? item.category.title : item.transactionTypeDescription)"
 				:label="item.date" @tap="toUpdate(item.id)">
+				<u-avatar class="category-icon" text=' ' :bg-color="item.category ? numberToColor(item.category.color) : 'gray'" slot="icon">
+				</u-avatar>
 				<view class="u-body-item-title u-line-2">{{item.transactionType === 1?'-':''}}{{item.amount}}
 					{{item.symbol}}
 				</view>
-				<view v-for="(tag, tindex) in item.tags" :key="tindex">
-					<u-tag type="info">{{tag.title}}</u-tag>
-				</view>
+				<u-tag v-for="(tag, tindex) in item.tags" :key="tindex" type="info" size="mini" :text="tag.title">
+				</u-tag>
 			</u-cell-item>
 		</u-cell-group>
 	</view>
 </template>
 
 <script>
+	import Color from '@/common/color'
 	import {
 		request
 	} from '@/api/service-base'
@@ -52,9 +54,15 @@
 			}
 		},
 		methods: {
+			numberToColor(val) {
+				if (val) {
+					return '#' + Color.numberToHex(val)
+				}
+				return ''
+			},
 			toCreate() {
 				uni.navigateTo({
-					url: './create'
+					url: '/pages/wallets/transactions/create'
 				})
 			},
 			toUpdate(id) {
@@ -105,6 +113,10 @@
 		font-size: 32rpx;
 		color: #333;
 		padding: 20rpx 10rpx;
+	}
+	
+	.category-icon{
+		margin-right: 20rpx;
 	}
 
 	.u-body-item image {

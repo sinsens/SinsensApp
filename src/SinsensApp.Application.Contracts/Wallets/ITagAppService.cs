@@ -6,13 +6,12 @@ using Volo.Abp.Application.Services;
 namespace SinsensApp.Wallets
 {
     public interface ITagAppService :
-        ICrudAppService< 
-            TagDto, 
-            Guid, 
-            PagedAndSortedResultRequestDto,
+        ICrudAppService<
+            TagDto,
+            Guid,
+            PagedAndSortedTagResultRequestDto,
             TagCreateUpdateDto,
             TagCreateUpdateDto>
     {
-
     }
 }

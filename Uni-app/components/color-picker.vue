@@ -56,10 +56,15 @@
 		},
 		computed: {
 			color: function() {
-				const hex = this.rgbToHex(this.r * 2.55, this.g * 2.55, this.b * 2.55)
+				const rgb = {
+					r: Math.round(this.r * 2.55),
+					g: Math.round(this.g * 2.55),
+					b: Math.round(this.b * 2.55)
+				}
+				const hex = this.rgbToHex(rgb.r, rgb.g, rgb.b)
 				const colour = {
 					hex,
-					number: this.rgbToNumber(this.r * 2.55, this.g * 2.55, this.b * 2.55),
+					number: this.rgbToNumber(rgb.r, rgb.g, rgb.b),
 					color: hex.replace('0x', '#')
 				}
 				this.hasChange = true

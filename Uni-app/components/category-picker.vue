@@ -1,7 +1,8 @@
 <template>
-	<view v-if="show">
+	<u-modal :title="title || '请选择分类'" :show-confirm-button="false" v-model="show" :mask-close-able="true">
 		<u-cell-group title="支出">
-			<u-cell-item :arrow="false" v-for="(item,index) in categories.filter(x=>x.transactionType == 1)" :key="item.id">
+			<u-cell-item :arrow="false" v-for="(item,index) in categories.filter(x=>x.transactionType == 1)"
+				:key="item.id">
 				<view slot="title">
 					<span class="color-preview" :style="{background:numberToColor(item.color)}"></span>
 					{{item.title}}
@@ -11,7 +12,8 @@
 		</u-cell-group>
 
 		<u-cell-group title="收入">
-			<u-cell-item :arrow="false" v-for="(item,index) in categories.filter(x=>x.transactionType == 2)" :key="item.id">
+			<u-cell-item :arrow="false" v-for="(item,index) in categories.filter(x=>x.transactionType == 2)"
+				:key="item.id">
 				<view slot="title">
 					<span class="color-preview" :style="{background:numberToColor(item.color)}"></span>
 					{{item.title}}
@@ -30,11 +32,12 @@
 				<u-button @click="select(item)" size="mini">{{selectText || '选择'}}</u-button>
 			</u-cell-item>
 		</u-cell-group>
-	</view>
+	</u-modal>
 </template>
 
 <script>
 	/**
+	 * @property {String} title = 显示标题
 	 * @property {String} selectText = 选择按钮标题
 	 * @property {Boolean} show = [false] 是否显示
 	 */
@@ -44,6 +47,7 @@
 	export default {
 		name: "CategoryPicker",
 		props: {
+			title: String,
 			selectText: String,
 			show: Boolean = false
 		},

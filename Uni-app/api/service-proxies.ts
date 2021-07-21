@@ -23,8 +23,8 @@ export class AbpServiceProxy extends AbpServiceBase {
      * @return Success
      */
     apiDefinition
-        (includeTypes
-            : boolean | undefined
+    (includeTypes
+    : boolean | undefined 
         ,): Promise<ApplicationApiDescriptionModel> {
         let url_ = this.baseUrl + "/api/abp/api-definition?";
         if (includeTypes === null)
@@ -33,13 +33,13 @@ export class AbpServiceProxy extends AbpServiceBase {
             url_ += "IncludeTypes=" + encodeURIComponent("" + includeTypes) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processApiDefinition(_response);
@@ -60,43 +60,43 @@ export class AbpServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = ApplicationApiDescriptionModel.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -110,17 +110,17 @@ export class AbpServiceProxy extends AbpServiceBase {
      * @return Success
      */
     applicationConfiguration
-        (): Promise<ApplicationConfigurationDto> {
+    ( ): Promise<ApplicationConfigurationDto> {
         let url_ = this.baseUrl + "/api/abp/application-configuration";
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processApplicationConfiguration(_response);
@@ -141,43 +141,43 @@ export class AbpServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = ApplicationConfigurationDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -201,8 +201,8 @@ export class TenantsServiceProxy extends AbpServiceBase {
      * @return Success
      */
     byName
-        (name
-            : string
+    (name
+    : string 
         ,): Promise<FindTenantResultDto> {
         let url_ = this.baseUrl + "/api/abp/multi-tenancy/tenants/by-name/{name}";
         if (name === undefined || name === null)
@@ -210,13 +210,13 @@ export class TenantsServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{name}", encodeURIComponent("" + name));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processByName(_response);
@@ -237,43 +237,43 @@ export class TenantsServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = FindTenantResultDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -287,8 +287,8 @@ export class TenantsServiceProxy extends AbpServiceBase {
      * @return Success
      */
     byId
-        (id
-            : string
+    (id
+    : string 
         ,): Promise<FindTenantResultDto> {
         let url_ = this.baseUrl + "/api/abp/multi-tenancy/tenants/by-id/{id}";
         if (id === undefined || id === null)
@@ -296,13 +296,13 @@ export class TenantsServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processById(_response);
@@ -323,43 +323,43 @@ export class TenantsServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = FindTenantResultDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -373,8 +373,8 @@ export class TenantsServiceProxy extends AbpServiceBase {
      * @return Success
      */
     defaultConnectionStringGet
-        (id
-            : string
+    (id
+    : string 
         ,): Promise<string> {
         let url_ = this.baseUrl + "/api/multi-tenancy/tenants/{id}/default-connection-string";
         if (id === undefined || id === null)
@@ -382,13 +382,13 @@ export class TenantsServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processDefaultConnectionStringGet(_response);
@@ -409,43 +409,43 @@ export class TenantsServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = resultData200 !== undefined ? resultData200 : <any>null;
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -460,10 +460,10 @@ export class TenantsServiceProxy extends AbpServiceBase {
      * @return Success
      */
     defaultConnectionStringPut
-        (id
-            : string
-            , defaultConnectionString
-                : string | undefined
+    (id
+    : string
+        , defaultConnectionString
+    : string | undefined 
         ,): Promise<void> {
         let url_ = this.baseUrl + "/api/multi-tenancy/tenants/{id}/default-connection-string?";
         if (id === undefined || id === null)
@@ -475,12 +475,12 @@ export class TenantsServiceProxy extends AbpServiceBase {
             url_ += "defaultConnectionString=" + encodeURIComponent("" + defaultConnectionString) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "PUT",
-            url: url_,
-            header: {
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "PUT",
+                    url: url_,
+                    header: {
+                                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processDefaultConnectionStringPut(_response);
@@ -504,37 +504,37 @@ export class TenantsServiceProxy extends AbpServiceBase {
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -548,8 +548,8 @@ export class TenantsServiceProxy extends AbpServiceBase {
      * @return Success
      */
     defaultConnectionStringDelete
-        (id
-            : string
+    (id
+    : string 
         ,): Promise<void> {
         let url_ = this.baseUrl + "/api/multi-tenancy/tenants/{id}/default-connection-string";
         if (id === undefined || id === null)
@@ -557,12 +557,12 @@ export class TenantsServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "DELETE",
-            url: url_,
-            header: {
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "DELETE",
+                    url: url_,
+                    header: {
+                                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processDefaultConnectionStringDelete(_response);
@@ -586,37 +586,37 @@ export class TenantsServiceProxy extends AbpServiceBase {
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -641,23 +641,23 @@ export class AccountServiceProxy extends AbpServiceBase {
      * @return Success
      */
     register
-        (body
-            : RegisterDto | undefined
+    (body
+    : RegisterDto | undefined 
         ,): Promise<IdentityUserDto> {
         let url_ = this.baseUrl + "/api/account/register";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "POST",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "POST",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processRegister(_response);
@@ -678,43 +678,43 @@ export class AccountServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = IdentityUserDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -729,22 +729,22 @@ export class AccountServiceProxy extends AbpServiceBase {
      * @return Success
      */
     sendPasswordResetCode
-        (body
-            : SendPasswordResetCodeDto | undefined
+    (body
+    : SendPasswordResetCodeDto | undefined 
         ,): Promise<void> {
         let url_ = this.baseUrl + "/api/account/send-password-reset-code";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "POST",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "POST",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                    },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processSendPasswordResetCode(_response);
@@ -768,37 +768,37 @@ export class AccountServiceProxy extends AbpServiceBase {
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -813,22 +813,22 @@ export class AccountServiceProxy extends AbpServiceBase {
      * @return Success
      */
     resetPassword
-        (body
-            : ResetPasswordDto | undefined
+    (body
+    : ResetPasswordDto | undefined 
         ,): Promise<void> {
         let url_ = this.baseUrl + "/api/account/reset-password";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "POST",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "POST",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                    },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processResetPassword(_response);
@@ -852,37 +852,37 @@ export class AccountServiceProxy extends AbpServiceBase {
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -897,23 +897,23 @@ export class AccountServiceProxy extends AbpServiceBase {
      * @return Success
      */
     login
-        (body
-            : UserLoginInfo | undefined
+    (body
+    : UserLoginInfo | undefined 
         ,): Promise<AbpLoginResult> {
         let url_ = this.baseUrl + "/api/account/login";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "POST",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "POST",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processLogin(_response);
@@ -934,43 +934,43 @@ export class AccountServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = AbpLoginResult.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -984,16 +984,16 @@ export class AccountServiceProxy extends AbpServiceBase {
      * @return Success
      */
     logout
-        (): Promise<void> {
+    ( ): Promise<void> {
         let url_ = this.baseUrl + "/api/account/logout";
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processLogout(_response);
@@ -1017,37 +1017,37 @@ export class AccountServiceProxy extends AbpServiceBase {
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -1062,23 +1062,23 @@ export class AccountServiceProxy extends AbpServiceBase {
      * @return Success
      */
     checkPassword
-        (body
-            : UserLoginInfo | undefined
+    (body
+    : UserLoginInfo | undefined 
         ,): Promise<AbpLoginResult> {
         let url_ = this.baseUrl + "/api/account/check-password";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "POST",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "POST",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processCheckPassword(_response);
@@ -1099,43 +1099,43 @@ export class AccountServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = AbpLoginResult.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -1156,129 +1156,27 @@ export class AppServiceProxy extends AbpServiceBase {
     }
 
     /**
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @param sorting (optional) 
-     * @return Success
-     */
-    accountGet
-        (skipCount
-            : number | undefined
-            , maxResultCount
-                : number | undefined
-            , sorting
-                : string | undefined
-        ,): Promise<PagedResultDto_1OfOfAccountDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
-        let url_ = this.baseUrl + "/api/app/account?";
-        if (skipCount === null)
-            throw new Error("The parameter 'skipCount' cannot be null.");
-        else if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
-        if (maxResultCount === null)
-            throw new Error("The parameter 'maxResultCount' cannot be null.");
-        else if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
-        if (sorting === null)
-            throw new Error("The parameter 'sorting' cannot be null.");
-        else if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
-            throw _error;
-        }).then((_response) => {
-            return this.processAccountGet(_response);
-        });
-    }
-
-    protected processAccountGet(response): Promise<PagedResultDto_1OfOfAccountDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
-        const status = response.status || response.statusCode;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        let _mappings: { source: any, target: any }[] = [];
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
-            result200 = PagedResultDto_1OfOfAccountDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null.fromJS(resultData200, _mappings);
-            return result200;
-        } else if (status === 403) {
-            const _responseText = response.data;
-            let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
-            result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
-            return throwException("Forbidden", status, _responseText, _headers, result403);
-        } else if (status === 401) {
-            const _responseText = response.data;
-            let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
-            result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
-            return throwException("Unauthorized", status, _responseText, _headers, result401);
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
-            result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-        } else if (status === 404) {
-            const _responseText = response.data;
-            let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
-            result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-        } else if (status === 501) {
-            const _responseText = response.data;
-            let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
-            result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
-            return throwException("Server Error", status, _responseText, _headers, result501);
-        } else if (status === 500) {
-            const _responseText = response.data;
-            let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
-            result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
-            return throwException("Server Error", status, _responseText, _headers, result500);
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<PagedResultDto_1OfOfAccountDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null>(<any>null);
-    }
-
-    /**
      * @param body (optional) 
      * @return Success
      */
     accountPost
-        (body
-            : AccountCreateUpdateDto | undefined
+    (body
+    : AccountCreateUpdateDto | undefined 
         ,): Promise<AccountDto> {
         let url_ = this.baseUrl + "/api/app/account";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "POST",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "POST",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processAccountPost(_response);
@@ -1299,43 +1197,43 @@ export class AppServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = AccountDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -1346,14 +1244,123 @@ export class AppServiceProxy extends AbpServiceBase {
     }
 
     /**
+     * @param title (optional) 
+     * @param includeInTotals (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    accountGet
+    (title
+    : string | undefined
+        , includeInTotals
+    : boolean | undefined
+        , skipCount
+    : number | undefined
+        , maxResultCount
+    : number | undefined 
+        ,): Promise<PagedResultDto_1OfOfAccountDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
+        let url_ = this.baseUrl + "/api/app/account?";
+        if (title === null)
+            throw new Error("The parameter 'title' cannot be null.");
+        else if (title !== undefined)
+            url_ += "Title=" + encodeURIComponent("" + title) + "&";
+        if (includeInTotals === null)
+            throw new Error("The parameter 'includeInTotals' cannot be null.");
+        else if (includeInTotals !== undefined)
+            url_ += "IncludeInTotals=" + encodeURIComponent("" + includeInTotals) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
+            throw _error;
+        }).then((_response) => {
+            return this.processAccountGet(_response);
+        });
+    }
+
+    protected processAccountGet(response): Promise<PagedResultDto_1OfOfAccountDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
+        const status = response.status || response.statusCode;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        let _mappings: { source: any, target: any }[] = [];
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText.result || _responseText;
+            result200 = PagedResultDto_1OfOfAccountDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null.fromJS(resultData200, _mappings);
+            return result200;
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText.result || _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText.result || _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText.result || _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText.result || _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText.result || _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText.result || _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<PagedResultDto_1OfOfAccountDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null>(<any>null);
+    }
+
+    /**
      * @param body (optional) 
      * @return Success
      */
     accountPut
-        (id
-            : string
-            , body
-                : AccountCreateUpdateDto | undefined
+    (id
+    : string
+        , body
+    : AccountCreateUpdateDto | undefined 
         ,): Promise<AccountDto> {
         let url_ = this.baseUrl + "/api/app/account/{id}";
         if (id === undefined || id === null)
@@ -1363,15 +1370,15 @@ export class AppServiceProxy extends AbpServiceBase {
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "PUT",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "PUT",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processAccountPut(_response);
@@ -1392,43 +1399,129 @@ export class AppServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = AccountDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<AccountDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    accountGet
+    (id
+    : string 
+        ,): Promise<AccountDto> {
+        let url_ = this.baseUrl + "/api/app/account/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
+            throw _error;
+        }).then((_response) => {
+            return this.processAccountGet(_response);
+        });
+    }
+
+    protected processAccountGet(response): Promise<AccountDto> {
+        const status = response.status || response.statusCode;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        let _mappings: { source: any, target: any }[] = [];
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText.result || _responseText;
+            result200 = AccountDto.fromJS(resultData200, _mappings);
+            return result200;
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText.result || _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText.result || _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText.result || _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText.result || _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText.result || _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -1442,8 +1535,8 @@ export class AppServiceProxy extends AbpServiceBase {
      * @return Success
      */
     accountDelete
-        (id
-            : string
+    (id
+    : string 
         ,): Promise<void> {
         let url_ = this.baseUrl + "/api/app/account/{id}";
         if (id === undefined || id === null)
@@ -1451,12 +1544,12 @@ export class AppServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "DELETE",
-            url: url_,
-            header: {
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "DELETE",
+                    url: url_,
+                    header: {
+                                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processAccountDelete(_response);
@@ -1480,37 +1573,37 @@ export class AppServiceProxy extends AbpServiceBase {
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -1521,113 +1614,27 @@ export class AppServiceProxy extends AbpServiceBase {
     }
 
     /**
-     * @return Success
-     */
-    accountGet
-        (id
-            : string
-        ,): Promise<AccountDto> {
-        let url_ = this.baseUrl + "/api/app/account/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        url_ = url_.replace(/[?&]$/, "");
-
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
-            throw _error;
-        }).then((_response) => {
-            return this.processAccountGet(_response);
-        });
-    }
-
-    protected processAccountGet(response): Promise<AccountDto> {
-        const status = response.status || response.statusCode;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        let _mappings: { source: any, target: any }[] = [];
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
-            result200 = AccountDto.fromJS(resultData200, _mappings);
-            return result200;
-        } else if (status === 403) {
-            const _responseText = response.data;
-            let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
-            result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
-            return throwException("Forbidden", status, _responseText, _headers, result403);
-        } else if (status === 401) {
-            const _responseText = response.data;
-            let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
-            result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
-            return throwException("Unauthorized", status, _responseText, _headers, result401);
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
-            result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-        } else if (status === 404) {
-            const _responseText = response.data;
-            let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
-            result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-        } else if (status === 501) {
-            const _responseText = response.data;
-            let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
-            result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
-            return throwException("Server Error", status, _responseText, _headers, result501);
-        } else if (status === 500) {
-            const _responseText = response.data;
-            let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
-            result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
-            return throwException("Server Error", status, _responseText, _headers, result500);
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<AccountDto>(<any>null);
-    }
-
-    /**
      * @param body (optional) 
      * @return Success
      */
     categoryPost
-        (body
-            : CategoryCreateUpdateDto | undefined
+    (body
+    : CategoryCreateUpdateDto | undefined 
         ,): Promise<CategoryDto> {
         let url_ = this.baseUrl + "/api/app/category";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "POST",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "POST",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processCategoryPost(_response);
@@ -1648,43 +1655,43 @@ export class AppServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = CategoryDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -1701,12 +1708,12 @@ export class AppServiceProxy extends AbpServiceBase {
      * @return Success
      */
     categoryGet
-        (skipCount
-            : number | undefined
-            , maxResultCount
-                : number | undefined
-            , sorting
-                : string | undefined
+    (skipCount
+    : number | undefined
+        , maxResultCount
+    : number | undefined
+        , sorting
+    : string | undefined 
         ,): Promise<PagedResultDto_1OfOfCategoryDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
         let url_ = this.baseUrl + "/api/app/category?";
         if (skipCount === null)
@@ -1723,13 +1730,13 @@ export class AppServiceProxy extends AbpServiceBase {
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processCategoryGet(_response);
@@ -1750,43 +1757,43 @@ export class AppServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = PagedResultDto_1OfOfCategoryDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -1801,10 +1808,10 @@ export class AppServiceProxy extends AbpServiceBase {
      * @return Success
      */
     categoryPut
-        (id
-            : string
-            , body
-                : CategoryCreateUpdateDto | undefined
+    (id
+    : string
+        , body
+    : CategoryCreateUpdateDto | undefined 
         ,): Promise<CategoryDto> {
         let url_ = this.baseUrl + "/api/app/category/{id}";
         if (id === undefined || id === null)
@@ -1814,15 +1821,15 @@ export class AppServiceProxy extends AbpServiceBase {
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "PUT",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "PUT",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processCategoryPut(_response);
@@ -1843,43 +1850,43 @@ export class AppServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = CategoryDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -1893,8 +1900,8 @@ export class AppServiceProxy extends AbpServiceBase {
      * @return Success
      */
     categoryDelete
-        (id
-            : string
+    (id
+    : string 
         ,): Promise<void> {
         let url_ = this.baseUrl + "/api/app/category/{id}";
         if (id === undefined || id === null)
@@ -1902,12 +1909,12 @@ export class AppServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "DELETE",
-            url: url_,
-            header: {
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "DELETE",
+                    url: url_,
+                    header: {
+                                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processCategoryDelete(_response);
@@ -1931,37 +1938,37 @@ export class AppServiceProxy extends AbpServiceBase {
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -1975,8 +1982,8 @@ export class AppServiceProxy extends AbpServiceBase {
      * @return Success
      */
     categoryGet
-        (id
-            : string
+    (id
+    : string 
         ,): Promise<CategoryDto> {
         let url_ = this.baseUrl + "/api/app/category/{id}";
         if (id === undefined || id === null)
@@ -1984,13 +1991,13 @@ export class AppServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processCategoryGet(_response);
@@ -2011,43 +2018,43 @@ export class AppServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = CategoryDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -2061,24 +2068,475 @@ export class AppServiceProxy extends AbpServiceBase {
      * @param body (optional) 
      * @return Success
      */
+    currencyPost
+    (body
+    : CurrencyDto | undefined 
+        ,): Promise<CurrencyDto> {
+        let url_ = this.baseUrl + "/api/app/currency";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+                return request({
+                            data: content_,
+                                    method: "POST",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
+            throw _error;
+        }).then((_response) => {
+            return this.processCurrencyPost(_response);
+        });
+    }
+
+    protected processCurrencyPost(response): Promise<CurrencyDto> {
+        const status = response.status || response.statusCode;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        let _mappings: { source: any, target: any }[] = [];
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText.result || _responseText;
+            result200 = CurrencyDto.fromJS(resultData200, _mappings);
+            return result200;
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText.result || _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText.result || _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText.result || _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText.result || _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText.result || _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText.result || _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<CurrencyDto>(<any>null);
+    }
+
+    /**
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @param sorting (optional) 
+     * @return Success
+     */
+    currencyGet
+    (skipCount
+    : number | undefined
+        , maxResultCount
+    : number | undefined
+        , sorting
+    : string | undefined 
+        ,): Promise<PagedResultDto_1OfOfCurrencyDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
+        let url_ = this.baseUrl + "/api/app/currency?";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
+            throw _error;
+        }).then((_response) => {
+            return this.processCurrencyGet(_response);
+        });
+    }
+
+    protected processCurrencyGet(response): Promise<PagedResultDto_1OfOfCurrencyDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
+        const status = response.status || response.statusCode;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        let _mappings: { source: any, target: any }[] = [];
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText.result || _responseText;
+            result200 = PagedResultDto_1OfOfCurrencyDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null.fromJS(resultData200, _mappings);
+            return result200;
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText.result || _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText.result || _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText.result || _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText.result || _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText.result || _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText.result || _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<PagedResultDto_1OfOfCurrencyDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    currencyPut
+    (id
+    : string
+        , body
+    : CurrencyDto | undefined 
+        ,): Promise<CurrencyDto> {
+        let url_ = this.baseUrl + "/api/app/currency/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+                return request({
+                            data: content_,
+                                    method: "PUT",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
+            throw _error;
+        }).then((_response) => {
+            return this.processCurrencyPut(_response);
+        });
+    }
+
+    protected processCurrencyPut(response): Promise<CurrencyDto> {
+        const status = response.status || response.statusCode;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        let _mappings: { source: any, target: any }[] = [];
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText.result || _responseText;
+            result200 = CurrencyDto.fromJS(resultData200, _mappings);
+            return result200;
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText.result || _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText.result || _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText.result || _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText.result || _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText.result || _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText.result || _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<CurrencyDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    currencyDelete
+    (id
+    : string 
+        ,): Promise<void> {
+        let url_ = this.baseUrl + "/api/app/currency/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+                return request({
+                                    method: "DELETE",
+                    url: url_,
+                    header: {
+                                            },
+                }).catch((_error: any) => {
+            throw _error;
+        }).then((_response) => {
+            return this.processCurrencyDelete(_response);
+        });
+    }
+
+    protected processCurrencyDelete(response): Promise<void> {
+        const status = response.status || response.statusCode;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        let _mappings: { source: any, target: any }[] = [];
+        if (status === 200) {
+            const _responseText = response.data;
+            return Promise.resolve<void>(<any>null);
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText.result || _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText.result || _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText.result || _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText.result || _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText.result || _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText.result || _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    currencyGet
+    (id
+    : string 
+        ,): Promise<CurrencyDto> {
+        let url_ = this.baseUrl + "/api/app/currency/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
+            throw _error;
+        }).then((_response) => {
+            return this.processCurrencyGet(_response);
+        });
+    }
+
+    protected processCurrencyGet(response): Promise<CurrencyDto> {
+        const status = response.status || response.statusCode;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        let _mappings: { source: any, target: any }[] = [];
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText.result || _responseText;
+            result200 = CurrencyDto.fromJS(resultData200, _mappings);
+            return result200;
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText.result || _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText.result || _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText.result || _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText.result || _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText.result || _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText.result || _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<CurrencyDto>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
     tagPost
-        (body
-            : TagCreateUpdateDto | undefined
+    (body
+    : TagCreateUpdateDto | undefined 
         ,): Promise<TagDto> {
         let url_ = this.baseUrl + "/api/app/tag";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "POST",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "POST",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processTagPost(_response);
@@ -2099,43 +2557,43 @@ export class AppServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = TagDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -2146,20 +2604,24 @@ export class AppServiceProxy extends AbpServiceBase {
     }
 
     /**
+     * @param ids (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
-     * @param sorting (optional) 
      * @return Success
      */
     tagGet
-        (skipCount
-            : number | undefined
-            , maxResultCount
-                : number | undefined
-            , sorting
-                : string | undefined
+    (ids
+    : string[] | undefined
+        , skipCount
+    : number | undefined
+        , maxResultCount
+    : number | undefined 
         ,): Promise<PagedResultDto_1OfOfTagDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
         let url_ = this.baseUrl + "/api/app/tag?";
+        if (ids === null)
+            throw new Error("The parameter 'ids' cannot be null.");
+        else if (ids !== undefined)
+            ids && ids.forEach(item => { url_ += "Ids=" + encodeURIComponent("" + item) + "&"; });
         if (skipCount === null)
             throw new Error("The parameter 'skipCount' cannot be null.");
         else if (skipCount !== undefined)
@@ -2168,19 +2630,15 @@ export class AppServiceProxy extends AbpServiceBase {
             throw new Error("The parameter 'maxResultCount' cannot be null.");
         else if (maxResultCount !== undefined)
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
-        if (sorting === null)
-            throw new Error("The parameter 'sorting' cannot be null.");
-        else if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processTagGet(_response);
@@ -2201,43 +2659,43 @@ export class AppServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = PagedResultDto_1OfOfTagDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -2252,10 +2710,10 @@ export class AppServiceProxy extends AbpServiceBase {
      * @return Success
      */
     tagPut
-        (id
-            : string
-            , body
-                : TagCreateUpdateDto | undefined
+    (id
+    : string
+        , body
+    : TagCreateUpdateDto | undefined 
         ,): Promise<TagDto> {
         let url_ = this.baseUrl + "/api/app/tag/{id}";
         if (id === undefined || id === null)
@@ -2265,15 +2723,15 @@ export class AppServiceProxy extends AbpServiceBase {
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "PUT",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "PUT",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processTagPut(_response);
@@ -2294,43 +2752,43 @@ export class AppServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = TagDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -2344,8 +2802,8 @@ export class AppServiceProxy extends AbpServiceBase {
      * @return Success
      */
     tagDelete
-        (id
-            : string
+    (id
+    : string 
         ,): Promise<void> {
         let url_ = this.baseUrl + "/api/app/tag/{id}";
         if (id === undefined || id === null)
@@ -2353,12 +2811,12 @@ export class AppServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "DELETE",
-            url: url_,
-            header: {
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "DELETE",
+                    url: url_,
+                    header: {
+                                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processTagDelete(_response);
@@ -2382,37 +2840,37 @@ export class AppServiceProxy extends AbpServiceBase {
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -2426,8 +2884,8 @@ export class AppServiceProxy extends AbpServiceBase {
      * @return Success
      */
     tagGet
-        (id
-            : string
+    (id
+    : string 
         ,): Promise<TagDto> {
         let url_ = this.baseUrl + "/api/app/tag/{id}";
         if (id === undefined || id === null)
@@ -2435,13 +2893,13 @@ export class AppServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processTagGet(_response);
@@ -2462,43 +2920,43 @@ export class AppServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = TagDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -2509,34 +2967,32 @@ export class AppServiceProxy extends AbpServiceBase {
     }
 
     /**
-     * @param body (optional) 
      * @return Success
      */
-    transactionPost
-        (body
-            : TransactionCreateUpdateDto | undefined
+    transactionGet
+    (id
+    : string 
         ,): Promise<TransactionDto> {
-        let url_ = this.baseUrl + "/api/app/transaction";
+        let url_ = this.baseUrl + "/api/app/transaction/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(body);
-
-        return request({
-            data: content_,
-            method: "POST",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
-            return this.processTransactionPost(_response);
+            return this.processTransactionGet(_response);
         });
     }
 
-    protected processTransactionPost(response): Promise<TransactionDto> {
+    protected processTransactionGet(response): Promise<TransactionDto> {
         const status = response.status || response.statusCode;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -2550,43 +3006,43 @@ export class AppServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = TransactionDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -2597,116 +3053,14 @@ export class AppServiceProxy extends AbpServiceBase {
     }
 
     /**
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @param sorting (optional) 
-     * @return Success
-     */
-    transactionGet
-        (skipCount
-            : number | undefined
-            , maxResultCount
-                : number | undefined
-            , sorting
-                : string | undefined
-        ,): Promise<PagedResultDto_1OfOfTransactionDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
-        let url_ = this.baseUrl + "/api/app/transaction?";
-        if (skipCount === null)
-            throw new Error("The parameter 'skipCount' cannot be null.");
-        else if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
-        if (maxResultCount === null)
-            throw new Error("The parameter 'maxResultCount' cannot be null.");
-        else if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
-        if (sorting === null)
-            throw new Error("The parameter 'sorting' cannot be null.");
-        else if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
-            throw _error;
-        }).then((_response) => {
-            return this.processTransactionGet(_response);
-        });
-    }
-
-    protected processTransactionGet(response): Promise<PagedResultDto_1OfOfTransactionDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
-        const status = response.status || response.statusCode;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        let _mappings: { source: any, target: any }[] = [];
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
-            result200 = PagedResultDto_1OfOfTransactionDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null.fromJS(resultData200, _mappings);
-            return result200;
-        } else if (status === 403) {
-            const _responseText = response.data;
-            let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
-            result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
-            return throwException("Forbidden", status, _responseText, _headers, result403);
-        } else if (status === 401) {
-            const _responseText = response.data;
-            let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
-            result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
-            return throwException("Unauthorized", status, _responseText, _headers, result401);
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
-            result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-        } else if (status === 404) {
-            const _responseText = response.data;
-            let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
-            result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-        } else if (status === 501) {
-            const _responseText = response.data;
-            let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
-            result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
-            return throwException("Server Error", status, _responseText, _headers, result501);
-        } else if (status === 500) {
-            const _responseText = response.data;
-            let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
-            result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
-            return throwException("Server Error", status, _responseText, _headers, result500);
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<PagedResultDto_1OfOfTransactionDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null>(<any>null);
-    }
-
-    /**
      * @param body (optional) 
      * @return Success
      */
     transactionPut
-        (id
-            : string
-            , body
-                : TransactionCreateUpdateDto | undefined
+    (id
+    : string
+        , body
+    : CreateUpdateTransactionDto | undefined 
         ,): Promise<TransactionDto> {
         let url_ = this.baseUrl + "/api/app/transaction/{id}";
         if (id === undefined || id === null)
@@ -2716,15 +3070,15 @@ export class AppServiceProxy extends AbpServiceBase {
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "PUT",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "PUT",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processTransactionPut(_response);
@@ -2745,43 +3099,43 @@ export class AppServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = TransactionDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -2795,8 +3149,8 @@ export class AppServiceProxy extends AbpServiceBase {
      * @return Success
      */
     transactionDelete
-        (id
-            : string
+    (id
+    : string 
         ,): Promise<void> {
         let url_ = this.baseUrl + "/api/app/transaction/{id}";
         if (id === undefined || id === null)
@@ -2804,12 +3158,12 @@ export class AppServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "DELETE",
-            url: url_,
-            header: {
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "DELETE",
+                    url: url_,
+                    header: {
+                                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processTransactionDelete(_response);
@@ -2833,37 +3187,37 @@ export class AppServiceProxy extends AbpServiceBase {
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -2874,32 +3228,34 @@ export class AppServiceProxy extends AbpServiceBase {
     }
 
     /**
+     * @param body (optional) 
      * @return Success
      */
-    transactionGet
-        (id
-            : string
+    transactionPost
+    (body
+    : CreateUpdateTransactionDto | undefined 
         ,): Promise<TransactionDto> {
-        let url_ = this.baseUrl + "/api/app/transaction/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        let url_ = this.baseUrl + "/api/app/transaction";
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+        const content_ = JSON.stringify(body);
+
+                return request({
+                            data: content_,
+                                    method: "POST",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
-            return this.processTransactionGet(_response);
+            return this.processTransactionPost(_response);
         });
     }
 
-    protected processTransactionGet(response): Promise<TransactionDto> {
+    protected processTransactionPost(response): Promise<TransactionDto> {
         const status = response.status || response.statusCode;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -2913,43 +3269,43 @@ export class AppServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = TransactionDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -2960,27 +3316,129 @@ export class AppServiceProxy extends AbpServiceBase {
     }
 
     /**
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @param sorting (optional) 
+     * @return Success
+     */
+    transactionGet
+    (skipCount
+    : number | undefined
+        , maxResultCount
+    : number | undefined
+        , sorting
+    : string | undefined 
+        ,): Promise<PagedResultDto_1OfOfTransactionDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
+        let url_ = this.baseUrl + "/api/app/transaction?";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
+            throw _error;
+        }).then((_response) => {
+            return this.processTransactionGet(_response);
+        });
+    }
+
+    protected processTransactionGet(response): Promise<PagedResultDto_1OfOfTransactionDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
+        const status = response.status || response.statusCode;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        let _mappings: { source: any, target: any }[] = [];
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText.result || _responseText;
+            result200 = PagedResultDto_1OfOfTransactionDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null.fromJS(resultData200, _mappings);
+            return result200;
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText.result || _responseText;
+            result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText.result || _responseText;
+            result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+        } else if (status === 400) {
+            const _responseText = response.data;
+            let result400: any = null;
+            let resultData400  = _responseText.result || _responseText;
+            result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+        } else if (status === 404) {
+            const _responseText = response.data;
+            let result404: any = null;
+            let resultData404  = _responseText.result || _responseText;
+            result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+        } else if (status === 501) {
+            const _responseText = response.data;
+            let result501: any = null;
+            let resultData501  = _responseText.result || _responseText;
+            result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
+            return throwException("Server Error", status, _responseText, _headers, result501);
+        } else if (status === 500) {
+            const _responseText = response.data;
+            let result500: any = null;
+            let resultData500  = _responseText.result || _responseText;
+            result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
+            return throwException("Server Error", status, _responseText, _headers, result500);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<PagedResultDto_1OfOfTransactionDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null>(<any>null);
+    }
+
+    /**
      * @param body (optional) 
      * @return Success
      */
     transactionAttachmentPost
-        (body
-            : TransactionAttachmentCreateUpdateDto | undefined
+    (body
+    : TransactionAttachmentCreateUpdateDto | undefined 
         ,): Promise<TransactionAttachmentDto> {
         let url_ = this.baseUrl + "/api/app/transaction-attachment";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "POST",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "POST",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processTransactionAttachmentPost(_response);
@@ -3001,43 +3459,43 @@ export class AppServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = TransactionAttachmentDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -3054,12 +3512,12 @@ export class AppServiceProxy extends AbpServiceBase {
      * @return Success
      */
     transactionAttachmentGet
-        (skipCount
-            : number | undefined
-            , maxResultCount
-                : number | undefined
-            , sorting
-                : string | undefined
+    (skipCount
+    : number | undefined
+        , maxResultCount
+    : number | undefined
+        , sorting
+    : string | undefined 
         ,): Promise<PagedResultDto_1OfOfTransactionAttachmentDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
         let url_ = this.baseUrl + "/api/app/transaction-attachment?";
         if (skipCount === null)
@@ -3076,13 +3534,13 @@ export class AppServiceProxy extends AbpServiceBase {
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processTransactionAttachmentGet(_response);
@@ -3103,43 +3561,43 @@ export class AppServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = PagedResultDto_1OfOfTransactionAttachmentDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -3154,10 +3612,10 @@ export class AppServiceProxy extends AbpServiceBase {
      * @return Success
      */
     transactionAttachmentPut
-        (id
-            : string
-            , body
-                : TransactionAttachmentCreateUpdateDto | undefined
+    (id
+    : string
+        , body
+    : TransactionAttachmentCreateUpdateDto | undefined 
         ,): Promise<TransactionAttachmentDto> {
         let url_ = this.baseUrl + "/api/app/transaction-attachment/{id}";
         if (id === undefined || id === null)
@@ -3167,15 +3625,15 @@ export class AppServiceProxy extends AbpServiceBase {
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "PUT",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "PUT",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processTransactionAttachmentPut(_response);
@@ -3196,43 +3654,43 @@ export class AppServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = TransactionAttachmentDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -3246,8 +3704,8 @@ export class AppServiceProxy extends AbpServiceBase {
      * @return Success
      */
     transactionAttachmentDelete
-        (id
-            : string
+    (id
+    : string 
         ,): Promise<void> {
         let url_ = this.baseUrl + "/api/app/transaction-attachment/{id}";
         if (id === undefined || id === null)
@@ -3255,12 +3713,12 @@ export class AppServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "DELETE",
-            url: url_,
-            header: {
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "DELETE",
+                    url: url_,
+                    header: {
+                                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processTransactionAttachmentDelete(_response);
@@ -3284,37 +3742,37 @@ export class AppServiceProxy extends AbpServiceBase {
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -3328,8 +3786,8 @@ export class AppServiceProxy extends AbpServiceBase {
      * @return Success
      */
     transactionAttachmentGet
-        (id
-            : string
+    (id
+    : string 
         ,): Promise<TransactionAttachmentDto> {
         let url_ = this.baseUrl + "/api/app/transaction-attachment/{id}";
         if (id === undefined || id === null)
@@ -3337,13 +3795,13 @@ export class AppServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processTransactionAttachmentGet(_response);
@@ -3364,43 +3822,43 @@ export class AppServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = TransactionAttachmentDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -3424,17 +3882,17 @@ export class SettingManagementServiceProxy extends AbpServiceBase {
      * @return Success
      */
     emailingGet
-        (): Promise<EmailSettingsDto> {
+    ( ): Promise<EmailSettingsDto> {
         let url_ = this.baseUrl + "/api/setting-management/emailing";
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processEmailingGet(_response);
@@ -3455,43 +3913,43 @@ export class SettingManagementServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = EmailSettingsDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -3506,22 +3964,22 @@ export class SettingManagementServiceProxy extends AbpServiceBase {
      * @return Success
      */
     emailingPost
-        (body
-            : UpdateEmailSettingsDto | undefined
+    (body
+    : UpdateEmailSettingsDto | undefined 
         ,): Promise<void> {
         let url_ = this.baseUrl + "/api/setting-management/emailing";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "POST",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "POST",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                    },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processEmailingPost(_response);
@@ -3545,37 +4003,37 @@ export class SettingManagementServiceProxy extends AbpServiceBase {
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -3601,10 +4059,10 @@ export class FeatureManagementServiceProxy extends AbpServiceBase {
      * @return Success
      */
     featuresGet
-        (providerName
-            : string | undefined
-            , providerKey
-                : string | undefined
+    (providerName
+    : string | undefined
+        , providerKey
+    : string | undefined 
         ,): Promise<GetFeatureListResultDto> {
         let url_ = this.baseUrl + "/api/feature-management/features?";
         if (providerName === null)
@@ -3617,13 +4075,13 @@ export class FeatureManagementServiceProxy extends AbpServiceBase {
             url_ += "providerKey=" + encodeURIComponent("" + providerKey) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processFeaturesGet(_response);
@@ -3644,43 +4102,43 @@ export class FeatureManagementServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = GetFeatureListResultDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -3697,12 +4155,12 @@ export class FeatureManagementServiceProxy extends AbpServiceBase {
      * @return Success
      */
     featuresPut
-        (providerName
-            : string | undefined
-            , providerKey
-                : string | undefined
-            , body
-                : UpdateFeaturesDto | undefined
+    (providerName
+    : string | undefined
+        , providerKey
+    : string | undefined
+        , body
+    : UpdateFeaturesDto | undefined 
         ,): Promise<void> {
         let url_ = this.baseUrl + "/api/feature-management/features?";
         if (providerName === null)
@@ -3717,14 +4175,14 @@ export class FeatureManagementServiceProxy extends AbpServiceBase {
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "PUT",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "PUT",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                    },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processFeaturesPut(_response);
@@ -3748,37 +4206,37 @@ export class FeatureManagementServiceProxy extends AbpServiceBase {
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -3804,10 +4262,10 @@ export class PermissionManagementServiceProxy extends AbpServiceBase {
      * @return Success
      */
     permissionsGet
-        (providerName
-            : string | undefined
-            , providerKey
-                : string | undefined
+    (providerName
+    : string | undefined
+        , providerKey
+    : string | undefined 
         ,): Promise<GetPermissionListResultDto> {
         let url_ = this.baseUrl + "/api/permission-management/permissions?";
         if (providerName === null)
@@ -3820,13 +4278,13 @@ export class PermissionManagementServiceProxy extends AbpServiceBase {
             url_ += "providerKey=" + encodeURIComponent("" + providerKey) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processPermissionsGet(_response);
@@ -3847,43 +4305,43 @@ export class PermissionManagementServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = GetPermissionListResultDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -3900,12 +4358,12 @@ export class PermissionManagementServiceProxy extends AbpServiceBase {
      * @return Success
      */
     permissionsPut
-        (providerName
-            : string | undefined
-            , providerKey
-                : string | undefined
-            , body
-                : UpdatePermissionsDto | undefined
+    (providerName
+    : string | undefined
+        , providerKey
+    : string | undefined
+        , body
+    : UpdatePermissionsDto | undefined 
         ,): Promise<void> {
         let url_ = this.baseUrl + "/api/permission-management/permissions?";
         if (providerName === null)
@@ -3920,14 +4378,14 @@ export class PermissionManagementServiceProxy extends AbpServiceBase {
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "PUT",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "PUT",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                    },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processPermissionsPut(_response);
@@ -3951,37 +4409,37 @@ export class PermissionManagementServiceProxy extends AbpServiceBase {
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -4005,17 +4463,17 @@ export class IdentityServiceProxy extends AbpServiceBase {
      * @return Success
      */
     myProfileGet
-        (): Promise<ProfileDto> {
+    ( ): Promise<ProfileDto> {
         let url_ = this.baseUrl + "/api/identity/my-profile";
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processMyProfileGet(_response);
@@ -4036,43 +4494,43 @@ export class IdentityServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = ProfileDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -4087,23 +4545,23 @@ export class IdentityServiceProxy extends AbpServiceBase {
      * @return Success
      */
     myProfilePut
-        (body
-            : UpdateProfileDto | undefined
+    (body
+    : UpdateProfileDto | undefined 
         ,): Promise<ProfileDto> {
         let url_ = this.baseUrl + "/api/identity/my-profile";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "PUT",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "PUT",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processMyProfilePut(_response);
@@ -4124,43 +4582,43 @@ export class IdentityServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = ProfileDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -4178,14 +4636,14 @@ export class IdentityServiceProxy extends AbpServiceBase {
      * @return Success
      */
     rolesGet
-        (filter
-            : string | undefined
-            , sorting
-                : string | undefined
-            , skipCount
-                : number | undefined
-            , maxResultCount
-                : number | undefined
+    (filter
+    : string | undefined
+        , sorting
+    : string | undefined
+        , skipCount
+    : number | undefined
+        , maxResultCount
+    : number | undefined 
         ,): Promise<PagedResultDto_1OfOfIdentityRoleDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
         let url_ = this.baseUrl + "/api/identity/roles?";
         if (filter === null)
@@ -4206,13 +4664,13 @@ export class IdentityServiceProxy extends AbpServiceBase {
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processRolesGet(_response);
@@ -4233,43 +4691,43 @@ export class IdentityServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = PagedResultDto_1OfOfIdentityRoleDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -4284,23 +4742,23 @@ export class IdentityServiceProxy extends AbpServiceBase {
      * @return Success
      */
     rolesPost
-        (body
-            : IdentityRoleCreateDto | undefined
+    (body
+    : IdentityRoleCreateDto | undefined 
         ,): Promise<IdentityRoleDto> {
         let url_ = this.baseUrl + "/api/identity/roles";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "POST",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "POST",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processRolesPost(_response);
@@ -4321,43 +4779,43 @@ export class IdentityServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = IdentityRoleDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -4371,8 +4829,8 @@ export class IdentityServiceProxy extends AbpServiceBase {
      * @return Success
      */
     rolesGet
-        (id
-            : string
+    (id
+    : string 
         ,): Promise<IdentityRoleDto> {
         let url_ = this.baseUrl + "/api/identity/roles/{id}";
         if (id === undefined || id === null)
@@ -4380,13 +4838,13 @@ export class IdentityServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processRolesGet(_response);
@@ -4407,43 +4865,43 @@ export class IdentityServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = IdentityRoleDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -4458,10 +4916,10 @@ export class IdentityServiceProxy extends AbpServiceBase {
      * @return Success
      */
     rolesPut
-        (id
-            : string
-            , body
-                : IdentityRoleUpdateDto | undefined
+    (id
+    : string
+        , body
+    : IdentityRoleUpdateDto | undefined 
         ,): Promise<IdentityRoleDto> {
         let url_ = this.baseUrl + "/api/identity/roles/{id}";
         if (id === undefined || id === null)
@@ -4471,15 +4929,15 @@ export class IdentityServiceProxy extends AbpServiceBase {
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "PUT",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "PUT",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processRolesPut(_response);
@@ -4500,43 +4958,43 @@ export class IdentityServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = IdentityRoleDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -4550,8 +5008,8 @@ export class IdentityServiceProxy extends AbpServiceBase {
      * @return Success
      */
     rolesDelete
-        (id
-            : string
+    (id
+    : string 
         ,): Promise<void> {
         let url_ = this.baseUrl + "/api/identity/roles/{id}";
         if (id === undefined || id === null)
@@ -4559,12 +5017,12 @@ export class IdentityServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "DELETE",
-            url: url_,
-            header: {
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "DELETE",
+                    url: url_,
+                    header: {
+                                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processRolesDelete(_response);
@@ -4588,37 +5046,37 @@ export class IdentityServiceProxy extends AbpServiceBase {
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -4632,8 +5090,8 @@ export class IdentityServiceProxy extends AbpServiceBase {
      * @return Success
      */
     usersGet
-        (id
-            : string
+    (id
+    : string 
         ,): Promise<IdentityUserDto> {
         let url_ = this.baseUrl + "/api/identity/users/{id}";
         if (id === undefined || id === null)
@@ -4641,13 +5099,13 @@ export class IdentityServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processUsersGet(_response);
@@ -4668,43 +5126,43 @@ export class IdentityServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = IdentityUserDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -4719,10 +5177,10 @@ export class IdentityServiceProxy extends AbpServiceBase {
      * @return Success
      */
     usersPut
-        (id
-            : string
-            , body
-                : IdentityUserUpdateDto | undefined
+    (id
+    : string
+        , body
+    : IdentityUserUpdateDto | undefined 
         ,): Promise<IdentityUserDto> {
         let url_ = this.baseUrl + "/api/identity/users/{id}";
         if (id === undefined || id === null)
@@ -4732,15 +5190,15 @@ export class IdentityServiceProxy extends AbpServiceBase {
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "PUT",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "PUT",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processUsersPut(_response);
@@ -4761,43 +5219,43 @@ export class IdentityServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = IdentityUserDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -4811,8 +5269,8 @@ export class IdentityServiceProxy extends AbpServiceBase {
      * @return Success
      */
     usersDelete
-        (id
-            : string
+    (id
+    : string 
         ,): Promise<void> {
         let url_ = this.baseUrl + "/api/identity/users/{id}";
         if (id === undefined || id === null)
@@ -4820,12 +5278,12 @@ export class IdentityServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "DELETE",
-            url: url_,
-            header: {
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "DELETE",
+                    url: url_,
+                    header: {
+                                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processUsersDelete(_response);
@@ -4849,37 +5307,37 @@ export class IdentityServiceProxy extends AbpServiceBase {
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -4897,14 +5355,14 @@ export class IdentityServiceProxy extends AbpServiceBase {
      * @return Success
      */
     usersGet
-        (filter
-            : string | undefined
-            , sorting
-                : string | undefined
-            , skipCount
-                : number | undefined
-            , maxResultCount
-                : number | undefined
+    (filter
+    : string | undefined
+        , sorting
+    : string | undefined
+        , skipCount
+    : number | undefined
+        , maxResultCount
+    : number | undefined 
         ,): Promise<PagedResultDto_1OfOfIdentityUserDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
         let url_ = this.baseUrl + "/api/identity/users?";
         if (filter === null)
@@ -4925,13 +5383,13 @@ export class IdentityServiceProxy extends AbpServiceBase {
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processUsersGet(_response);
@@ -4952,43 +5410,43 @@ export class IdentityServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = PagedResultDto_1OfOfIdentityUserDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -5003,23 +5461,23 @@ export class IdentityServiceProxy extends AbpServiceBase {
      * @return Success
      */
     usersPost
-        (body
-            : IdentityUserCreateDto | undefined
+    (body
+    : IdentityUserCreateDto | undefined 
         ,): Promise<IdentityUserDto> {
         let url_ = this.baseUrl + "/api/identity/users";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "POST",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "POST",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processUsersPost(_response);
@@ -5040,43 +5498,43 @@ export class IdentityServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = IdentityUserDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -5101,22 +5559,22 @@ export class MyProfileServiceProxy extends AbpServiceBase {
      * @return Success
      */
     changePassword
-        (body
-            : ChangePasswordInput | undefined
+    (body
+    : ChangePasswordInput | undefined 
         ,): Promise<void> {
         let url_ = this.baseUrl + "/api/identity/my-profile/change-password";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "POST",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "POST",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                    },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processChangePassword(_response);
@@ -5140,37 +5598,37 @@ export class MyProfileServiceProxy extends AbpServiceBase {
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -5194,17 +5652,17 @@ export class RolesServiceProxy extends AbpServiceBase {
      * @return Success
      */
     all
-        (): Promise<ListResultDto_1OfOfIdentityRoleDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
+    ( ): Promise<ListResultDto_1OfOfIdentityRoleDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
         let url_ = this.baseUrl + "/api/identity/roles/all";
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processAll(_response);
@@ -5225,43 +5683,43 @@ export class RolesServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = ListResultDto_1OfOfIdentityRoleDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -5285,8 +5743,8 @@ export class MultiTenancyServiceProxy extends AbpServiceBase {
      * @return Success
      */
     tenantsGet
-        (id
-            : string
+    (id
+    : string 
         ,): Promise<TenantDto> {
         let url_ = this.baseUrl + "/api/multi-tenancy/tenants/{id}";
         if (id === undefined || id === null)
@@ -5294,13 +5752,13 @@ export class MultiTenancyServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processTenantsGet(_response);
@@ -5321,43 +5779,43 @@ export class MultiTenancyServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = TenantDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -5372,10 +5830,10 @@ export class MultiTenancyServiceProxy extends AbpServiceBase {
      * @return Success
      */
     tenantsPut
-        (id
-            : string
-            , body
-                : TenantUpdateDto | undefined
+    (id
+    : string
+        , body
+    : TenantUpdateDto | undefined 
         ,): Promise<TenantDto> {
         let url_ = this.baseUrl + "/api/multi-tenancy/tenants/{id}";
         if (id === undefined || id === null)
@@ -5385,15 +5843,15 @@ export class MultiTenancyServiceProxy extends AbpServiceBase {
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "PUT",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "PUT",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processTenantsPut(_response);
@@ -5414,43 +5872,43 @@ export class MultiTenancyServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = TenantDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -5464,8 +5922,8 @@ export class MultiTenancyServiceProxy extends AbpServiceBase {
      * @return Success
      */
     tenantsDelete
-        (id
-            : string
+    (id
+    : string 
         ,): Promise<void> {
         let url_ = this.baseUrl + "/api/multi-tenancy/tenants/{id}";
         if (id === undefined || id === null)
@@ -5473,12 +5931,12 @@ export class MultiTenancyServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "DELETE",
-            url: url_,
-            header: {
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "DELETE",
+                    url: url_,
+                    header: {
+                                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processTenantsDelete(_response);
@@ -5502,37 +5960,37 @@ export class MultiTenancyServiceProxy extends AbpServiceBase {
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -5550,14 +6008,14 @@ export class MultiTenancyServiceProxy extends AbpServiceBase {
      * @return Success
      */
     tenantsGet
-        (filter
-            : string | undefined
-            , sorting
-                : string | undefined
-            , skipCount
-                : number | undefined
-            , maxResultCount
-                : number | undefined
+    (filter
+    : string | undefined
+        , sorting
+    : string | undefined
+        , skipCount
+    : number | undefined
+        , maxResultCount
+    : number | undefined 
         ,): Promise<PagedResultDto_1OfOfTenantDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
         let url_ = this.baseUrl + "/api/multi-tenancy/tenants?";
         if (filter === null)
@@ -5578,13 +6036,13 @@ export class MultiTenancyServiceProxy extends AbpServiceBase {
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processTenantsGet(_response);
@@ -5605,43 +6063,43 @@ export class MultiTenancyServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = PagedResultDto_1OfOfTenantDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -5656,23 +6114,23 @@ export class MultiTenancyServiceProxy extends AbpServiceBase {
      * @return Success
      */
     tenantsPost
-        (body
-            : TenantCreateDto | undefined
+    (body
+    : TenantCreateDto | undefined 
         ,): Promise<TenantDto> {
         let url_ = this.baseUrl + "/api/multi-tenancy/tenants";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "POST",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "POST",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processTenantsPost(_response);
@@ -5693,43 +6151,43 @@ export class MultiTenancyServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = TenantDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -5753,8 +6211,8 @@ export class UsersServiceProxy extends AbpServiceBase {
      * @return Success
      */
     rolesGet
-        (id
-            : string
+    (id
+    : string 
         ,): Promise<ListResultDto_1OfOfIdentityRoleDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
         let url_ = this.baseUrl + "/api/identity/users/{id}/roles";
         if (id === undefined || id === null)
@@ -5762,13 +6220,13 @@ export class UsersServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processRolesGet(_response);
@@ -5789,43 +6247,43 @@ export class UsersServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = ListResultDto_1OfOfIdentityRoleDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -5840,10 +6298,10 @@ export class UsersServiceProxy extends AbpServiceBase {
      * @return Success
      */
     rolesPut
-        (id
-            : string
-            , body
-                : IdentityUserUpdateRolesDto | undefined
+    (id
+    : string
+        , body
+    : IdentityUserUpdateRolesDto | undefined 
         ,): Promise<void> {
         let url_ = this.baseUrl + "/api/identity/users/{id}/roles";
         if (id === undefined || id === null)
@@ -5853,14 +6311,14 @@ export class UsersServiceProxy extends AbpServiceBase {
 
         const content_ = JSON.stringify(body);
 
-        return request({
-            data: content_,
-            method: "PUT",
-            url: url_,
-            header: {
-                "Content-Type": "application/json",
-            },
-        }).catch((_error: any) => {
+                return request({
+                            data: content_,
+                                    method: "PUT",
+                    url: url_,
+                    header: {
+                                        "Content-Type": "application/json",
+                                    },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processRolesPut(_response);
@@ -5884,37 +6342,37 @@ export class UsersServiceProxy extends AbpServiceBase {
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -5928,17 +6386,17 @@ export class UsersServiceProxy extends AbpServiceBase {
      * @return Success
      */
     assignableRoles
-        (): Promise<ListResultDto_1OfOfIdentityRoleDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
+    ( ): Promise<ListResultDto_1OfOfIdentityRoleDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
         let url_ = this.baseUrl + "/api/identity/users/assignable-roles";
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processAssignableRoles(_response);
@@ -5959,43 +6417,43 @@ export class UsersServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = ListResultDto_1OfOfIdentityRoleDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -6009,8 +6467,8 @@ export class UsersServiceProxy extends AbpServiceBase {
      * @return Success
      */
     byUsername
-        (userName
-            : string
+    (userName
+    : string 
         ,): Promise<IdentityUserDto> {
         let url_ = this.baseUrl + "/api/identity/users/by-username/{userName}";
         if (userName === undefined || userName === null)
@@ -6018,13 +6476,13 @@ export class UsersServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{userName}", encodeURIComponent("" + userName));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processByUsername(_response);
@@ -6045,43 +6503,43 @@ export class UsersServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = IdentityUserDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -6095,8 +6553,8 @@ export class UsersServiceProxy extends AbpServiceBase {
      * @return Success
      */
     byEmail
-        (email
-            : string
+    (email
+    : string 
         ,): Promise<IdentityUserDto> {
         let url_ = this.baseUrl + "/api/identity/users/by-email/{email}";
         if (email === undefined || email === null)
@@ -6104,13 +6562,13 @@ export class UsersServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{email}", encodeURIComponent("" + email));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processByEmail(_response);
@@ -6131,43 +6589,43 @@ export class UsersServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = IdentityUserDto.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -6181,8 +6639,8 @@ export class UsersServiceProxy extends AbpServiceBase {
      * @return Success
      */
     lookup
-        (id
-            : string
+    (id
+    : string 
         ,): Promise<UserData> {
         let url_ = this.baseUrl + "/api/identity/users/lookup/{id}";
         if (id === undefined || id === null)
@@ -6190,13 +6648,13 @@ export class UsersServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processLookup(_response);
@@ -6217,43 +6675,43 @@ export class UsersServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = UserData.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -6277,8 +6735,8 @@ export class LookupServiceProxy extends AbpServiceBase {
      * @return Success
      */
     byUsername
-        (userName
-            : string
+    (userName
+    : string 
         ,): Promise<UserData> {
         let url_ = this.baseUrl + "/api/identity/users/lookup/by-username/{userName}";
         if (userName === undefined || userName === null)
@@ -6286,13 +6744,13 @@ export class LookupServiceProxy extends AbpServiceBase {
         url_ = url_.replace("{userName}", encodeURIComponent("" + userName));
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processByUsername(_response);
@@ -6313,43 +6771,43 @@ export class LookupServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = UserData.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -6367,14 +6825,14 @@ export class LookupServiceProxy extends AbpServiceBase {
      * @return Success
      */
     search
-        (filter
-            : string | undefined
-            , sorting
-                : string | undefined
-            , skipCount
-                : number | undefined
-            , maxResultCount
-                : number | undefined
+    (filter
+    : string | undefined
+        , sorting
+    : string | undefined
+        , skipCount
+    : number | undefined
+        , maxResultCount
+    : number | undefined 
         ,): Promise<ListResultDto_1OfOfUserDataAndAbstractionsAnd_0AndCulture_neutralAndPublicKeyToken_null> {
         let url_ = this.baseUrl + "/api/identity/users/lookup/search?";
         if (filter === null)
@@ -6395,13 +6853,13 @@ export class LookupServiceProxy extends AbpServiceBase {
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processSearch(_response);
@@ -6422,43 +6880,43 @@ export class LookupServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = ListResultDto_1OfOfUserDataAndAbstractionsAnd_0AndCulture_neutralAndPublicKeyToken_null.fromJS(resultData200, _mappings);
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -6473,8 +6931,8 @@ export class LookupServiceProxy extends AbpServiceBase {
      * @return Success
      */
     count
-        (filter
-            : string | undefined
+    (filter
+    : string | undefined 
         ,): Promise<number> {
         let url_ = this.baseUrl + "/api/identity/users/lookup/count?";
         if (filter === null)
@@ -6483,13 +6941,13 @@ export class LookupServiceProxy extends AbpServiceBase {
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        return request({
-            method: "GET",
-            url: url_,
-            header: {
-                "Accept": "text/plain"
-            },
-        }).catch((_error: any) => {
+                return request({
+                                    method: "GET",
+                    url: url_,
+                    header: {
+                                                "Accept": "text/plain"
+                            },
+                }).catch((_error: any) => {
             throw _error;
         }).then((_response) => {
             return this.processCount(_response);
@@ -6510,43 +6968,43 @@ export class LookupServiceProxy extends AbpServiceBase {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200 = _responseText.result || _responseText;
+            let resultData200  = _responseText.result || _responseText;
             result200 = resultData200 !== undefined ? resultData200 : <any>null;
             return result200;
         } else if (status === 403) {
             const _responseText = response.data;
             let result403: any = null;
-            let resultData403 = _responseText.result || _responseText;
+            let resultData403  = _responseText.result || _responseText;
             result403 = RemoteServiceErrorResponse.fromJS(resultData403, _mappings);
             return throwException("Forbidden", status, _responseText, _headers, result403);
         } else if (status === 401) {
             const _responseText = response.data;
             let result401: any = null;
-            let resultData401 = _responseText.result || _responseText;
+            let resultData401  = _responseText.result || _responseText;
             result401 = RemoteServiceErrorResponse.fromJS(resultData401, _mappings);
             return throwException("Unauthorized", status, _responseText, _headers, result401);
         } else if (status === 400) {
             const _responseText = response.data;
             let result400: any = null;
-            let resultData400 = _responseText.result || _responseText;
+            let resultData400  = _responseText.result || _responseText;
             result400 = RemoteServiceErrorResponse.fromJS(resultData400, _mappings);
             return throwException("Bad Request", status, _responseText, _headers, result400);
         } else if (status === 404) {
             const _responseText = response.data;
             let result404: any = null;
-            let resultData404 = _responseText.result || _responseText;
+            let resultData404  = _responseText.result || _responseText;
             result404 = RemoteServiceErrorResponse.fromJS(resultData404, _mappings);
             return throwException("Not Found", status, _responseText, _headers, result404);
         } else if (status === 501) {
             const _responseText = response.data;
             let result501: any = null;
-            let resultData501 = _responseText.result || _responseText;
+            let resultData501  = _responseText.result || _responseText;
             result501 = RemoteServiceErrorResponse.fromJS(resultData501, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result501);
         } else if (status === 500) {
             const _responseText = response.data;
             let result500: any = null;
-            let resultData500 = _responseText.result || _responseText;
+            let resultData500  = _responseText.result || _responseText;
             result500 = RemoteServiceErrorResponse.fromJS(resultData500, _mappings);
             return throwException("Server Error", status, _responseText, _headers, result500);
         } else if (status !== 200 && status !== 204) {
@@ -6558,16 +7016,16 @@ export class LookupServiceProxy extends AbpServiceBase {
 }
 
 export class AccountCreateUpdateDto {
-    currencyCode!: string;
     title!: string;
+    currencyCode!: string;
     note!: string | null;
     balance!: number | null;
     includeInTotals!: boolean | null;
 
     init(_data?: any, _mappings?: any) {
         if (_data) {
-            this.currencyCode = _data["currencyCode"] !== undefined ? _data["currencyCode"] : <any>null;
             this.title = _data["title"] !== undefined ? _data["title"] : <any>null;
+            this.currencyCode = _data["currencyCode"] !== undefined ? _data["currencyCode"] : <any>null;
             this.note = _data["note"] !== undefined ? _data["note"] : <any>null;
             this.balance = _data["balance"] !== undefined ? _data["balance"] : <any>null;
             this.includeInTotals = _data["includeInTotals"] !== undefined ? _data["includeInTotals"] : <any>null;
@@ -6581,18 +7039,19 @@ export class AccountCreateUpdateDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["currencyCode"] = this.currencyCode !== undefined ? this.currencyCode : <any>null;
         data["title"] = this.title !== undefined ? this.title : <any>null;
+        data["currencyCode"] = this.currencyCode !== undefined ? this.currencyCode : <any>null;
         data["note"] = this.note !== undefined ? this.note : <any>null;
         data["balance"] = this.balance !== undefined ? this.balance : <any>null;
         data["includeInTotals"] = this.includeInTotals !== undefined ? this.includeInTotals : <any>null;
-        return data;
+        return data; 
     }
 }
 
 export class AccountDto {
     id!: string;
     currencyCode!: string | null;
+    currency!: CurrencyDto;
     title!: string | null;
     note!: string | null;
     balance!: number | null;
@@ -6602,6 +7061,7 @@ export class AccountDto {
         if (_data) {
             this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
             this.currencyCode = _data["currencyCode"] !== undefined ? _data["currencyCode"] : <any>null;
+            this.currency = _data["currency"] ? CurrencyDto.fromJS(_data["currency"], _mappings) : <any>null;
             this.title = _data["title"] !== undefined ? _data["title"] : <any>null;
             this.note = _data["note"] !== undefined ? _data["note"] : <any>null;
             this.balance = _data["balance"] !== undefined ? _data["balance"] : <any>null;
@@ -6618,11 +7078,12 @@ export class AccountDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id !== undefined ? this.id : <any>null;
         data["currencyCode"] = this.currencyCode !== undefined ? this.currencyCode : <any>null;
+        data["currency"] = this.currency ? this.currency.toJSON() : <any>null;
         data["title"] = this.title !== undefined ? this.title : <any>null;
         data["note"] = this.note !== undefined ? this.note : <any>null;
         data["balance"] = this.balance !== undefined ? this.balance : <any>null;
         data["includeInTotals"] = this.includeInTotals !== undefined ? this.includeInTotals : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -6652,7 +7113,7 @@ export class CategoryCreateUpdateDto {
         data["color"] = this.color !== undefined ? this.color : <any>null;
         data["transactionType"] = this.transactionType !== undefined ? this.transactionType : <any>null;
         data["sortOrder"] = this.sortOrder !== undefined ? this.sortOrder : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -6685,7 +7146,160 @@ export class CategoryDto {
         data["color"] = this.color !== undefined ? this.color : <any>null;
         data["transactionType"] = this.transactionType !== undefined ? this.transactionType : <any>null;
         data["sortOrder"] = this.sortOrder !== undefined ? this.sortOrder : <any>null;
-        return data;
+        return data; 
+    }
+}
+
+export class CreateUpdateTransactionDto {
+    category!: CategoryDto;
+    accountFrom!: AccountDto;
+    accountTo!: AccountDto;
+    tags!: TagDto[] | null;
+    date!: Date;
+    amount!: number;
+    exchangeRate!: number | null;
+    note!: string | null;
+    transactionState!: boolean | null;
+    transactionType!: TransactionType;
+    includeInReports!: boolean | null;
+    attachments!: TransactionAttachmentDto[] | null;
+
+    init(_data?: any, _mappings?: any) {
+        if (_data) {
+            this.category = _data["category"] ? CategoryDto.fromJS(_data["category"], _mappings) : <any>null;
+            this.accountFrom = _data["accountFrom"] ? AccountDto.fromJS(_data["accountFrom"], _mappings) : <any>null;
+            this.accountTo = _data["accountTo"] ? AccountDto.fromJS(_data["accountTo"], _mappings) : <any>null;
+            if (Array.isArray(_data["tags"])) {
+                this.tags = [] as any;
+                for (let item of _data["tags"])
+                    this.tags!.push(TagDto.fromJS(item, _mappings));
+            }
+            else {
+                this.tags = <any>null;
+            }
+            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>null;
+            this.amount = _data["amount"] !== undefined ? _data["amount"] : <any>null;
+            this.exchangeRate = _data["exchangeRate"] !== undefined ? _data["exchangeRate"] : <any>null;
+            this.note = _data["note"] !== undefined ? _data["note"] : <any>null;
+            this.transactionState = _data["transactionState"] !== undefined ? _data["transactionState"] : <any>null;
+            this.transactionType = _data["transactionType"] !== undefined ? _data["transactionType"] : <any>null;
+            this.includeInReports = _data["includeInReports"] !== undefined ? _data["includeInReports"] : <any>null;
+            if (Array.isArray(_data["attachments"])) {
+                this.attachments = [] as any;
+                for (let item of _data["attachments"])
+                    this.attachments!.push(TransactionAttachmentDto.fromJS(item, _mappings));
+            }
+            else {
+                this.attachments = <any>null;
+            }
+        }
+    }
+
+    static fromJS(data: any, _mappings?: any): CreateUpdateTransactionDto | null {
+        data = typeof data === 'object' ? data : {};
+        return createInstance<CreateUpdateTransactionDto>(data, _mappings, CreateUpdateTransactionDto);
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["category"] = this.category ? this.category.toJSON() : <any>null;
+        data["accountFrom"] = this.accountFrom ? this.accountFrom.toJSON() : <any>null;
+        data["accountTo"] = this.accountTo ? this.accountTo.toJSON() : <any>null;
+        if (Array.isArray(this.tags)) {
+            data["tags"] = [];
+            for (let item of this.tags)
+                data["tags"].push(item.toJSON());
+        }
+        data["date"] = this.date ? this.date.toISOString() : <any>null;
+        data["amount"] = this.amount !== undefined ? this.amount : <any>null;
+        data["exchangeRate"] = this.exchangeRate !== undefined ? this.exchangeRate : <any>null;
+        data["note"] = this.note !== undefined ? this.note : <any>null;
+        data["transactionState"] = this.transactionState !== undefined ? this.transactionState : <any>null;
+        data["transactionType"] = this.transactionType !== undefined ? this.transactionType : <any>null;
+        data["includeInReports"] = this.includeInReports !== undefined ? this.includeInReports : <any>null;
+        if (Array.isArray(this.attachments)) {
+            data["attachments"] = [];
+            for (let item of this.attachments)
+                data["attachments"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export class CurrencyDto {
+    id!: string | null;
+    code!: string | null;
+    currencyRate!: RateDto[] | null;
+    symbol!: string | null;
+    symbolPosition!: SymbolPositionType;
+    decimalSeparator!: string | null;
+    groupSeparator!: string | null;
+    decimalCount!: number;
+
+    init(_data?: any, _mappings?: any) {
+        if (_data) {
+            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
+            this.code = _data["code"] !== undefined ? _data["code"] : <any>null;
+            if (Array.isArray(_data["currencyRate"])) {
+                this.currencyRate = [] as any;
+                for (let item of _data["currencyRate"])
+                    this.currencyRate!.push(RateDto.fromJS(item, _mappings));
+            }
+            else {
+                this.currencyRate = <any>null;
+            }
+            this.symbol = _data["symbol"] !== undefined ? _data["symbol"] : <any>null;
+            this.symbolPosition = _data["symbolPosition"] !== undefined ? _data["symbolPosition"] : <any>null;
+            this.decimalSeparator = _data["decimalSeparator"] !== undefined ? _data["decimalSeparator"] : <any>null;
+            this.groupSeparator = _data["groupSeparator"] !== undefined ? _data["groupSeparator"] : <any>null;
+            this.decimalCount = _data["decimalCount"] !== undefined ? _data["decimalCount"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any, _mappings?: any): CurrencyDto | null {
+        data = typeof data === 'object' ? data : {};
+        return createInstance<CurrencyDto>(data, _mappings, CurrencyDto);
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id !== undefined ? this.id : <any>null;
+        data["code"] = this.code !== undefined ? this.code : <any>null;
+        if (Array.isArray(this.currencyRate)) {
+            data["currencyRate"] = [];
+            for (let item of this.currencyRate)
+                data["currencyRate"].push(item.toJSON());
+        }
+        data["symbol"] = this.symbol !== undefined ? this.symbol : <any>null;
+        data["symbolPosition"] = this.symbolPosition !== undefined ? this.symbolPosition : <any>null;
+        data["decimalSeparator"] = this.decimalSeparator !== undefined ? this.decimalSeparator : <any>null;
+        data["groupSeparator"] = this.groupSeparator !== undefined ? this.groupSeparator : <any>null;
+        data["decimalCount"] = this.decimalCount !== undefined ? this.decimalCount : <any>null;
+        return data; 
+    }
+}
+
+export class RateDto {
+    toCode!: string | null;
+    ratio!: number;
+
+    init(_data?: any, _mappings?: any) {
+        if (_data) {
+            this.toCode = _data["toCode"] !== undefined ? _data["toCode"] : <any>null;
+            this.ratio = _data["ratio"] !== undefined ? _data["ratio"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any, _mappings?: any): RateDto | null {
+        data = typeof data === 'object' ? data : {};
+        return createInstance<RateDto>(data, _mappings, RateDto);
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["toCode"] = this.toCode !== undefined ? this.toCode : <any>null;
+        data["ratio"] = this.ratio !== undefined ? this.ratio : <any>null;
+        return data; 
     }
 }
 
@@ -6706,7 +7320,7 @@ export class TagCreateUpdateDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["title"] = this.title !== undefined ? this.title : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -6730,7 +7344,7 @@ export class TagDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id !== undefined ? this.id : <any>null;
         data["title"] = this.title !== undefined ? this.title : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -6760,7 +7374,7 @@ export class TransactionAttachmentCreateUpdateDto {
         data["size"] = this.size !== undefined ? this.size : <any>null;
         data["index"] = this.index !== undefined ? this.index : <any>null;
         data["url"] = this.url !== undefined ? this.url : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -6814,89 +7428,16 @@ export class TransactionAttachmentDto {
         data["size"] = this.size !== undefined ? this.size : <any>null;
         data["index"] = this.index !== undefined ? this.index : <any>null;
         data["url"] = this.url !== undefined ? this.url : <any>null;
-        return data;
-    }
-}
-
-export class TransactionCreateUpdateDto {
-    accountFromId!: string | null;
-    accountToId!: string | null;
-    category!: CategoryDto;
-    tagIds!: string[] | null;
-    date!: Date | null;
-    amount!: number;
-    exchangeRate!: number | null;
-    note!: string | null;
-    transactionState!: boolean | null;
-    transactionType!: TransactionType;
-    includeInReports!: boolean | null;
-    attachments!: TransactionAttachmentDto[] | null;
-
-    init(_data?: any, _mappings?: any) {
-        if (_data) {
-            this.accountFromId = _data["accountFromId"] !== undefined ? _data["accountFromId"] : <any>null;
-            this.accountToId = _data["accountToId"] !== undefined ? _data["accountToId"] : <any>null;
-            this.category = _data["category"] ? CategoryDto.fromJS(_data["category"], _mappings) : new CategoryDto();
-            if (Array.isArray(_data["tagIds"])) {
-                this.tagIds = [] as any;
-                for (let item of _data["tagIds"])
-                    this.tagIds!.push(item);
-            }
-            else {
-                this.tagIds = <any>null;
-            }
-            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>null;
-            this.amount = _data["amount"] !== undefined ? _data["amount"] : <any>null;
-            this.exchangeRate = _data["exchangeRate"] !== undefined ? _data["exchangeRate"] : <any>null;
-            this.note = _data["note"] !== undefined ? _data["note"] : <any>null;
-            this.transactionState = _data["transactionState"] !== undefined ? _data["transactionState"] : <any>null;
-            this.transactionType = _data["transactionType"] !== undefined ? _data["transactionType"] : <any>null;
-            this.includeInReports = _data["includeInReports"] !== undefined ? _data["includeInReports"] : <any>null;
-            if (Array.isArray(_data["attachments"])) {
-                this.attachments = [] as any;
-                for (let item of _data["attachments"])
-                    this.attachments!.push(TransactionAttachmentDto.fromJS(item, _mappings));
-            }
-            else {
-                this.attachments = <any>null;
-            }
-        }
-    }
-
-    static fromJS(data: any, _mappings?: any): TransactionCreateUpdateDto | null {
-        data = typeof data === 'object' ? data : {};
-        return createInstance<TransactionCreateUpdateDto>(data, _mappings, TransactionCreateUpdateDto);
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["accountFromId"] = this.accountFromId !== undefined ? this.accountFromId : <any>null;
-        data["accountToId"] = this.accountToId !== undefined ? this.accountToId : <any>null;
-        data["category"] = this.category ? this.category.toJSON() : <any>null;
-        if (Array.isArray(this.tagIds)) {
-            data["tagIds"] = [];
-            for (let item of this.tagIds)
-                data["tagIds"].push(item);
-        }
-        data["date"] = this.date ? this.date.toISOString() : <any>null;
-        data["amount"] = this.amount !== undefined ? this.amount : <any>null;
-        data["exchangeRate"] = this.exchangeRate !== undefined ? this.exchangeRate : <any>null;
-        data["note"] = this.note !== undefined ? this.note : <any>null;
-        data["transactionState"] = this.transactionState !== undefined ? this.transactionState : <any>null;
-        data["transactionType"] = this.transactionType !== undefined ? this.transactionType : <any>null;
-        data["includeInReports"] = this.includeInReports !== undefined ? this.includeInReports : <any>null;
-        if (Array.isArray(this.attachments)) {
-            data["attachments"] = [];
-            for (let item of this.attachments)
-                data["attachments"].push(item.toJSON());
-        }
-        return data;
+        return data; 
     }
 }
 
 export class TransactionDto {
     id!: string;
     accountFrom!: AccountDto;
+    accountFromId!: string | null;
+    accountToId!: string | null;
+    categoryId!: string | null;
     accountTo!: AccountDto;
     category!: CategoryDto;
     tags!: TagDto[] | null;
@@ -6906,7 +7447,7 @@ export class TransactionDto {
     note!: string | null;
     transactionState!: boolean;
     transactionType!: TransactionType;
-    transactionTypeDescription!: TransactionType;
+    transactionTypeDescription!: string | null;
     includeInReports!: boolean;
     attachments!: TransactionAttachmentDto[] | null;
 
@@ -6914,6 +7455,9 @@ export class TransactionDto {
         if (_data) {
             this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
             this.accountFrom = _data["accountFrom"] ? AccountDto.fromJS(_data["accountFrom"], _mappings) : <any>null;
+            this.accountFromId = _data["accountFromId"] !== undefined ? _data["accountFromId"] : <any>null;
+            this.accountToId = _data["accountToId"] !== undefined ? _data["accountToId"] : <any>null;
+            this.categoryId = _data["categoryId"] !== undefined ? _data["categoryId"] : <any>null;
             this.accountTo = _data["accountTo"] ? AccountDto.fromJS(_data["accountTo"], _mappings) : <any>null;
             this.category = _data["category"] ? CategoryDto.fromJS(_data["category"], _mappings) : <any>null;
             if (Array.isArray(_data["tags"])) {
@@ -6952,6 +7496,9 @@ export class TransactionDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id !== undefined ? this.id : <any>null;
         data["accountFrom"] = this.accountFrom ? this.accountFrom.toJSON() : <any>null;
+        data["accountFromId"] = this.accountFromId !== undefined ? this.accountFromId : <any>null;
+        data["accountToId"] = this.accountToId !== undefined ? this.accountToId : <any>null;
+        data["categoryId"] = this.categoryId !== undefined ? this.categoryId : <any>null;
         data["accountTo"] = this.accountTo ? this.accountTo.toJSON() : <any>null;
         data["category"] = this.category ? this.category.toJSON() : <any>null;
         if (Array.isArray(this.tags)) {
@@ -6972,8 +7519,13 @@ export class TransactionDto {
             for (let item of this.attachments)
                 data["attachments"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
+}
+
+export enum SymbolPositionType {
+    _1 = 1,
+    _2 = 2,
 }
 
 export enum TransactionType {
@@ -7026,7 +7578,7 @@ export class RegisterDto {
         data["emailAddress"] = this.emailAddress !== undefined ? this.emailAddress : <any>null;
         data["password"] = this.password !== undefined ? this.password : <any>null;
         data["appName"] = this.appName !== undefined ? this.appName : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -7053,7 +7605,7 @@ export class ResetPasswordDto {
         data["userId"] = this.userId !== undefined ? this.userId : <any>null;
         data["resetToken"] = this.resetToken !== undefined ? this.resetToken : <any>null;
         data["password"] = this.password !== undefined ? this.password : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -7083,7 +7635,7 @@ export class SendPasswordResetCodeDto {
         data["appName"] = this.appName !== undefined ? this.appName : <any>null;
         data["returnUrl"] = this.returnUrl !== undefined ? this.returnUrl : <any>null;
         data["returnUrlHash"] = this.returnUrlHash !== undefined ? this.returnUrlHash : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -7107,7 +7659,7 @@ export class AbpLoginResult {
         data = typeof data === 'object' ? data : {};
         data["result"] = this.result !== undefined ? this.result : <any>null;
         data["description"] = this.description !== undefined ? this.description : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -7142,7 +7694,7 @@ export class UserLoginInfo {
         data["userNameOrEmailAddress"] = this.userNameOrEmailAddress !== undefined ? this.userNameOrEmailAddress : <any>null;
         data["password"] = this.password !== undefined ? this.password : <any>null;
         data["rememberMe"] = this.rememberMe !== undefined ? this.rememberMe : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -7174,7 +7726,7 @@ export class ListResultDto_1OfOfIdentityRoleDtoAndContractsAnd_0AndCulture_neutr
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 }
 
@@ -7206,7 +7758,7 @@ export class ListResultDto_1OfOfUserDataAndAbstractionsAnd_0AndCulture_neutralAn
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 }
 
@@ -7241,7 +7793,7 @@ export class PagedResultDto_1OfOfAccountDtoAndContractsAnd_0AndCulture_neutralAn
                 data["items"].push(item.toJSON());
         }
         data["totalCount"] = this.totalCount !== undefined ? this.totalCount : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -7276,7 +7828,42 @@ export class PagedResultDto_1OfOfCategoryDtoAndContractsAnd_0AndCulture_neutralA
                 data["items"].push(item.toJSON());
         }
         data["totalCount"] = this.totalCount !== undefined ? this.totalCount : <any>null;
-        return data;
+        return data; 
+    }
+}
+
+export class PagedResultDto_1OfOfCurrencyDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null {
+    items!: CurrencyDto[] | null;
+    totalCount!: number;
+
+    init(_data?: any, _mappings?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(CurrencyDto.fromJS(item, _mappings));
+            }
+            else {
+                this.items = <any>null;
+            }
+            this.totalCount = _data["totalCount"] !== undefined ? _data["totalCount"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any, _mappings?: any): PagedResultDto_1OfOfCurrencyDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null | null {
+        data = typeof data === 'object' ? data : {};
+        return createInstance<PagedResultDto_1OfOfCurrencyDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null>(data, _mappings, PagedResultDto_1OfOfCurrencyDtoAndContractsAnd_0AndCulture_neutralAndPublicKeyToken_null);
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount !== undefined ? this.totalCount : <any>null;
+        return data; 
     }
 }
 
@@ -7311,7 +7898,7 @@ export class PagedResultDto_1OfOfTagDtoAndContractsAnd_0AndCulture_neutralAndPub
                 data["items"].push(item.toJSON());
         }
         data["totalCount"] = this.totalCount !== undefined ? this.totalCount : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -7346,7 +7933,7 @@ export class PagedResultDto_1OfOfTransactionAttachmentDtoAndContractsAnd_0AndCul
                 data["items"].push(item.toJSON());
         }
         data["totalCount"] = this.totalCount !== undefined ? this.totalCount : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -7381,7 +7968,7 @@ export class PagedResultDto_1OfOfTransactionDtoAndContractsAnd_0AndCulture_neutr
                 data["items"].push(item.toJSON());
         }
         data["totalCount"] = this.totalCount !== undefined ? this.totalCount : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -7416,7 +8003,7 @@ export class PagedResultDto_1OfOfIdentityRoleDtoAndContractsAnd_0AndCulture_neut
                 data["items"].push(item.toJSON());
         }
         data["totalCount"] = this.totalCount !== undefined ? this.totalCount : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -7451,7 +8038,7 @@ export class PagedResultDto_1OfOfIdentityUserDtoAndContractsAnd_0AndCulture_neut
                 data["items"].push(item.toJSON());
         }
         data["totalCount"] = this.totalCount !== undefined ? this.totalCount : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -7486,7 +8073,7 @@ export class PagedResultDto_1OfOfTenantDtoAndContractsAnd_0AndCulture_neutralAnd
                 data["items"].push(item.toJSON());
         }
         data["totalCount"] = this.totalCount !== undefined ? this.totalCount : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -7540,7 +8127,7 @@ export class ApplicationAuthConfigurationDto {
                     (<any>data["grantedPolicies"])[key] = this.grantedPolicies[key] !== undefined ? this.grantedPolicies[key] : <any>null;
             }
         }
-        return data;
+        return data; 
     }
 }
 
@@ -7588,7 +8175,7 @@ export class ApplicationConfigurationDto {
         data["timing"] = this.timing ? this.timing.toJSON() : <any>null;
         data["clock"] = this.clock ? this.clock.toJSON() : <any>null;
         data["objectExtensions"] = this.objectExtensions ? this.objectExtensions.toJSON() : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -7624,7 +8211,7 @@ export class ApplicationFeatureConfigurationDto {
                     (<any>data["values"])[key] = this.values[key] !== undefined ? this.values[key] : <any>null;
             }
         }
-        return data;
+        return data; 
     }
 }
 
@@ -7716,7 +8303,7 @@ export class ApplicationLocalizationConfigurationDto {
                     (<any>data["languageFilesMap"])[key] = this.languageFilesMap[key] !== undefined ? this.languageFilesMap[key] : <any>null;
             }
         }
-        return data;
+        return data; 
     }
 }
 
@@ -7752,7 +8339,7 @@ export class ApplicationSettingConfigurationDto {
                     (<any>data["values"])[key] = this.values[key] !== undefined ? this.values[key] : <any>null;
             }
         }
-        return data;
+        return data; 
     }
 }
 
@@ -7773,7 +8360,7 @@ export class ClockDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["kind"] = this.kind !== undefined ? this.kind : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -7818,7 +8405,7 @@ export class CurrentCultureDto {
         data["name"] = this.name !== undefined ? this.name : <any>null;
         data["nativeName"] = this.nativeName !== undefined ? this.nativeName : <any>null;
         data["dateTimeFormat"] = this.dateTimeFormat ? this.dateTimeFormat.toJSON() : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -7880,7 +8467,7 @@ export class CurrentUserDto {
             for (let item of this.roles)
                 data["roles"].push(item);
         }
-        return data;
+        return data; 
     }
 }
 
@@ -7919,7 +8506,7 @@ export class DateTimeFormatDto {
         data["dateSeparator"] = this.dateSeparator !== undefined ? this.dateSeparator : <any>null;
         data["shortTimePattern"] = this.shortTimePattern !== undefined ? this.shortTimePattern : <any>null;
         data["longTimePattern"] = this.longTimePattern !== undefined ? this.longTimePattern : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -7940,7 +8527,7 @@ export class IanaTimeZone {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["timeZoneName"] = this.timeZoneName !== undefined ? this.timeZoneName : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -7994,7 +8581,7 @@ export class EntityExtensionDto {
                     (<any>data["configuration"])[key] = this.configuration[key] !== undefined ? this.configuration[key] : <any>null;
             }
         }
-        return data;
+        return data; 
     }
 }
 
@@ -8029,7 +8616,7 @@ export class ExtensionEnumDto {
                 data["fields"].push(item.toJSON());
         }
         data["localizationResource"] = this.localizationResource !== undefined ? this.localizationResource : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8053,7 +8640,7 @@ export class ExtensionEnumFieldDto {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name !== undefined ? this.name : <any>null;
         data["value"] = this.value !== undefined ? this.value : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8074,7 +8661,7 @@ export class ExtensionPropertyApiCreateDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["isAvailable"] = this.isAvailable !== undefined ? this.isAvailable : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8101,7 +8688,7 @@ export class ExtensionPropertyApiDto {
         data["onGet"] = this.onGet ? this.onGet.toJSON() : <any>null;
         data["onCreate"] = this.onCreate ? this.onCreate.toJSON() : <any>null;
         data["onUpdate"] = this.onUpdate ? this.onUpdate.toJSON() : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8122,7 +8709,7 @@ export class ExtensionPropertyApiGetDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["isAvailable"] = this.isAvailable !== undefined ? this.isAvailable : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8143,7 +8730,7 @@ export class ExtensionPropertyApiUpdateDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["isAvailable"] = this.isAvailable !== undefined ? this.isAvailable : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8182,7 +8769,7 @@ export class ExtensionPropertyAttributeDto {
                     (<any>data["config"])[key] = this.config[key] !== undefined ? this.config[key] : <any>null;
             }
         }
-        return data;
+        return data; 
     }
 }
 
@@ -8250,7 +8837,7 @@ export class ExtensionPropertyDto {
             }
         }
         data["defaultValue"] = this.defaultValue !== undefined ? this.defaultValue : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8280,7 +8867,7 @@ export class ExtensionPropertyUiDto {
         data["onCreateForm"] = this.onCreateForm ? this.onCreateForm.toJSON() : <any>null;
         data["onEditForm"] = this.onEditForm ? this.onEditForm.toJSON() : <any>null;
         data["lookup"] = this.lookup ? this.lookup.toJSON() : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8301,7 +8888,7 @@ export class ExtensionPropertyUiFormDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["isVisible"] = this.isVisible !== undefined ? this.isVisible : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8334,7 +8921,7 @@ export class ExtensionPropertyUiLookupDto {
         data["displayPropertyName"] = this.displayPropertyName !== undefined ? this.displayPropertyName : <any>null;
         data["valuePropertyName"] = this.valuePropertyName !== undefined ? this.valuePropertyName : <any>null;
         data["filterParamName"] = this.filterParamName !== undefined ? this.filterParamName : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8355,7 +8942,7 @@ export class ExtensionPropertyUiTableDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["isVisible"] = this.isVisible !== undefined ? this.isVisible : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8379,7 +8966,7 @@ export class LocalizableStringDto {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name !== undefined ? this.name : <any>null;
         data["resource"] = this.resource !== undefined ? this.resource : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8433,7 +9020,7 @@ export class ModuleExtensionDto {
                     (<any>data["configuration"])[key] = this.configuration[key] !== undefined ? this.configuration[key] : <any>null;
             }
         }
-        return data;
+        return data; 
     }
 }
 
@@ -8487,7 +9074,7 @@ export class ObjectExtensionsDto {
                     (<any>data["enums"])[key] = this.enums[key] ? this.enums[key].toJSON() : <any>null;
             }
         }
-        return data;
+        return data; 
     }
 }
 
@@ -8511,7 +9098,7 @@ export class TimeZone {
         data = typeof data === 'object' ? data : {};
         data["iana"] = this.iana ? this.iana.toJSON() : <any>null;
         data["windows"] = this.windows ? this.windows.toJSON() : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8532,7 +9119,7 @@ export class TimingDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["timeZone"] = this.timeZone ? this.timeZone.toJSON() : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8553,7 +9140,7 @@ export class WindowsTimeZone {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["timeZoneId"] = this.timeZoneId !== undefined ? this.timeZoneId : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8580,7 +9167,7 @@ export class CurrentTenantDto {
         data["id"] = this.id !== undefined ? this.id : <any>null;
         data["name"] = this.name !== undefined ? this.name : <any>null;
         data["isAvailable"] = this.isAvailable !== undefined ? this.isAvailable : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8607,7 +9194,7 @@ export class FindTenantResultDto {
         data["success"] = this.success !== undefined ? this.success : <any>null;
         data["tenantId"] = this.tenantId !== undefined ? this.tenantId : <any>null;
         data["name"] = this.name !== undefined ? this.name : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8628,7 +9215,7 @@ export class MultiTenancyInfoDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["isEnabled"] = this.isEnabled !== undefined ? this.isEnabled : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8670,7 +9257,7 @@ export class FeatureDto {
         data["valueType"] = this.valueType ? this.valueType.toJSON() : <any>null;
         data["depth"] = this.depth !== undefined ? this.depth : <any>null;
         data["parentName"] = this.parentName !== undefined ? this.parentName : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8708,7 +9295,7 @@ export class FeatureGroupDto {
             for (let item of this.features)
                 data["features"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 }
 
@@ -8732,7 +9319,7 @@ export class FeatureProviderDto {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name !== undefined ? this.name : <any>null;
         data["key"] = this.key !== undefined ? this.key : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8764,7 +9351,7 @@ export class GetFeatureListResultDto {
             for (let item of this.groups)
                 data["groups"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 }
 
@@ -8788,7 +9375,7 @@ export class UpdateFeatureDto {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name !== undefined ? this.name : <any>null;
         data["value"] = this.value !== undefined ? this.value : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8820,7 +9407,7 @@ export class UpdateFeaturesDto {
             for (let item of this.features)
                 data["features"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 }
 
@@ -8895,7 +9482,7 @@ export class ActionApiDescriptionModel {
                 data["parameters"].push(item.toJSON());
         }
         data["returnValue"] = this.returnValue ? this.returnValue.toJSON() : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -8949,7 +9536,7 @@ export class ApplicationApiDescriptionModel {
                     (<any>data["types"])[key] = this.types[key] ? this.types[key].toJSON() : <any>null;
             }
         }
-        return data;
+        return data; 
     }
 }
 
@@ -9005,7 +9592,7 @@ export class ControllerApiDescriptionModel {
                     (<any>data["actions"])[key] = this.actions[key] ? this.actions[key].toJSON() : <any>null;
             }
         }
-        return data;
+        return data; 
     }
 }
 
@@ -9026,7 +9613,7 @@ export class ControllerInterfaceApiDescriptionModel {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["type"] = this.type !== undefined ? this.type : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -9062,7 +9649,7 @@ export class MethodParameterApiDescriptionModel {
         data["typeSimple"] = this.typeSimple !== undefined ? this.typeSimple : <any>null;
         data["isOptional"] = this.isOptional !== undefined ? this.isOptional : <any>null;
         data["defaultValue"] = this.defaultValue !== undefined ? this.defaultValue : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -9104,7 +9691,7 @@ export class ModuleApiDescriptionModel {
                     (<any>data["controllers"])[key] = this.controllers[key] ? this.controllers[key].toJSON() : <any>null;
             }
         }
-        return data;
+        return data; 
     }
 }
 
@@ -9163,7 +9750,7 @@ export class ParameterApiDescriptionModel {
         }
         data["bindingSourceId"] = this.bindingSourceId !== undefined ? this.bindingSourceId : <any>null;
         data["descriptorName"] = this.descriptorName !== undefined ? this.descriptorName : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -9196,7 +9783,7 @@ export class PropertyApiDescriptionModel {
         data["type"] = this.type !== undefined ? this.type : <any>null;
         data["typeSimple"] = this.typeSimple !== undefined ? this.typeSimple : <any>null;
         data["isRequired"] = this.isRequired !== undefined ? this.isRequired : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -9220,7 +9807,7 @@ export class ReturnValueApiDescriptionModel {
         data = typeof data === 'object' ? data : {};
         data["type"] = this.type !== undefined ? this.type : <any>null;
         data["typeSimple"] = this.typeSimple !== undefined ? this.typeSimple : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -9300,7 +9887,7 @@ export class TypeApiDescriptionModel {
             for (let item of this.properties)
                 data["properties"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 }
 
@@ -9359,7 +9946,7 @@ export class RemoteServiceErrorInfo {
             for (let item of this.validationErrors)
                 data["validationErrors"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 }
 
@@ -9380,7 +9967,7 @@ export class RemoteServiceErrorResponse {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["error"] = this.error ? this.error.toJSON() : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -9415,7 +10002,7 @@ export class RemoteServiceValidationErrorInfo {
             for (let item of this.members)
                 data["members"].push(item);
         }
-        return data;
+        return data; 
     }
 }
 
@@ -9439,7 +10026,7 @@ export class ChangePasswordInput {
         data = typeof data === 'object' ? data : {};
         data["currentPassword"] = this.currentPassword !== undefined ? this.currentPassword : <any>null;
         data["newPassword"] = this.newPassword !== undefined ? this.newPassword : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -9484,7 +10071,7 @@ export class IdentityRoleCreateDto {
         data["name"] = this.name !== undefined ? this.name : <any>null;
         data["isDefault"] = this.isDefault !== undefined ? this.isDefault : <any>null;
         data["isPublic"] = this.isPublic !== undefined ? this.isPublic : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -9538,7 +10125,7 @@ export class IdentityRoleDto {
         data["isStatic"] = this.isStatic !== undefined ? this.isStatic : <any>null;
         data["isPublic"] = this.isPublic !== undefined ? this.isPublic : <any>null;
         data["concurrencyStamp"] = this.concurrencyStamp !== undefined ? this.concurrencyStamp : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -9586,7 +10173,7 @@ export class IdentityRoleUpdateDto {
         data["isDefault"] = this.isDefault !== undefined ? this.isDefault : <any>null;
         data["isPublic"] = this.isPublic !== undefined ? this.isPublic : <any>null;
         data["concurrencyStamp"] = this.concurrencyStamp !== undefined ? this.concurrencyStamp : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -9657,7 +10244,7 @@ export class IdentityUserCreateDto {
                 data["roleNames"].push(item);
         }
         data["password"] = this.password !== undefined ? this.password : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -9750,7 +10337,7 @@ export class IdentityUserDto {
         data["lockoutEnabled"] = this.lockoutEnabled !== undefined ? this.lockoutEnabled : <any>null;
         data["lockoutEnd"] = this.lockoutEnd ? this.lockoutEnd.toISOString() : <any>null;
         data["concurrencyStamp"] = this.concurrencyStamp !== undefined ? this.concurrencyStamp : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -9824,7 +10411,7 @@ export class IdentityUserUpdateDto {
         }
         data["password"] = this.password !== undefined ? this.password : <any>null;
         data["concurrencyStamp"] = this.concurrencyStamp !== undefined ? this.concurrencyStamp : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -9856,7 +10443,7 @@ export class IdentityUserUpdateRolesDto {
             for (let item of this.roleNames)
                 data["roleNames"].push(item);
         }
-        return data;
+        return data; 
     }
 }
 
@@ -9913,7 +10500,7 @@ export class ProfileDto {
         data["phoneNumber"] = this.phoneNumber !== undefined ? this.phoneNumber : <any>null;
         data["isExternal"] = this.isExternal !== undefined ? this.isExternal : <any>null;
         data["hasPassword"] = this.hasPassword !== undefined ? this.hasPassword : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -9964,7 +10551,7 @@ export class UpdateProfileDto {
         data["name"] = this.name !== undefined ? this.name : <any>null;
         data["surname"] = this.surname !== undefined ? this.surname : <any>null;
         data["phoneNumber"] = this.phoneNumber !== undefined ? this.phoneNumber : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -9994,7 +10581,7 @@ export class LanguageInfo {
         data["uiCultureName"] = this.uiCultureName !== undefined ? this.uiCultureName : <any>null;
         data["displayName"] = this.displayName !== undefined ? this.displayName : <any>null;
         data["flagIcon"] = this.flagIcon !== undefined ? this.flagIcon : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -10018,7 +10605,7 @@ export class NameValue {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name !== undefined ? this.name : <any>null;
         data["value"] = this.value !== undefined ? this.value : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -10053,7 +10640,7 @@ export class GetPermissionListResultDto {
             for (let item of this.groups)
                 data["groups"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 }
 
@@ -10111,7 +10698,7 @@ export class PermissionGrantInfoDto {
             for (let item of this.grantedProviders)
                 data["grantedProviders"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 }
 
@@ -10149,7 +10736,7 @@ export class PermissionGroupDto {
             for (let item of this.permissions)
                 data["permissions"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 }
 
@@ -10173,7 +10760,7 @@ export class ProviderInfoDto {
         data = typeof data === 'object' ? data : {};
         data["providerName"] = this.providerName !== undefined ? this.providerName : <any>null;
         data["providerKey"] = this.providerKey !== undefined ? this.providerKey : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -10197,7 +10784,7 @@ export class UpdatePermissionDto {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name !== undefined ? this.name : <any>null;
         data["isGranted"] = this.isGranted !== undefined ? this.isGranted : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -10229,7 +10816,7 @@ export class UpdatePermissionsDto {
             for (let item of this.permissions)
                 data["permissions"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 }
 
@@ -10274,7 +10861,7 @@ export class EmailSettingsDto {
         data["smtpUseDefaultCredentials"] = this.smtpUseDefaultCredentials !== undefined ? this.smtpUseDefaultCredentials : <any>null;
         data["defaultFromAddress"] = this.defaultFromAddress !== undefined ? this.defaultFromAddress : <any>null;
         data["defaultFromDisplayName"] = this.defaultFromDisplayName !== undefined ? this.defaultFromDisplayName : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -10319,7 +10906,7 @@ export class UpdateEmailSettingsDto {
         data["smtpUseDefaultCredentials"] = this.smtpUseDefaultCredentials !== undefined ? this.smtpUseDefaultCredentials : <any>null;
         data["defaultFromAddress"] = this.defaultFromAddress !== undefined ? this.defaultFromAddress : <any>null;
         data["defaultFromDisplayName"] = this.defaultFromDisplayName !== undefined ? this.defaultFromDisplayName : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -10364,7 +10951,7 @@ export class TenantCreateDto {
         data["name"] = this.name !== undefined ? this.name : <any>null;
         data["adminEmailAddress"] = this.adminEmailAddress !== undefined ? this.adminEmailAddress : <any>null;
         data["adminPassword"] = this.adminPassword !== undefined ? this.adminPassword : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -10406,7 +10993,7 @@ export class TenantDto {
         }
         data["id"] = this.id !== undefined ? this.id : <any>null;
         data["name"] = this.name !== undefined ? this.name : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -10445,7 +11032,7 @@ export class TenantUpdateDto {
             }
         }
         data["name"] = this.name !== undefined ? this.name : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -10490,7 +11077,7 @@ export class UserData {
         data["emailConfirmed"] = this.emailConfirmed !== undefined ? this.emailConfirmed : <any>null;
         data["phoneNumber"] = this.phoneNumber !== undefined ? this.phoneNumber : <any>null;
         data["phoneNumberConfirmed"] = this.phoneNumberConfirmed !== undefined ? this.phoneNumberConfirmed : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -10532,7 +11119,7 @@ export class IStringValueType {
             }
         }
         data["validator"] = this.validator ? this.validator.toJSON() : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -10571,7 +11158,7 @@ export class IValueValidator {
                     (<any>data["properties"])[key] = this.properties[key] !== undefined ? this.properties[key] : <any>null;
             }
         }
-        return data;
+        return data; 
     }
 }
 
@@ -10583,7 +11170,7 @@ function jsonParse(json: any, reviver?: any) {
     json = (function recurse(obj: any, prop?: any, parent?: any) {
         if (typeof obj !== 'object' || !obj)
             return obj;
-
+        
         if ("$ref" in obj) {
             let ref = obj.$ref;
             if (ref in byid)
@@ -10597,7 +11184,7 @@ function jsonParse(json: any, reviver?: any) {
                 obj = obj.$values;
             byid[id] = obj;
         }
-
+        
         if (Array.isArray(obj)) {
             obj = obj.map((v, i) => recurse(v, i, obj));
         } else {
@@ -10619,21 +11206,21 @@ function jsonParse(json: any, reviver?: any) {
 }
 
 function createInstance<T>(data: any, mappings: any, type: any): T | null {
-    if (!mappings)
-        mappings = [];
-    if (!data)
-        return null;
+  if (!mappings)
+    mappings = [];
+  if (!data)
+    return null;
 
-    const mappingIndexName = "__mappingIndex";
-    if (data[mappingIndexName])
-        return <T>mappings[data[mappingIndexName]].target;
+  const mappingIndexName = "__mappingIndex";
+  if (data[mappingIndexName])
+    return <T>mappings[data[mappingIndexName]].target;
 
-    data[mappingIndexName] = mappings.length;
+  data[mappingIndexName] = mappings.length;
 
-    let result: any = new type();
-    mappings.push({ source: data, target: result });
-    result.init(data, mappings);
-    return result;
+  let result: any = new type();
+  mappings.push({ source: data, target: result });
+  result.init(data, mappings);
+  return result;
 }
 
 export class ApiException extends Error {

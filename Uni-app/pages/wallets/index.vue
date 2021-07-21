@@ -5,34 +5,35 @@
 				<u-icon name="list" @click="showLeftMenu=true"></u-icon>
 			</view>
 		</u-navbar>
-		<u-popup v-model="showLeftMenu">
-			<u-cell-group class="left-menu-container">
-				<u-cell-item v-for="(item, index) in menus" :key="index" @click="toUrl(item.path)">
-					<u-icon slot="icon" :name="item.iconPath"></u-icon>
-					{{item.text}}
-				</u-cell-item>
-			</u-cell-group>
-		</u-popup>
-		<u-card @tap="toAccounts" title="账户" :sub-title="'包含在总计中 ' + total + '￥' ">
-			<view class="" slot="body">
-				<view v-for="(item,index) in accounts.filter(x=>x.includeInTotals)" :key="index"
-					class="u-body-item u-flex u-row-between u-p-b-0">
-					<view class="u-body-item-title u-line-2">{{item.title}}</view>
-					{{item.balance}} {{item.currency ? item.currency.symbol : '￥'}}
+		<view class="u-page">
+			<u-popup v-model="showLeftMenu" mode="right">
+				<u-cell-group class="left-menu-container">
+					<u-cell-item v-for="(item, index) in menus" :key="index" @click="toUrl(item.path)">
+						<u-icon slot="icon" :name="item.iconPath"></u-icon>
+						{{item.text}}
+					</u-cell-item>
+				</u-cell-group>
+			</u-popup>
+			<u-card @tap="toAccounts" title="账户" :sub-title="'包含在总计中 ' + total + '￥' ">
+				<view class="" slot="body">
+					<view v-for="(item,index) in accounts.filter(x=>x.includeInTotals)" :key="index"
+						class="u-body-item u-flex u-row-between u-p-b-0">
+						<view class="u-body-item-title u-line-2">{{item.title}}</view>
+						{{item.balance}} {{item.currency ? item.currency.symbol : '￥'}}
+					</view>
 				</view>
-			</view>
-		</u-card>
+			</u-card>
 
-		<u-card @tap="toTransactions" title="交易" sub-title="包含在总计中">
-			<view class="" slot="body">
-				<view v-for="(item,index) in transactions.filter(x=>x.includeInTotals)" :key="index"
-					class="u-body-item u-flex u-row-between u-p-b-0">
-					<view class="u-body-item-title u-line-2">{{item.note}}</view>
-					{{item.transactionType === 1?'-':''}}{{item.amount}} {{item.symbol}}
+			<u-card @tap="toTransactions" title="交易" sub-title="包含在总计中">
+				<view class="" slot="body">
+					<view v-for="(item,index) in transactions" :key="index"
+						class="u-body-item u-flex u-row-between u-p-b-0">
+						<view class="u-body-item-title u-line-2">{{item.note}}</view>
+						{{item.transactionType === 1?'-':''}}{{item.amount}} {{item.symbol}}
+					</view>
 				</view>
-			</view>
-		</u-card>
-	</view>
+			</u-card>
+		</view>
 	</view>
 </template>
 
@@ -114,15 +115,15 @@
 			numberToColor(val) {
 				return (val != undefined && val != null) ? '#' + Color.numberToHex(val) : 'white'
 			},
-			toUrl(url){
+			toUrl(url) {
 				wx.navigateTo({
 					url: url
 				})
 			},
-			toTransactions(){
+			toTransactions() {
 				this.toUrl('/pages/wallets/transactions/index')
 			},
-			toAccounts(){
+			toAccounts() {
 				this.toUrl('/pages/wallets/accounts/index')
 			}
 		}
@@ -137,8 +138,8 @@
 	.u-navbar-right-icon {
 		margin-right: 40rpx;
 	}
-	
-	.left-menu-container{
+
+	.left-menu-container {
 		margin-top: 80rpx;
 		width: 200rpx;
 	}

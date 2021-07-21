@@ -9,7 +9,7 @@ using Volo.Abp.Users;
 
 namespace SinsensApp.Wallets
 {
-    public class TagAppService : CrudAppService<Tag, TagDto, Guid, PagedAndSortedResultRequestDto, TagCreateUpdateDto, TagCreateUpdateDto>,
+    public class TagAppService : CrudAppService<Tag, TagDto, Guid, PagedAndSortedTagResultRequestDto, TagCreateUpdateDto, TagCreateUpdateDto>,
         ITagAppService
     {
         protected override string GetPolicyName { get; set; } = SinsensAppPermissions.Tag.Default;
@@ -33,12 +33,13 @@ namespace SinsensApp.Wallets
             return MapToGetOutputDto(entity);
         }
 
-        protected override async Task<IQueryable<Tag>> CreateFilteredQueryAsync(PagedAndSortedResultRequestDto input)
+        protected override async Task<IQueryable<Tag>> CreateFilteredQueryAsync(PagedAndSortedTagResultRequestDto input)
         {
             var query = await base.CreateFilteredQueryAsync(input);
 
             query = query.Where(x => x.IsDeleted == false)
-                .WhereIf(CurrentUser.Id.HasValue, x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id);
+                .WhereIf(CurrentUser.Id.HasValue, x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id)
+                .WhereIf(input.Ids.Any(), x => input.Ids.Contains(x.Id));
             return query;
         }
     }

@@ -1,19 +1,21 @@
 <template>
 	<view :style="{background: bgcolor || 'white', height: '100%', 'padding-bottom': '20rpx'}">
-		<u-navbar isBack={false} title="更新交易"></u-navbar>
+		<u-navbar isBack={false} title="新建交易"></u-navbar>
 		<u-card title="交易">
 			<view class="" slot="body">
-				<u-form :model="model" ref="uForm" :label-width="200">
+				<u-form :model="model" ref="uForm" label-width="200">
 					<u-form-item label="金额" prop="amount">
 						<u-input type="text" v-model="model.amount" @tap="showKeyboard = true" required
 							placeholder="交易金额" />
 						<u-keyboard mode="number" @backspace="backspace" @change="keyboardChange"
 							v-model="showKeyboard">
-							<view class="keyboard-tip" slot="default">当前输入内容：{{model.amount}} ￥</view>
+							<view class="keyboard-tip" slot="default">当前输入内容：{{model.amount}}</view>
 						</u-keyboard>
 					</u-form-item>
 					<u-form-item label="交易时间" prop="date">
-						<view @tap="showDate = true">{{ $u.timeFormat(model.date, 'yyyy年mm月dd日 hh:MM') ||'选择' }}</view>
+						<view @tap="showDate = true">
+							{{ model.date && $u.timeFormat(model.date, 'yyyy年mm月dd日 hh:MM') ||'选择' }}
+						</view>
 						<u-picker v-model="showDate" mode="time" :params="dateParams" @confirm="selectDate">
 						</u-picker>
 					</u-form-item>
@@ -36,8 +38,8 @@
 						</view>
 					</u-form-item>
 					<u-form-item label="标签" prop="tags">
-						<u-tag v-if="model && model.tags" v-for="(tag, index) in model.tags" :key="tag.id" :text="tag.title"
-							@tap="showTags = true">
+						<u-tag v-if="model && model.tags" v-for="(tag, index) in model.tags" :key="tag.id"
+							:text="tag.title" @tap="showTags = true">
 						</u-tag>
 						<view v-if="model && model.tags && model.tags.length < 1" @tap="showTags = true">选择</view>
 						<TagPicker :show="showTags" :checkedIds="model.tags" @confirm="selectTags">
@@ -67,10 +69,14 @@
 	import Color from '@/common/color'
 	import TagPicker from '@/components/tag-picker'
 	import CategoryPicker from '@/components/category-picker'
+
 	import {
 		request,
-		requestPut
+		requestPost
 	} from '@/api/service-base'
+	import {
+		CreateUpdateTransactionDto
+	} from '@/api/service-proxies'
 	export default {
 		components: {
 			TagPicker,
@@ -78,7 +84,7 @@
 		},
 		data() {
 			return {
-				model: {},
+				model: new CreateUpdateTransactionDto(),
 				show: false,
 				showDate: false,
 				dateParams: {
@@ -123,15 +129,6 @@
 		},
 		onLoad(options) {
 			request({
-				url: `/api/app/transaction/${options.id}`
-			}).then(res => {
-				this.model = res.data
-				this.model.amout = (this.model.amount || '').toString()
-				if (this.model.category) {
-					this.bgcolor = '#' + Color.numberToHex(this.model.category.color)
-				}
-			})
-			request({
 				url: `/api/app/account?MaxResultCount=100`
 			}).then(res => {
 				const list = []
@@ -146,9 +143,9 @@
 			})
 		},
 		onReady() {
+			this.model.tags = []
 			this.$refs.uForm.setRules(this.rules)
 		},
-		mounted() {},
 		methods: {
 			keyboardChange(val) {
 				this.model.amount = (this.model.amount || '').toString() + val
@@ -230,11 +227,12 @@
 						break
 				}
 				const that = this
+				console.log(this.model)
 				this.$refs.uForm.validate(valid => {
 					if (valid) {
 						console.log('验证通过')
-						requestPut({
-							url: `/api/app/transaction/${this.model.id}`,
+						requestPost({
+							url: `/api/app/transaction`,
 							data: this.model
 						}).then((res) => {
 							console.log(res)

@@ -7,8 +7,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Update;
 using SinsensApp.Permissions;
 using SinsensApp.Wallets.Dtos;
+using SinsensApp.Wallets.Event;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.EventBus.Local;
 using Volo.Abp.Users;
 
 namespace SinsensApp.Wallets
@@ -22,13 +24,19 @@ namespace SinsensApp.Wallets
         protected override string UpdatePolicyName { get; set; } = SinsensAppPermissions.Transaction.Update;
         protected override string DeletePolicyName { get; set; } = SinsensAppPermissions.Transaction.Delete;
 
+        private readonly ILocalEventBus _localEventBus;
         private readonly ITransactionRepository _repository;
         private readonly IAccountRepository _repositoryAccount;
+        private readonly IRateRepository _repositoryRate;
 
-        public TransactionAppService(ITransactionRepository repository, IAccountRepository repositoryAccount) : base(repository)
+        public TransactionAppService(
+            ILocalEventBus localEventBus,
+            ITransactionRepository repository, IAccountRepository repositoryAccount, IRateRepository repositoryRate) : base(repository)
         {
+            _localEventBus = localEventBus;
             _repository = repository;
             _repositoryAccount = repositoryAccount;
+            _repositoryRate = repositoryRate;
         }
 
         public override async Task<TransactionDto> GetAsync(Guid id)
@@ -42,23 +50,22 @@ namespace SinsensApp.Wallets
         public override async Task<TransactionDto> UpdateAsync(Guid id, CreateUpdateTransactionDto input)
         {
             var entity = await Repository.GetAsync(id);
-            
-            MapToEntity(input, entity);
 
-            if (input.AccountFromId.HasValue)
+            MapToEntity(input, entity);
+            if (input.TransactionType == TransactionType.Transfer && input.AccountFrom != null && input.AccountTo != null)
             {
-                entity.AccountFromId = input.AccountFromId.Value;
-            }
-            if (input.AccountToId.HasValue)
-            {
-                entity.AccountToId = input.AccountToId;
-            }
-            if (input.Category != null)
-            {
-                entity.CategoryId = input.Category.Id;
+                if (input.AccountFrom.CurrencyCode != input.AccountTo.CurrencyCode)
+                {
+                    var rate = await _repositoryRate.GetAsync(x => x.FromCode == input.AccountFrom.CurrencyCode && x.ToCode == input.AccountTo.CurrencyCode);
+                    if (rate != null)
+                    {
+                        entity.ExchangeRate = rate.Ratio;
+                    }
+                }
             }
 
             await Repository.UpdateAsync(entity);
+            await _localEventBus.PublishAsync(new TransactionUpdatedEventEto(entity));
 
             return MapToGetOutputDto(entity);
         }
@@ -67,7 +74,20 @@ namespace SinsensApp.Wallets
         {
             var entity = MapToEntity(input);
             entity.UserId = CurrentUser.GetId();
+            if (input.TransactionType == TransactionType.Transfer && input.AccountFrom != null && input.AccountTo != null)
+            {
+                if (input.AccountFrom.CurrencyCode != input.AccountTo.CurrencyCode)
+                {
+                    var rate = await _repositoryRate.GetAsync(x => x.FromCode == input.AccountFrom.CurrencyCode && x.ToCode == input.AccountTo.CurrencyCode);
+                    if (rate != null)
+                    {
+                        entity.ExchangeRate = rate.Ratio;
+                    }
+                }
+            }
+            await _localEventBus.PublishAsync(new TransactionCreatingEventEto(entity));
             await Repository.InsertAsync(entity);
+
             return MapToGetOutputDto(entity);
         }
 
@@ -77,7 +97,7 @@ namespace SinsensApp.Wallets
 
             query = query.Where(x => x.IsDeleted == false)
                 .WhereIf(CurrentUser.Id.HasValue, x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id);
-            return query.PageBy(input);
+            return query.OrderBy(x => x.TransactionState).PageBy(input);
         }
 
         protected override async Task<List<TransactionDto>> MapToGetListOutputDtosAsync(List<Transaction> entities)

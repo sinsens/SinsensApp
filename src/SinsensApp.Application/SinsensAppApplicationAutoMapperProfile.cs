@@ -20,7 +20,11 @@ namespace SinsensApp
             CreateMap<CreateUpdateCategoryDto, Category>(MemberList.Source);
             CreateMap<CreateUpdateTransactionDto, Transaction>(MemberList.Source)
                 .ForMember(x => x.Category, e => e.Ignore())
-                .ForMember(x => x.CategoryId, e => e.MapFrom(dto => dto.CategoryId));
+                .ForMember(x => x.CategoryId, e => e.MapFrom(dto => dto.Category.Id))
+                .ForMember(x => x.AccountFrom, e => e.Ignore())
+                .ForMember(x => x.AccountFromId, e => e.MapFrom(dto => dto.AccountFrom.Id))
+                .ForMember(x => x.AccountTo, e => e.Ignore())
+                .ForMember(x => x.AccountToId, e => e.MapFrom(dto => dto.AccountTo.Id));
 
             CreateMap<Transaction, TransactionDto>()
                 .ForMember(dto => dto.TransactionTypeDescription, e => e.MapFrom(entity => entity.TransactionType.GetEnumDescription()));
@@ -29,7 +33,7 @@ namespace SinsensApp
             CreateMap<AccountCreateUpdateDto, Account>(MemberList.Source);
             CreateMap<CategoryDto, Category>();
             CreateMap<CategoryCreateUpdateDto, Category>(MemberList.Source);
-            CreateMap<Tag, TagDto>();
+            CreateMap<TagDto, Tag>();
             CreateMap<TagCreateUpdateDto, Tag>(MemberList.Source);
             CreateMap<TransactionAttachment, TransactionAttachmentDto>();
             CreateMap<TransactionAttachmentCreateUpdateDto, TransactionAttachment>(MemberList.Source);

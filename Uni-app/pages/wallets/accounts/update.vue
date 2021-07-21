@@ -67,7 +67,6 @@
 				}
 			}
 		},
-		mounted() {},
 		onReady() {
 			this.$refs.uForm.setRules(this.rules);
 		},
@@ -125,7 +124,7 @@
 						console.log('验证失败');
 						return;
 					}
-				});
+				})
 			}
 		}
 	}

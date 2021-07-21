@@ -69,7 +69,7 @@ namespace SinsensApp.Wallets
         /// <summary>
         /// 汇率
         /// </summary>
-        public decimal? ExchangeRate { get; set; } = 1;
+        public decimal ExchangeRate { get; set; } = 1;
 
         /// <summary>
         /// 备注
@@ -78,7 +78,7 @@ namespace SinsensApp.Wallets
         public string Note { get; set; }
 
         /// <summary>
-        /// 交易状态
+        /// 交易状态：true-已确认
         /// </summary>
         public bool TransactionState { get; set; }
 

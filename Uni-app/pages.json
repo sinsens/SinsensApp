@@ -66,6 +66,11 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		}, {
+			"path": "transactions/create",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}]
 	}],
 	"preloadRule": {

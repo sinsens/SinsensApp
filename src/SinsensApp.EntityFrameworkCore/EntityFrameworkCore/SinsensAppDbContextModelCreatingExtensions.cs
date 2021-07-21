@@ -31,7 +31,7 @@ namespace SinsensApp.EntityFrameworkCore
                 b.Ignore(c => c.AccountFrom).Ignore(c => c.AccountTo);
                 //b.Navigation(c => c.AccountTo).IsRequired(false);
                 //b.Navigation(c => c.AccountFrom).IsRequired(false);
-
+                b.Property(c => c.ExchangeRate).HasPrecision(10, 2);
                 b.ToTable(SinsensAppConsts.WalletDbTablePrefix + "Transactions", SinsensAppConsts.DbSchema);
                 b.ConfigureByConvention();
 
@@ -48,6 +48,7 @@ namespace SinsensApp.EntityFrameworkCore
             builder.Entity<Tag>(b =>
             {
                 b.ToTable(SinsensAppConsts.WalletDbTablePrefix + "Tags", SinsensAppConsts.DbSchema);
+                b.HasMany(c => c.Transactions).WithMany(t => t.Tags);
                 b.ConfigureByConvention();
 
                 /* Configure more properties here */
