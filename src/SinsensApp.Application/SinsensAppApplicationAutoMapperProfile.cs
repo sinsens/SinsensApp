@@ -3,6 +3,9 @@ using SinsensApp.Wallets.Dtos;
 using AutoMapper;
 using SinsensApp.Helper;
 using Volo.Abp.AutoMapper;
+using SinsensApp.Wallets.Dtos.backup;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SinsensApp
 {
@@ -38,6 +41,21 @@ namespace SinsensApp
             CreateMap<TransactionAttachment, TransactionAttachmentDto>();
             CreateMap<TransactionAttachmentCreateUpdateDto, TransactionAttachment>(MemberList.Source);
             CreateMap<Currency, CurrencyDto>();
+
+            #region backup and restore
+
+            CreateMap<Account, AccountsItemDto>().ReverseMap();
+            CreateMap<Category, CategoriesItemDto>().ReverseMap();
+            CreateMap<Tag, TagsItemDto>().ReverseMap();
+            CreateMap<Currency, CurrenciesItemDto>().ReverseMap();
+            CreateMap<Transaction, TransactionsItemDto>()
+                .ForMember(x => x.date, e => e.MapFrom(entity => entity.Date.HasValue ? UnixTimeHelper.DateTimeToUnixTime(entity.Date.Value) : 0))
+                .ForMember(x => x.tag_ids, e => e.MapFrom(entity => entity.Tags.Select(t => t.Id)))
+                .ForMember(x => x.account_from_id, e => e.MapFrom(entity => entity.AccountFromId))
+                .ForMember(x => x.account_to_id, e => e.MapFrom(entity => entity.AccountToId))
+                .ReverseMap().ForMember(entity => entity.Date, e => e.MapFrom(dto => UnixTimeHelper.UnixTimeToDateTime(dto.date)));
+
+            #endregion backup and restore
         }
     }
 }

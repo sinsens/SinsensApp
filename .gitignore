@@ -262,3 +262,4 @@ src/SinsensApp.HttpApi.HostWithIds/Logs/*
 src/SinsensApp.DbMigrator/Logs/*
 src/SinsensApp.Blazor.Server/Logs/*
 src/SinsensApp.Blazor.Server.Tiered/Logs/*
+src/SinsensApp.Web/wwwroot/Temp/
