@@ -8,12 +8,7 @@
 						<u-input v-model="model.title" required placeholder="主题" maxlength="32" />
 					</u-form-item>
 					<u-form-item label="余额" prop="balance">
-						<u-input type="text" v-model="model.balance"
-							@tap="showKeyboard = true;keyboardValue = model.balance" required placeholder="账户余额" />
-						<u-keyboard mode="number" @backspace="backspace" @change="keyboardChange"
-							v-model="showKeyboard">
-							<view class="keyboard-tip" slot="default">当前输入内容：{{keyboardValue}}</view>
-						</u-keyboard>
+						<u-input type="number" v-model="model.balance" placeholder="账户余额" />
 					</u-form-item>
 					<u-form-item label="货币" prop="currencyCode">
 						<u-select v-model="show" :list="currenciesItems" @confirm="selectCurrency"></u-select>
@@ -47,8 +42,6 @@
 		data() {
 			return {
 				show: false,
-				showKeyboard: false,
-				keyboardValue: '',
 				model: new AccountCreateUpdateDto(),
 				currencies: [],
 				currenciesItems: [],
@@ -60,7 +53,14 @@
 					currencyCode: {
 						required: true,
 						message: '请选择货币'
-					}
+					},
+					balance: [{
+						required: true,
+						message: '请输入金额'
+					}, {
+						type: 'number',
+						message: '请输入正确的金额'
+					}]
 				}
 			}
 		},
@@ -81,21 +81,25 @@
 			})
 		},
 		onReady() {
+			this.model.balance = '0'
 			this.$refs.uForm.setRules(this.rules);
 		},
 		methods: {
 			keyboardChange(val) {
-				this.keyboardValue += val
-				this.model.balance = this.keyboardValue
+				this.model.balance = (this.model.balance || '0').toString()
+				if (this.model.balance === '0' && val != '.') {
+					this.model.balance = val
+				} else {
+					this.model.balance += val
+				}
 			},
 			backspace() {
-				if (typeof(this.keyboardValue) == 'number') {
-					this.keyboardValue = (this.keyboardValue).toString()
+				let value = (this.model.balance || '').toString()
+				if (value.length) {
+					value = value.substr(0, value.length - 1)
 				}
-				if (this.keyboardValue.length) this.keyboardValue = this.keyboardValue.substr(0, this.keyboardValue
-					.length - 1);
-				this.model.balance = this.keyboardValue
-				console.log(this.keyboardValue);
+				this.model.balance = value || '0'
+				console.log(value);
 			},
 			selectCurrency(e) {
 				if (e) {

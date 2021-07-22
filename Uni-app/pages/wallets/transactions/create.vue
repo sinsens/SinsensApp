@@ -5,12 +5,7 @@
 			<view class="" slot="body">
 				<u-form :model="model" ref="uForm" label-width="200">
 					<u-form-item label="金额" prop="amount">
-						<u-input type="text" v-model="model.amount" @tap="showKeyboard = true" required
-							placeholder="交易金额" />
-						<u-keyboard mode="number" @backspace="backspace" @change="keyboardChange"
-							v-model="showKeyboard">
-							<view class="keyboard-tip" slot="default">当前输入内容：{{model.amount}}</view>
-						</u-keyboard>
+						<u-input type="text" v-model="model.amount" placeholder="交易金额" />
 					</u-form-item>
 					<u-form-item label="交易时间" prop="date">
 						<view @tap="showDate = true">
@@ -96,18 +91,19 @@
 					second: false,
 					timestamp: true
 				},
-				showKeyboard: false,
 				showAccountFrom: false,
 				showAccountTo: false,
 				showTags: false,
-				keyboardValue: '',
 				accounts: [],
 				bgcolor: '',
 				rules: {
-					amount: {
+					amount: [{
 						required: true,
-						message: '请输入交易金额'
-					},
+						message: '请输入金额'
+					}, {
+						type: 'number',
+						message: '请输入正确的金额'
+					}],
 					date: {
 						required: true,
 						message: '请选择交易时间'
@@ -142,22 +138,12 @@
 				this.accounts = list
 			})
 		},
-		onReady() {
+		mounted() {
 			this.model.tags = []
+			this.model.amount = 0
 			this.$refs.uForm.setRules(this.rules)
 		},
 		methods: {
-			keyboardChange(val) {
-				this.model.amount = (this.model.amount || '').toString() + val
-			},
-			backspace() {
-				let value = (this.model.amount || '').toString()
-				if (value.length) {
-					value = value.substr(0, value.length - 1)
-				}
-				this.model.amount = value || '0'
-				console.log(value);
-			},
 			selectTags(val) {
 				this.model.tags = val
 				this.showTags = false

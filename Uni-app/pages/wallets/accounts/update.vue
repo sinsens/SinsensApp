@@ -8,12 +8,14 @@
 						<u-input v-model="model.title" required placeholder="主题" maxlength="32" />
 					</u-form-item>
 					<u-form-item label="余额" prop="balance">
-						<u-input type="text" v-model="model.balance"
-							@tap="showKeyboard = true;keyboardValue = model.balance" required placeholder="账户余额">￥
+						<u-input type="text" v-model="model.balance" @tap="showKeyboard = true" required
+							placeholder="账户余额">￥
 						</u-input>
 						<u-keyboard mode="number" @backspace="backspace" @change="keyboardChange"
 							v-model="showKeyboard">
-							<view class="keyboard-tip" slot="default">当前输入内容：{{keyboardValue}}</view>
+							<view class="keyboard-tip" slot="default">当前输入内容：{{this.model.balance}}
+								{{model.currency && model.currency.symbol || '￥'}}
+							</view>
 						</u-keyboard>
 					</u-form-item>
 					<u-form-item label="货币">
@@ -55,15 +57,20 @@
 		data() {
 			return {
 				show: false,
-				showKeyboard: false,
-				keyboardValue: '',
 				model: new AccountCreateUpdateDto(),
 				currencies: [],
 				rules: {
 					title: {
 						required: true,
 						message: '请输入主题'
-					}
+					},
+					balance: [{
+						required: true,
+						message: '请输入金额'
+					}, {
+						type: 'number',
+						message: '请输入正确的金额'
+					}]
 				}
 			}
 		},
@@ -75,19 +82,6 @@
 				if (e) {
 					this.model.currencyCode = e[0].value
 				}
-			},
-			keyboardChange(val) {
-				this.keyboardValue += val
-				this.model.balance = this.keyboardValue
-			},
-			backspace() {
-				if (typeof(this.keyboardValue) == 'number') {
-					this.keyboardValue = (this.keyboardValue).toString()
-				}
-				if (this.keyboardValue.length) this.keyboardValue = this.keyboardValue.substr(0, this.keyboardValue
-					.length - 1);
-				this.model.balance = this.keyboardValue
-				console.log(this.keyboardValue);
 			},
 			back() {
 				uni.navigateBack()
