@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-navbar :custom-back="back" title="账户">
+		<u-navbar title="账户">
 			<view class="u-navbar-right" slot="right">
 				<u-icon name="plus" @tap="toCreate"></u-icon>
 			</view>
@@ -59,11 +59,6 @@
 			toUpdate(id) {
 				uni.navigateTo({
 					url: `/pages/wallets/accounts/update?id=${id}`
-				})
-			},
-			back() {
-				uni.reLaunch({
-					url: '/pages/wallets/index'
 				})
 			}
 		}

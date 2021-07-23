@@ -3,7 +3,7 @@
 		<view class="top"></view>
 		<view class="content">
 			<view class="title">欢迎注册 Sinsen' App</view>
-			<u-form :model="registerInput" ref="uForm">
+			<u-form :model="registerInput" ref="uForm" label-width="200">
 				<u-form-item label="用户名" prop="userName">
 					<u-input type="text" v-model="registerInput.userName" placeholder="请输入用户名" />
 				</u-form-item>

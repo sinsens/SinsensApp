@@ -11,10 +11,10 @@ namespace SinsensApp.Helper
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public static long DateTimeToUnixTime(DateTime dateTime)
+        public static long ToUnixTimeMilliseconds(DateTime dateTime)
         {
             DateTimeOffset dto = new DateTimeOffset(dateTime);
-            return dto.ToUnixTimeSeconds();
+            return dto.ToUnixTimeMilliseconds();
         }
 
         /// <summary>
@@ -22,9 +22,9 @@ namespace SinsensApp.Helper
         /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
-        public static DateTime UnixTimeToDateTime(long time)
+        public static DateTime FromUnixTimeMilliseconds(long time)
         {
-            var dto = DateTimeOffset.FromUnixTimeSeconds(time);
+            var dto = DateTimeOffset.FromUnixTimeMilliseconds(time);
             return dto.ToLocalTime().DateTime;
         }
     }

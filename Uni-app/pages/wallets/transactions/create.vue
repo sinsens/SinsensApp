@@ -1,6 +1,6 @@
 <template>
 	<view :style="{background: bgcolor || 'white', height: '100%', 'padding-bottom': '20rpx'}">
-		<u-navbar isBack={false} title="新建交易"></u-navbar>
+		<u-navbar title="新建交易"></u-navbar>
 		<u-card title="交易">
 			<view class="" slot="body">
 				<u-form :model="model" ref="uForm" label-width="200">

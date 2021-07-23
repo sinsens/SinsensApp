@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Update;
 using SinsensApp.Permissions;
@@ -15,6 +16,7 @@ using Volo.Abp.Users;
 
 namespace SinsensApp.Wallets
 {
+    [Authorize]
     public class TransactionAppService : CrudAppService<Transaction, TransactionDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateTransactionDto, CreateUpdateTransactionDto>,
         ITransactionAppService
     {
@@ -97,7 +99,7 @@ namespace SinsensApp.Wallets
 
             query = query.Where(x => x.IsDeleted == false)
                 .WhereIf(CurrentUser.Id.HasValue, x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id);
-            return query.OrderBy(x => x.TransactionState).PageBy(input);
+            return query.OrderBy(x => x.TransactionState).OrderByDescending(x => x.Date).PageBy(input);
         }
 
         protected override async Task<List<TransactionDto>> MapToGetListOutputDtosAsync(List<Transaction> entities)

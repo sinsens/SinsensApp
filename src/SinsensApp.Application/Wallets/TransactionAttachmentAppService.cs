@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SinsensApp.Permissions;
 using SinsensApp.Wallets.Dtos;
@@ -9,6 +10,7 @@ using Volo.Abp.Users;
 
 namespace SinsensApp.Wallets
 {
+    [Authorize]
     public class TransactionAttachmentAppService : CrudAppService<TransactionAttachment, TransactionAttachmentDto, Guid, PagedAndSortedResultRequestDto, TransactionAttachmentCreateUpdateDto, TransactionAttachmentCreateUpdateDto>,
         ITransactionAttachmentAppService
     {

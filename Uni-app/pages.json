@@ -71,6 +71,17 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		}, {
+			"path": "index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "backup/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}]
 	}],
 	"preloadRule": {

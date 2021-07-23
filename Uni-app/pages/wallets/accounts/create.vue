@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-navbar isBack={false} title="新建账户"></u-navbar>
+		<u-navbar title="新建账户"></u-navbar>
 		<u-card title="账户">
 			<view class="" slot="body">
 				<u-form :model="model" ref="uForm">

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using SinsensApp.Permissions;
 using SinsensApp.Wallets.Dtos;
@@ -11,6 +12,7 @@ using Volo.Abp.Users;
 
 namespace SinsensApp.Wallets
 {
+    [Authorize]
     public class AccountAppService : CrudAppService<Account, AccountDto, Guid, PagedAndSortedAccountResultRequestDto, AccountCreateUpdateDto, AccountCreateUpdateDto>,
         IAccountAppService
     {

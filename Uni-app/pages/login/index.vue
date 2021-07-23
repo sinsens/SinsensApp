@@ -3,7 +3,7 @@
 		<view class="top"></view>
 		<view class="content">
 			<view class="title">欢迎登录 Sinsen' App</view>
-			<u-form :model="model" ref="uForm">
+			<u-form :model="model" ref="uForm" label-width="200">
 				<u-form-item label="用户" prop="userNameOrEmailAddress">
 					<u-input type="text" v-model="model.userNameOrEmailAddress" placeholder="用户名或 Email" />
 				</u-form-item>

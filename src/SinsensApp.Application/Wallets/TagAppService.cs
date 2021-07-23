@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using SinsensApp.Permissions;
 using SinsensApp.Wallets.Dtos;
 using Volo.Abp.Application.Dtos;
@@ -9,6 +10,7 @@ using Volo.Abp.Users;
 
 namespace SinsensApp.Wallets
 {
+    [Authorize]
     public class TagAppService : CrudAppService<Tag, TagDto, Guid, PagedAndSortedTagResultRequestDto, TagCreateUpdateDto, TagCreateUpdateDto>,
         ITagAppService
     {

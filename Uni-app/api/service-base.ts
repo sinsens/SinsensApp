@@ -19,8 +19,7 @@ export function requestPut<U = any>(option: RequestOptions<U>){
 	return request(option)
 }
 
-export function request<U = any>(option: RequestOptions<U>) {
-
+export function getHeader<U = any>(option: RequestOptions<U>){
 	if(typeof(option) != 'object')
 		option = {}
 	
@@ -43,7 +42,11 @@ export function request<U = any>(option: RequestOptions<U>) {
 	if(store.state.vuex_tenant_id && !option.header['Tenant-Id']){	
 		option.header['Tenant-Id'] =  store.state.vuex_tenant_id
 	}
-		
+	return option
+}
+
+export function request<U = any>(option: RequestOptions<U>) {
+	option = getHeader(option)
 	// 异常处理
 	if(option.fail){
 		const func = option.fail
