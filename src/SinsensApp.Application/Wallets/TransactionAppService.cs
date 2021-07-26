@@ -30,15 +30,20 @@ namespace SinsensApp.Wallets
         private readonly ITransactionRepository _repository;
         private readonly IAccountRepository _repositoryAccount;
         private readonly IRateRepository _repositoryRate;
+        private readonly ITagRepository _repositoryTag;
 
         public TransactionAppService(
             ILocalEventBus localEventBus,
-            ITransactionRepository repository, IAccountRepository repositoryAccount, IRateRepository repositoryRate) : base(repository)
+            ITransactionRepository repository,
+            IAccountRepository repositoryAccount,
+            IRateRepository repositoryRate,
+            ITagRepository repositoryTag) : base(repository)
         {
             _localEventBus = localEventBus;
             _repository = repository;
             _repositoryAccount = repositoryAccount;
             _repositoryRate = repositoryRate;
+            _repositoryTag = repositoryTag;
         }
 
         public override async Task<TransactionDto> GetAsync(Guid id)
@@ -65,10 +70,26 @@ namespace SinsensApp.Wallets
                     }
                 }
             }
-
+            entity.AccountFrom = null;
+            entity.AccountTo = null;
+            if (input.AccountFrom != null)
+            {
+                entity.AccountFrom = await _repositoryAccount.GetAsync(x => x.Id == input.AccountFrom.Id);
+            }
+            if (input.AccountTo != null)
+            {
+                entity.AccountTo = await _repositoryAccount.GetAsync(x => x.Id == input.AccountTo.Id);
+            }
+            entity.Tags.Clear();
+            if (input.Tags.Any())
+            {
+                var tagIds = input.Tags.Select(x => x.Id).ToList();
+                var tags = await _repositoryTag.GetListAsync(x => tagIds.Contains(x.Id));
+                entity.Tags = tags;
+            }
             await Repository.UpdateAsync(entity);
             await _localEventBus.PublishAsync(new TransactionUpdatedEventEto(entity));
-
+            await CurrentUnitOfWork.SaveChangesAsync();
             return MapToGetOutputDto(entity);
         }
 
@@ -87,9 +108,26 @@ namespace SinsensApp.Wallets
                     }
                 }
             }
+            entity.AccountFrom = null;
+            entity.AccountTo = null;
+            if (input.AccountFrom != null)
+            {
+                entity.AccountFrom = await _repositoryAccount.GetAsync(x => x.Id == input.AccountFrom.Id);
+            }
+            if (input.AccountTo != null)
+            {
+                entity.AccountTo = await _repositoryAccount.GetAsync(x => x.Id == input.AccountTo.Id);
+            }
+            entity.Tags.Clear();
+            if (input.Tags.Any())
+            {
+                var tagIds = input.Tags.Select(x => x.Id).ToList();
+                var tags = await _repositoryTag.GetListAsync(x => tagIds.Contains(x.Id));
+                entity.Tags = tags;
+            }
             await _localEventBus.PublishAsync(new TransactionCreatingEventEto(entity));
             await Repository.InsertAsync(entity);
-
+            await CurrentUnitOfWork.SaveChangesAsync();
             return MapToGetOutputDto(entity);
         }
 
@@ -99,13 +137,18 @@ namespace SinsensApp.Wallets
 
             query = query.Where(x => x.IsDeleted == false)
                 .WhereIf(CurrentUser.Id.HasValue, x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id);
-            return query.OrderByDescending(x => x.Date).OrderBy(x => x.TransactionState);
+            return query;
         }
 
         protected override async Task<List<TransactionDto>> MapToGetListOutputDtosAsync(List<Transaction> entities)
         {
             await IncludeDetails(entities);
             return await base.MapToGetListOutputDtosAsync(entities);
+        }
+
+        protected override IQueryable<Transaction> ApplyDefaultSorting(IQueryable<Transaction> query)
+        {
+            return query.OrderBy(x => x.TransactionState).ThenByDescending(x => x.Date);
         }
 
         private async Task<List<Transaction>> IncludeDetails(List<Transaction> entities)

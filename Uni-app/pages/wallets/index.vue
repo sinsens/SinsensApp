@@ -96,7 +96,7 @@
 						iconPath: "tags",
 						text: '标签',
 						path: '/pages/wallets/tags/index'
-					},{
+					}, {
 						iconPath: 'download',
 						text: '备份',
 						path: '/pages/wallets/backup/index'
@@ -112,7 +112,7 @@
 					if (it.includeInTotals)
 						tmp += it.balance
 				})
-				return tmp
+				return (tmp).toString().indexOf('.') ? (tmp).toFixed(2) : tmp
 			}
 		},
 		methods: {

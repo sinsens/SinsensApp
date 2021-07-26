@@ -49,11 +49,11 @@
 				return this.page * this.max
 			},
 			totalBalance() {
-				let val = 0
+				let val = 0.0
 				for (const account of this.accounts) {
 					val += account.balance
 				}
-				return val + ' ￥'
+				return (val).toString().indexOf('.') ? (val).toFixed(2) : val
 			}
 		},
 		methods: {

@@ -7,6 +7,7 @@ using Volo.Abp.BackgroundWorkers;
 using Volo.Abp.Data;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
+using Volo.Abp.Json;
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.SettingManagement;
@@ -35,6 +36,10 @@ namespace SinsensApp
             Configure<AbpDataFilterOptions>(options =>
             {
                 options.DefaultStates[typeof(ISoftDelete)] = new DataFilterState(isEnabled: true);
+            });
+            PreConfigure<AbpJsonOptions>(options =>
+            {
+                options.UseHybridSerializer = false;
             });
         }
 

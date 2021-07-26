@@ -23,7 +23,7 @@ namespace SinsensApp.Wallets.Dtos
         public ICollection<TagDto> Tags { get; set; }
 
         [Required(ErrorMessage = "请选择交易时间")]
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
 
         [Required(ErrorMessage = "请输入交易金额")]
         [Range(-99999999, 999999999999, ErrorMessage = "交易金额应在 -99999999~999999999999 之间")]

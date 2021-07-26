@@ -9,8 +9,10 @@
 			<view class="" slot="body">
 				<view v-for="(item,index) in accounts" :key="index" @tap="toUpdate(item.id)"
 					class="u-body-item u-flex u-row-between u-p-b-0">
-					<view :class="'u-body-item-title u-line-2 ' + (item.includeInTotals? '' : ' info-color')">{{item.title}}</view>
-					<view :class="(item.includeInTotals? '' : ' info-color')">{{item.balance}} {{item.currency.symbol}}</view>
+					<view :class="'u-body-item-title u-line-2 ' + (item.includeInTotals? '' : ' info-color')">
+						{{item.title}}</view>
+					<view :class="(item.includeInTotals? '' : ' info-color')">{{item.balance}} {{item.currency.symbol}}
+					</view>
 				</view>
 			</view>
 		</u-card>
@@ -44,9 +46,10 @@
 			totalBalance() {
 				let val = 0
 				for (const account of this.accounts) {
-					val += account.balance
+					if (account.includeInTotals)
+						val += account.balance
 				}
-				return val + ' ￥'
+				return ((val).toString().indexOf('.') ? (val).toFixed(2) : val) + '￥'
 			}
 		},
 		methods: {

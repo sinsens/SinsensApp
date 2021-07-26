@@ -64,7 +64,7 @@
 	import Color from '@/common/color'
 	import TagPicker from '@/components/tag-picker'
 	import CategoryPicker from '@/components/category-picker'
-
+	import qs from 'qs'
 	import {
 		request,
 		requestPost
@@ -155,6 +155,7 @@
 					day,
 					hour,
 					minute,
+					second,
 					timestamp
 				} = e
 				this.model.date = this.$u.timeFormat(timestamp, 'yyyy-mm-dd hh:MM')
@@ -196,13 +197,13 @@
 			submit() {
 				switch (this.model.transactionType) {
 					case 1: // 支出
-						this.model.accountTo = null
+						this.model.accountTo = undefined
 						this.rules.accountTo.required = false
 						this.rules.accountFrom.required = true
 						break
 
 					case 2: // 收入
-						this.model.accountFrom = null
+						this.model.accountFrom = undefined
 						this.rules.accountFrom.required = false
 						this.rules.accountTo.required = true
 						break
@@ -220,7 +221,7 @@
 						console.log('验证通过')
 						requestPost({
 							url: `/api/app/transaction`,
-							data: this.model
+							data: qs.parse(qs.stringify(this.model))
 						}).then((res) => {
 							console.log(res)
 							if (res.data.id)

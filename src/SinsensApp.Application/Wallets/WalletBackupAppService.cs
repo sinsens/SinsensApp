@@ -160,13 +160,6 @@ namespace SinsensApp.Wallets
                         .GroupBy(x => x.id)
                         .Select(ls => ObjectMapper.Map<TransactionsItemDto, Transaction>(ls.FirstOrDefault())).ToList();
 
-                    // 处理交易标签
-                    foreach (var item in transactionForInsert)
-                    {
-                        var transaction = restoreJson.transactions.Find(x => x.id == item.Id);
-                        item.Tags = tagForInsert.Where(x => transaction.tag_ids.Contains(x.Id)).ToList();
-                    }
-
                     // 执行更新
                     if (!clearBeforeRestore && !skipIfExists)
                     {
@@ -176,12 +169,20 @@ namespace SinsensApp.Wallets
                             .Select(x => ObjectMapper.Map<CategoriesItemDto, Category>(x)).ToList();
                         var tagForUpdate = restoreJson.tags.Where(x => oldTagsIds.Contains(x.id))
                             .Select(x => ObjectMapper.Map<TagsItemDto, Tag>(x)).ToList();
-                        var transactionForUpdate = restoreJson.transactions.Where(x => oldTransactionIds.Contains(x.id))
-                            .Select(x => ObjectMapper.Map<TransactionsItemDto, Transaction>(x)).ToList();
 
                         await _repositoryAccount.UpdateManyAsync(accountForUpdate);
                         await _repositoryCategory.UpdateManyAsync(categoryForUpdate);
                         await _repositoryTag.UpdateManyAsync(tagForUpdate);
+                        await CurrentUnitOfWork.SaveChangesAsync();
+
+                        // 处理交易标签
+                        foreach (var item in transactionForInsert)
+                        {
+                            var transaction = restoreJson.transactions.Find(x => x.id == item.Id);
+                            item.Tags = await _repositoryTag.Where(x => transaction.tag_ids.Contains(x.Id)).ToListAsync();
+                        }
+                        var transactionForUpdate = restoreJson.transactions.Where(x => oldTransactionIds.Contains(x.id))
+                            .Select(x => ObjectMapper.Map<TransactionsItemDto, Transaction>(x)).ToList();
                         await _repositoryTransaction.UpdateManyAsync(transactionForUpdate);
                     }
 
