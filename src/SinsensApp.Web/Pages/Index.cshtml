@@ -22,90 +22,14 @@
 
         @if (!CurrentUser.IsAuthenticated)
         {
-            <a abp-button="Primary" href="~/Account/Login" ><i class="fa fa-sign-in"></i> @L["Login"]</a>
+            <a abp-button="Primary" href="~/Account/Login"><i class="fa fa-sign-in"></i> @L["Login"]</a>
         }
-
     </div>
     <div class="my-3 text-center">
         <h3>Let's improve your application!</h3>
         <p>Here are some links to help you get started:</p>
     </div>
-    <div class="card mt-4 mb-5">
-        <div class="card-body">
-            <div style="margin: 50px auto">
-                <form method="post" action="/api/app/wallet-backup/restore" enctype="multipart/form-data">
-                    <label>选择文件：</label>
-                    <input type="file" name="backupjson" />
-                    <button type="submit">提交</button>
-                </form>
-            </div>
-        </div>
-    </div>
 
-    <div class="mt-5 my-3 text-center">
-        <h3>Meet the ABP Commercial</h3>
-        <p>A Complete Web Application Platform Built on the ABP Framework</p>
-    </div>
-
-    <div class="card mt-4 mb-5">
-        <div class="card-body">
-            <p class="px-lg-5 mx-lg-5 py-3 text-center">
-                <a href="https://commercial.abp.io/" target="_blank">ABP Commercial</a> is a platform based on the open source ABP framework. It provides pre-built application modules,
-                rapid application development tooling, professional UI themes, premium support and more.
-            </p>
-
-            <div class="row text-center justify-content-md-center">
-                <div class="col-lg-2">
-                    <div class="p-3">
-                        <h6>
-                            <i class="fas fa-plus d-block mb-3 fa- 2x text-secondary"></i> Startup Templates
-                            <a href="https://commercial.abp.io/startup-templates?ref=tmpl" target="_blank" class="d-block mt-2 btn btn-sm btn-link">Details <i class="fas fa-chevron-right"></i></a>
-                        </h6>
-                    </div>
-                </div>
-                <div class="col-lg-2 border-left">
-                    <div class="p-3">
-                        <h6>
-                            <i class="fas fa-plus d-block mb-3 fa- 2x text-secondary"></i> Application Modules
-                            <a href="https://commercial.abp.io/modules?ref=tmpl" target="_blank" class="d-block mt-2 btn btn-sm btn-link">Details <i class="fas fa-chevron-right"></i></a>
-                        </h6>
-                    </div>
-                </div>
-                <div class="col-lg-2 border-left">
-                    <div class="p-3">
-                        <h6>
-                            <i class="fas fa-plus d-block mb-3 fa- 2x text-secondary"></i> Developer<br />Tools
-                            <a href="https://commercial.abp.io/tools?ref=tmpl" target="_blank" class="d-block mt-2 btn btn-sm btn-link">Details <i class="fas fa-chevron-right"></i></a>
-                        </h6>
-                    </div>
-                </div>
-                <div class="col-lg-2 border-left">
-                    <div class="p-3">
-                        <h6>
-                            <i class="fas fa-plus d-block mb-3 fa- 2x text-secondary"></i> UI<br /> Themes
-                            <a href="https://commercial.abp.io/themes?ref=tmpl" target="_blank" class="d-block mt-2 btn btn-sm btn-link">Details <i class="fas fa-chevron-right"></i></a>
-                        </h6>
-                    </div>
-                </div>
-                <div class="col-lg-2 border-left">
-                    <div class="p-3">
-                        <h6>
-                            <i class="fas fa-plus d-block mb-3 fa- 2x text-secondary"></i> Premium Support
-                            <a href="https://support.abp.io/QA/Questions?ref=tmpl" target="_blank" class="d-block mt-2 btn btn-sm btn-link">Details <i class="fas fa-chevron-right"></i></a>
-                        </h6>
-                    </div>
-                </div>
-                <div class="col-lg-2 border-left">
-                    <div class="p-3">
-                        <h6>
-                            <i class="fas fa-plus d-block mb-3 fa- 2x text-secondary"></i> Additional Services
-                            <a href="https://commercial.abp.io/additional-services?ref=tmpl" target="_blank" class="d-block mt-2 btn btn-sm btn-link">Details <i class="fas fa-chevron-right"></i></a>
-                        </h6>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="mb-5 text-center">
         <p class="align-middle">
             <a href="https://twitter.com/abpframework" target="_blank" class="mx-2"><i class="fa fa-twitter"></i><span class="text-secondary"> Abp Framework</span></a>

@@ -34,7 +34,7 @@ namespace SinsensApp.Web.Menus
                     order: 0
                 )
             );
-            
+
             if (MultiTenancyConsts.IsEnabled)
             {
                 administration.SetSubItemOrder(TenantManagementMenuNames.GroupName, 1);
@@ -46,36 +46,6 @@ namespace SinsensApp.Web.Menus
 
             administration.SetSubItemOrder(IdentityMenuNames.GroupName, 2);
             administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 3);
-            if (await context.IsGrantedAsync(SinsensAppPermissions.Account.Default))
-            {
-                context.Menu.AddItem(
-                    new ApplicationMenuItem(SinsensAppMenus.Account, l["Menu:Account"], "/Wallets/Account")
-                );
-            }
-            if (await context.IsGrantedAsync(SinsensAppPermissions.Tag.Default))
-            {
-                context.Menu.AddItem(
-                    new ApplicationMenuItem(SinsensAppMenus.Tag, l["Menu:Tag"], "/Wallets/Tag")
-                );
-            }
-            if (await context.IsGrantedAsync(SinsensAppPermissions.Category.Default))
-            {
-                context.Menu.AddItem(
-                    new ApplicationMenuItem(SinsensAppMenus.Category, l["Menu:Category"], "/Wallets/Category")
-                );
-            }
-            if (await context.IsGrantedAsync(SinsensAppPermissions.Transaction.Default))
-            {
-                context.Menu.AddItem(
-                    new ApplicationMenuItem(SinsensAppMenus.Transaction, l["Menu:Transaction"], "/Wallets/Transaction")
-                );
-            }
-            if (await context.IsGrantedAsync(SinsensAppPermissions.TransactionAttachment.Default))
-            {
-                context.Menu.AddItem(
-                    new ApplicationMenuItem(SinsensAppMenus.TransactionAttachment, l["Menu:TransactionAttachment"], "/Wallets/TransactionAttachment")
-                );
-            }
         }
     }
 }
