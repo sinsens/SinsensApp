@@ -9,7 +9,8 @@
 			<u-cell-item v-for="(item,index) in list" :key="index"
 				:title="item.note || (item.category ? item.category.title : item.transactionTypeDescription)"
 				:label="item.date" @tap="toUpdate(item.id)">
-				<u-avatar class="category-icon" text=' ' :bg-color="item.category ? numberToColor(item.category.color) : 'gray'" slot="icon">
+				<u-avatar class="category-icon" text=' '
+					:bg-color="item.category ? numberToColor(item.category.color) : 'gray'" slot="icon">
 				</u-avatar>
 				<view class="u-body-item-title u-line-2">{{item.transactionType === 1?'-':''}}{{item.amount}}
 					{{item.symbol}}
@@ -17,6 +18,7 @@
 				<u-tag v-for="(tag, tindex) in item.tags" :key="tindex" type="info" size="mini" :text="tag.title">
 				</u-tag>
 			</u-cell-item>
+			<u-loadmore :status="status" />
 		</u-cell-group>
 	</view>
 </template>
@@ -36,6 +38,7 @@
 		},
 		data() {
 			return {
+				status: 'loadmore',
 				page: 1,
 				max: 20,
 				list: [],
@@ -56,7 +59,7 @@
 		methods: {
 			numberToColor(val) {
 				if (val) {
-					return '#' + Color.numberToHex(val)
+					return '#' + Color.numberToHex(Math.abs(val))
 				}
 				return ''
 			},
@@ -69,6 +72,11 @@
 				uni.navigateTo({
 					url: `/pages/wallets/transactions/update?id=${id}`
 				})
+			},
+			onReachBottom() {
+				this.status = 'loading';
+				this.page = ++this.page;
+				this.load()
 			},
 			load(isRefresh = false) {
 				if (isRefresh) {
@@ -88,6 +96,7 @@
 						it.date = it.date ? it.date.split('T')[0] : ''
 						return it
 					})
+					this.status = 'loadmore'
 				})
 			}
 		}
@@ -109,8 +118,8 @@
 		color: #333;
 		padding: 20rpx 10rpx;
 	}
-	
-	.category-icon{
+
+	.category-icon {
 		margin-right: 20rpx;
 	}
 

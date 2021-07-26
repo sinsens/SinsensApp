@@ -99,7 +99,7 @@ namespace SinsensApp.Wallets
 
             query = query.Where(x => x.IsDeleted == false)
                 .WhereIf(CurrentUser.Id.HasValue, x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id);
-            return query.OrderBy(x => x.TransactionState).OrderByDescending(x => x.Date).PageBy(input);
+            return query.OrderByDescending(x => x.Date).OrderBy(x => x.TransactionState);
         }
 
         protected override async Task<List<TransactionDto>> MapToGetListOutputDtosAsync(List<Transaction> entities)

@@ -51,11 +51,13 @@ namespace SinsensApp
                 .ForMember(x => x.model_state, e => e.MapFrom(entity => entity.IsDeleted ? 0 : 1))
                 .ForMember(x => x.balance, e => e.MapFrom(entity => entity.Balance * 100))
                 .ForMember(x => x.currency_code, e => e.MapFrom(entity => entity.CurrencyCode))
+                .ForMember(x => x.include_in_totals, e => e.MapFrom(entity => entity.IncludeInTotals))
                 .ReverseMap()
                 .ForMember(entity => entity.IsDeleted, e => e.MapFrom(dto => dto.model_state == 0))
                 .ForMember(entity => entity.Balance, e => e.MapFrom(dto => dto.balance / 100))
                 .ForMember(entity => entity.Currency, e => e.Ignore())
-                .ForMember(entity => entity.CurrencyCode, e => e.MapFrom(dto => dto.currency_code));
+                .ForMember(entity => entity.CurrencyCode, e => e.MapFrom(dto => dto.currency_code))
+                .ForMember(entity => entity.IncludeInTotals, e => e.MapFrom(dto => dto.include_in_totals));
 
             CreateMap<Category, CategoriesItemDto>()
                 .ForMember(x => x.model_state, e => e.MapFrom(entity => entity.IsDeleted ? 0 : 1))

@@ -137,36 +137,9 @@ namespace SinsensApp.Wallets
                     var transactions = await _repositoryTransaction.IncludeDetails(true).Where(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id).ToListAsync();
 
                     var oldAccountIds = accounts.Select(x => x.Id).ToHashSet();
-                    var accountForInsert = restoreJson.accounts.Where(x => !oldAccountIds.Contains(x.id))
-                        .Select(x => ObjectMapper.Map<AccountsItemDto, Account>(x)).ToList();
-                    var accountForUpdate = restoreJson.accounts.Where(x => oldAccountIds.Contains(x.id))
-                        .Select(x => ObjectMapper.Map<AccountsItemDto, Account>(x)).ToList();
-
                     var oldCategoryIds = categories.Select(x => x.Id).ToHashSet();
-                    var categoryForInsert = restoreJson.categories.Where(x => !oldCategoryIds.Contains(x.id))
-                        .Select(x => ObjectMapper.Map<CategoriesItemDto, Category>(x)).ToList();
-                    var categoryForUpdate = restoreJson.categories.Where(x => oldCategoryIds.Contains(x.id))
-                        .Select(x => ObjectMapper.Map<CategoriesItemDto, Category>(x)).ToList();
-
                     var oldTagsIds = tags.Select(x => x.Id).ToHashSet();
-                    var tagForInsert = restoreJson.tags.Where(x => !oldTagsIds.Contains(x.id))
-                        .Select(x => ObjectMapper.Map<TagsItemDto, Tag>(x)).ToList();
-                    var tagForUpdate = restoreJson.tags.Where(x => oldTagsIds.Contains(x.id))
-                        .Select(x => ObjectMapper.Map<TagsItemDto, Tag>(x)).ToList();
-
                     var oldTransactionIds = transactions.Select(x => x.Id).ToHashSet();
-                    var transactionForInsert = restoreJson.transactions.Where(x => !oldTransactionIds.Contains(x.id))
-                        .GroupBy(x => x.id)
-                        .Select(ls => ObjectMapper.Map<TransactionsItemDto, Transaction>(ls.FirstOrDefault())).ToList();
-                    var transactionForUpdate = restoreJson.transactions.Where(x => oldTransactionIds.Contains(x.id))
-                        .Select(x => ObjectMapper.Map<TransactionsItemDto, Transaction>(x)).ToList();
-
-                    // 处理交易标签
-                    foreach (var item in transactionForInsert)
-                    {
-                        var transaction = restoreJson.transactions.Find(x => x.id == item.Id);
-                        item.Tags = tagForInsert.Where(x => transaction.tag_ids.Contains(x.Id)).ToList();
-                    }
 
                     // 清理现有数据，硬删除
                     if (clearBeforeRestore)
@@ -176,9 +149,36 @@ namespace SinsensApp.Wallets
                         await _repositoryCategory.HardDeleteAsync(x => oldCategoryIds.Contains(x.Id));
                         await _repositoryTag.HardDeleteAsync(x => oldTagsIds.Contains(x.Id));
                     }
-                    // 执行更新
-                    else if (!skipIfExists)
+
+                    var accountForInsert = restoreJson.accounts.WhereIf(!clearBeforeRestore, x => !oldAccountIds.Contains(x.id))
+                        .Select(x => ObjectMapper.Map<AccountsItemDto, Account>(x)).ToList();
+                    var categoryForInsert = restoreJson.categories.WhereIf(!clearBeforeRestore, x => !oldCategoryIds.Contains(x.id))
+                        .Select(x => ObjectMapper.Map<CategoriesItemDto, Category>(x)).ToList();
+                    var tagForInsert = restoreJson.tags.WhereIf(!clearBeforeRestore, x => !oldTagsIds.Contains(x.id))
+                        .Select(x => ObjectMapper.Map<TagsItemDto, Tag>(x)).ToList();
+                    var transactionForInsert = restoreJson.transactions.WhereIf(!clearBeforeRestore, x => !oldTransactionIds.Contains(x.id))
+                        .GroupBy(x => x.id)
+                        .Select(ls => ObjectMapper.Map<TransactionsItemDto, Transaction>(ls.FirstOrDefault())).ToList();
+
+                    // 处理交易标签
+                    foreach (var item in transactionForInsert)
                     {
+                        var transaction = restoreJson.transactions.Find(x => x.id == item.Id);
+                        item.Tags = tagForInsert.Where(x => transaction.tag_ids.Contains(x.Id)).ToList();
+                    }
+
+                    // 执行更新
+                    if (!clearBeforeRestore && !skipIfExists)
+                    {
+                        var accountForUpdate = restoreJson.accounts.Where(x => oldAccountIds.Contains(x.id))
+                            .Select(x => ObjectMapper.Map<AccountsItemDto, Account>(x)).ToList();
+                        var categoryForUpdate = restoreJson.categories.Where(x => oldCategoryIds.Contains(x.id))
+                            .Select(x => ObjectMapper.Map<CategoriesItemDto, Category>(x)).ToList();
+                        var tagForUpdate = restoreJson.tags.Where(x => oldTagsIds.Contains(x.id))
+                            .Select(x => ObjectMapper.Map<TagsItemDto, Tag>(x)).ToList();
+                        var transactionForUpdate = restoreJson.transactions.Where(x => oldTransactionIds.Contains(x.id))
+                            .Select(x => ObjectMapper.Map<TransactionsItemDto, Transaction>(x)).ToList();
+
                         await _repositoryAccount.UpdateManyAsync(accountForUpdate);
                         await _repositoryCategory.UpdateManyAsync(categoryForUpdate);
                         await _repositoryTag.UpdateManyAsync(tagForUpdate);
