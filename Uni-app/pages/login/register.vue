@@ -26,7 +26,7 @@
 			</view>
 			<view class="hint">
 				注册代表同意
-				<text class="link" v-on:click="showAgreement">Sinsen' App 用户协议、隐私政策</text>
+				<text class="link" v-on:click="showAgreement">SinsensApp 用户协议、隐私政策</text>
 			</view>
 		</view>
 	</view>

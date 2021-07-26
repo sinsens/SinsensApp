@@ -75,7 +75,7 @@
 			},
 			onReachBottom() {
 				this.status = 'loading';
-				this.page = ++this.page;
+				this.page += 1;
 				this.load()
 			},
 			load(isRefresh = false) {
@@ -85,7 +85,7 @@
 				request({
 					url: `/api/app/transaction?MaxResultCount=${this.max}&SkipCount=${this.max*(this.page-1)}`
 				}).then(result => {
-					this.list = result.data.items.map(it => {
+					result.data.items.map(it => {
 						if (it.accountFrom && it.accountFrom.currency) {
 							it.symbol = it.accountFrom.currency.symbol
 						} else if (it.accountTo && it.accountTo.currency) {
@@ -94,7 +94,7 @@
 							it.symbol = '￥'
 						}
 						it.date = it.date ? it.date.split('T')[0] : ''
-						return it
+						this.list.push(it)
 					})
 					this.status = 'loadmore'
 				})

@@ -46,4 +46,29 @@ namespace SinsensApp.Wallets
         /// </summary>
         Right = 2
     }
+
+    /// <summary>
+    /// 统计周期
+    /// </summary>
+    [Description("统计周期")]
+    public enum PeriodType
+    {
+        /// <summary>
+        /// 每周
+        /// </summary>
+        [Description("每周")]
+        Weekly = 1,
+
+        /// <summary>
+        /// 每月
+        /// </summary>
+        [Description("每月")]
+        Monthly = 2,
+
+        /// <summary>
+        /// 每年
+        /// </summary>
+        [Description("每年")]
+        Annually = 3,
+    }
 }

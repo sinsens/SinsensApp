@@ -4,11 +4,11 @@ export default class Color {
 	}
 
 	static hexToNumber(hex) {
-		return parseInt(hex)
+		return 16581375 - parseInt(hex)
 	}
 
 	static numberToHex(num) {
-		return (num).toString(16)
+		return (16581375 - Math.abs(num || 0)).toString(16)
 	}
 
 	static rgbToNumber(r, g, b) {

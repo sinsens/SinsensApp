@@ -45,10 +45,10 @@
 				return '0x' + (((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1))
 			},
 			hexToNumber(hex) {
-				return parseInt(hex)
+				return 16581375 - parseInt(hex)
 			},
 			numberToHex(num) {
-				return (num).toString(16)
+				return (16581375 - Math.abs(num || 0)).toString(16)
 			},
 			rgbToNumber(r, g, b) {
 				return this.hexToNumber(this.rgbToHex(r, g, b))

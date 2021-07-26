@@ -66,7 +66,7 @@
 		},
 		methods: {
 			numberToHex(num) {
-				return (num).toString(16)
+				return (16581375 - Math.abs(num || 0)).toString(16)
 			},
 			numberToColor(val) {
 				return (val != undefined && val != null) ? '#' + this.numberToHex(val) : 'white'
