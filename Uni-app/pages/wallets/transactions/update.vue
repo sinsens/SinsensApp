@@ -12,7 +12,7 @@
 						<u-picker v-model="showDate" mode="time" :params="dateParams" @confirm="selectDate">
 						</u-picker>
 					</u-form-item>
-					<u-form-item label="交易分类" prop="category">
+					<u-form-item label="交易分类" prop="category" v-show="model.transactionType <= 2">
 						<view @tap="show = true">{{ model.category && model.category.title ||'选择' }}</view>
 						<CategoryPicker :show="show" @select="selectCategory"></CategoryPicker>
 					</u-form-item>
@@ -212,6 +212,7 @@
 					case 3: // 转账
 						this.rules.accountFrom.required = true
 						this.rules.accountTo.required = true
+						this.rules.category.required = false
 						break
 				}
 				const that = this

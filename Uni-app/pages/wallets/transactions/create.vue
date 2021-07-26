@@ -210,6 +210,7 @@
 					case 3: // 转账
 						this.rules.accountFrom.required = true
 						this.rules.accountTo.required = true
+						this.rules.category.required = false
 						break
 				}
 				const that = this

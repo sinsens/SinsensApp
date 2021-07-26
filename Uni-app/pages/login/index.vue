@@ -15,23 +15,11 @@
 			<button @tap="submit" :style="[inputStyle]" class="getCaptcha">登录</button>
 			<view class="alternative">
 				<view class="password" @tap="toRegister">立即注册</view>
-				<view class="issue">遇到问题</view>
+				<view class="issue" @tap="showSetApi = true">遇到问题</view>
 			</view>
 		</view>
 		<view class="buttom">
 			<view class="loginType">
-				<!--view class="wechat item">
-					<view class="icon">
-						<u-icon size="70" name="weixin-fill" color="rgb(83,194,64)"></u-icon>
-					</view>
-					微信
-				</view>
-				<view class="QQ item">
-					<view class="icon">
-						<u-icon size="70" name="qq-fill" color="rgb(17,183,233)"></u-icon>
-					</view>
-					QQ
-				</view-->
 			</view>
 			<view class="hint">
 				登录代表同意
@@ -39,10 +27,18 @@
 				并授权使用您的账号信息（如昵称、头像、收获地址）以便您统一管理
 			</view>
 		</view>
+		<u-modal title="设置API路径" v-model="showSetApi" @confirm="onUpdateApiBaseUrl" confirm-text="保存"
+			:show-cancel-button="true">
+			<view class="slot-content">
+				<u-input type="textarea" rows="30" cols="20" maxlength="255" v-model="apiUrl" :placeholder="apiUrlOld">
+				</u-input>
+			</view>
+		</u-modal>
 	</view>
 </template>
 
 <script>
+	import store from '@/store/index'
 	import {
 		request
 	} from '../../api/service-base'
@@ -62,6 +58,9 @@
 			return {
 				model: new UserLoginInfo(),
 				ids4info: {},
+				showSetApi: false,
+				apiUrl: store.state.vuex_api_base_url,
+				apiUrlOld: store.state.vuex_api_base_url,
 				rules: {
 					userNameOrEmailAddress: [{
 						required: true,
@@ -92,30 +91,50 @@
 		},
 		onReady() {
 			this.$refs.uForm.setRules(this.rules)
-			uni.showLoading({
-				title: '加载中'
-			})
-			request({
-				url: '/.well-known/openid-configuration'
-			}).then(res => {
-				console.log('config=>', res)
-				uni.hideLoading()
-				this.ids4info = res.data
-				this.$store.commit('$uStore', {
-					name: 'vuex_token_end_points',
-					value: res.data
-				})
-			}).catch(err => {
-				uni.showModal({
-					title: '加载失败',
-					content: '请刷新页面并重试',
-					showCancel: false
-				})
-				console.log(err)
-				uni.hideLoading()
-			})
+			this.loadConfig()
 		},
 		methods: {
+			onUpdateApiBaseUrl() {
+				this.$store.commit('$uStore', {
+					name: 'vuex_api_base_url',
+					value: this.apiUrl
+				})
+				this.loadConfig()
+			},
+			loadConfig() {
+				uni.showLoading({
+					title: '加载中'
+				})
+				try {
+					request({
+						url: '/.well-known/openid-configuration'
+					}).then(res => {
+						console.log('config=>', res)
+						uni.hideLoading()
+						this.ids4info = res.data
+						this.$store.commit('$uStore', {
+							name: 'vuex_token_end_points',
+							value: res.data
+						})
+					}).catch(err => {
+						uni.showModal({
+							title: '加载失败',
+							content: '请刷新页面并重试',
+							showCancel: false
+						})
+						console.log(err)
+						uni.hideLoading()
+					})
+				} catch (e) {
+					uni.showModal({
+						title: '加载失败',
+						content: '请刷新页面并重试',
+						showCancel: false
+					})
+					console.log(e)
+					uni.hideLoading()
+				}
+			},
 			toRegister() {
 				this.$u.route({
 					url: 'pages/login/register'
@@ -236,5 +255,10 @@
 				}
 			}
 		}
+	}
+
+	.slot-content {
+		padding-top: 20rpx;
+		padding-left: 40rpx;
 	}
 </style>

@@ -45,7 +45,7 @@
 				return '0x' + (((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1))
 			},
 			hexToNumber(hex) {
-				return 16581375 - parseInt(hex)
+				return parseInt(hex) - 16581375;
 			},
 			numberToHex(num) {
 				return (16581375 - Math.abs(num || 0)).toString(16)

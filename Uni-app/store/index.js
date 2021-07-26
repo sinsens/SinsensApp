@@ -38,30 +38,10 @@ const store = new Vuex.Store({
 		vuex_token: lifeData.vuex_token ? lifeData.vuex_token : '',
 		vuex_lang: lifeData.vuex_lang ? lifeData.vuex_lang : 'zh-Hans,zh-CN,zh;q=0.9',
 		vuex_tenant_id: lifeData.vuex_tenant_id ? lifeData.vuex_tenant_id : '',
+		vuex_api_base_url: lifeData.vuex_api_base_url ? lifeData.vuex_api_base_url : 'https://localhost:44321',
 		// 如果vuex_version无需保存到本地永久存储，无需lifeData.vuex_version方式
 		vuex_version: '1.0.1',
 		vuex_demo: '绛紫',
-		// 自定义tabbar数据
-		vuex_tabbar: [{
-				iconPath: "/static/uview/example/component.png",
-				selectedIconPath: "/static/uview/example/component_select.png",
-				text: '组件',
-				pagePath: '/pages/example/components'
-			},
-			{
-				iconPath: "/static/uview/example/js.png",
-				selectedIconPath: "/static/uview/example/js_select.png",
-				text: '工具',
-				midButton: true,
-				pagePath: '/pages/example/js'
-			},
-			{
-				iconPath: "/static/uview/example/template.png",
-				selectedIconPath: "/static/uview/example/template_select.png",
-				text: '模板',
-				pagePath: '/pages/example/template'
-			}
-		]
 	},
 	mutations: {
 		$uStore(state, payload) {
