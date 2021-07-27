@@ -76,6 +76,11 @@
 						selectedIconPath: "home-fill",
 						text: '总览',
 						path: '/pages/wallets/index'
+					}, {
+						iconPath: "grid",
+						selectedIconPath: "home-fill",
+						text: '报表',
+						path: '/pages/wallets/report/report'
 					},
 					{
 						iconPath: "account",

@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp.Application.Services;
+using Volo.Abp.DependencyInjection;
 
 namespace SinsensApp.Wallets
 {
@@ -13,6 +15,6 @@ namespace SinsensApp.Wallets
         /// </summary>
         /// <param name="expenseStatRequestDto"></param>
         /// <returns></returns>
-        Task<PeriodExpenseStatRequestResultDto> GetPeriodResultList(PeriodExpenseStatRequestDto expenseStatRequestDto);
+        Task<PeriodExpenseStatRequestResultDto> GetPeriodResultList(PeriodExpenseStatRequestDto input);
     }
 }

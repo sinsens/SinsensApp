@@ -82,6 +82,12 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		}, {
+			"path": "report/report",
+			"style": {
+				"navigationStyle": "custom"
+			}
+
 		}]
 	}],
 	"preloadRule": {

@@ -6,6 +6,12 @@ namespace SinsensApp.Wallets.Dtos.statics
 {
     public class PeriodExpenseStatRequestDto
     {
-        public PeriodType PeriodType { get; set; } = PeriodType.Monthly;
+        /// <summary>
+        /// 缓存时间
+        /// </summary>
+        public const int CacheMinute = 5;
+
+        public DateTime? StartTime { get; set; }
+        public DateTime? EndTime { get; set; }
     }
 }

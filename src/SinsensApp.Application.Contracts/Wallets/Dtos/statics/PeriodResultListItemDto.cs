@@ -17,8 +17,8 @@ namespace SinsensApp.Wallets.Dtos.statics
 
         public decimal Value { get; set; }
 
-        public float Persent { get; set; }
+        public float Percent { get; set; }
 
-        public ICollection<PeriodResultListItemDto> Children { get; set; }
+        public HashSet<PeriodResultListItemDto> Children { get; set; }
     }
 }

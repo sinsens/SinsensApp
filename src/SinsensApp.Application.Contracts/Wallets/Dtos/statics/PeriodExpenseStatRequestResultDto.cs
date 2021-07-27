@@ -17,6 +17,21 @@ namespace SinsensApp.Wallets.Dtos.statics
         /// </summary>
         public decimal Total { get; set; }
 
-        public ICollection<PeriodResultListItemDto> Items { get; set; }
+        /// <summary>
+        /// 支出
+        /// </summary>
+        public decimal Expenditure { get; set; }
+
+        /// <summary>
+        /// 收入
+        /// </summary>
+        public decimal Income { get; set; }
+
+        /// <summary>
+        /// 转账
+        /// </summary>
+        public decimal Transfer { get; set; }
+
+        public HashSet<PeriodResultListItemDto> Items { get; set; }
     }
 }

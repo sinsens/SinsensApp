@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
@@ -70,13 +69,13 @@ namespace SinsensApp.Wallets
                 throw new UserFriendlyException("没有可用账户信息");
             }
             return await _cache.GetOrAddAsync($"JSON_backup_{CurrentTenant.Name}_{CurrentUser.UserName}", async () =>
-            {
-                return await BackupToJson();
-            },
-            () => new Microsoft.Extensions.Caching.Distributed.DistributedCacheEntryOptions
-            {
-                AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(WalletBackupRequestResultDto.CacheMinute) // 设置 5 分钟内只能备份一次
-            });
+                {
+                    return await BackupToJson();
+                },
+                () => new Microsoft.Extensions.Caching.Distributed.DistributedCacheEntryOptions
+                {
+                    AbsoluteExpiration = Clock.Now.AddMinutes(WalletBackupRequestResultDto.CacheMinute) // 设置 5 分钟内只能备份一次
+                });
         }
 
         [HttpPost]
@@ -117,7 +116,7 @@ namespace SinsensApp.Wallets
                 },
                 () => new Microsoft.Extensions.Caching.Distributed.DistributedCacheEntryOptions
                 {
-                    AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(WalletBackupRequestResultDto.CacheMinute) // 设置 5 分钟内只能还原一次
+                    AbsoluteExpiration = Clock.Now.AddMinutes(WalletBackupRequestResultDto.CacheMinute) // 设置 5 分钟内只能还原一次
                 });
             }
             else

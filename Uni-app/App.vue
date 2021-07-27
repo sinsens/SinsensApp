@@ -21,8 +21,16 @@
 <style lang="scss">
 	@import "uview-ui/index.scss";
 	@import "common/demo.scss";
-	
-	.height-15{
+
+	.height-15 {
 		height: 15px;
+	}
+
+	.category-icon {
+		margin-right: 20rpx;
+	}
+	
+	.u-page {
+		padding: 50rpx 40rpx;
 	}
 </style>

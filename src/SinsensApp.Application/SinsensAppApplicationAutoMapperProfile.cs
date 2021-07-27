@@ -7,6 +7,7 @@ using SinsensApp.Wallets.Dtos.backup;
 using System.Linq;
 using System;
 using System.Security.Cryptography.X509Certificates;
+using SinsensApp.Wallets.Dtos.statics;
 
 namespace SinsensApp
 {
@@ -97,6 +98,15 @@ namespace SinsensApp
                 .ForMember(entity => entity.TransactionState, e => e.MapFrom(dto => dto.transaction_state));
 
             #endregion backup and restore
+
+            #region statics
+
+            CreateMap<Category, PeriodResultListItemDto>()
+                .ForMember(x => x.Text, e => e.MapFrom(entity => entity.Title));
+            CreateMap<Tag, PeriodResultListItemDto>()
+                .ForMember(x => x.Text, e => e.MapFrom(entity => entity.Title));
+
+            #endregion statics
         }
     }
 }

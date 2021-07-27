@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
@@ -60,7 +61,7 @@ namespace SinsensApp.Wallets
             _logger.LogInformation("开始同步汇率数据");
             var query = await _repositoryCurrency.GetQueryableAsync();
 
-            var currencies = query.IncludeDetails().ToList();
+            var currencies = await query.IncludeDetails().ToListAsync();
             foreach (var currency in currencies)
             {
                 if (currency.CurrencyRate != null)
