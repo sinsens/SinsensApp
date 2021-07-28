@@ -1,25 +1,31 @@
 <template>
 	<view>
-		<u-navbar title="交易">
+		<u-navbar :customBack="back" title="交易">
 			<view class="u-navbar-right" slot="right">
 				<u-icon name="plus" @tap="toCreate"></u-icon>
 			</view>
 		</u-navbar>
 		<u-cell-group>
-			<u-cell-item v-for="(item,index) in list" :key="index"
-				:title="item.note || (item.category ? item.category.title : item.transactionTypeDescription)"
-				:label="item.date" @tap="toUpdate(item.id)">
+			<u-cell-item v-for="(item,index) in list" :key="index" @tap="toUpdate(item.id)">
 				<u-avatar class="category-icon" text=' '
 					:bg-color="item.category ? numberToColor(item.category.color) : 'gray'" slot="icon">
 				</u-avatar>
-				<view class="u-body-item-title u-line-2">{{item.transactionType === 1?'-':''}}{{item.amount}}
+				<view slot="title" class="line-more">
+					{{item.note || (item.category ? item.category.title : item.transactionTypeDescription)}}
+				</view>
+				<view class="u-body-item-title">{{item.transactionType === 1?'-':''}}{{item.amount}}
 					{{item.symbol}}
 				</view>
-				<u-tag v-for="(tag, tindex) in item.tags" :key="tindex" type="info" size="mini" :text="tag.title">
-				</u-tag>
+				<view slot="label">
+					{{$u.timeFormat(item.date, 'yyyy-mm-dd hh:MM')}}
+					<view class="m-l-15"></view>
+					<u-tag v-for="(tag, tindex) in item.tags" :key="tindex" type="info" size="mini" :text="tag.title">
+					</u-tag>
+				</view>
 			</u-cell-item>
 			<u-loadmore :status="status" />
 		</u-cell-group>
+		<u-back-top :scroll-top="scrollTop"></u-back-top>
 	</view>
 </template>
 
@@ -29,12 +35,11 @@
 		request
 	} from '@/api/service-base'
 	export default {
-		name: 'accounts',
-		onReachBottom() {
-
-		},
 		onShow() {
 			this.load(true)
+		},
+		onPageScroll(e) {
+			this.scrollTop = e.scrollTop;
 		},
 		data() {
 			return {
@@ -42,6 +47,7 @@
 				page: 1,
 				max: 20,
 				list: [],
+				scrollTop: 0,
 			}
 		},
 		computed: {
@@ -82,6 +88,7 @@
 				if (isRefresh) {
 					this.page = 1
 				}
+				this.status = 'loading'
 				request({
 					url: `/api/app/transaction?MaxResultCount=${this.max}&SkipCount=${this.max*(this.page-1)}`
 				}).then(result => {
@@ -96,7 +103,14 @@
 						it.date = it.date ? it.date.split('T')[0] : ''
 						this.list.push(it)
 					})
+					this.status = result.items.length >= this.max ? 'loadmore' : 'nomore'
+				}).catch(err => {
 					this.status = 'loadmore'
+				})
+			},
+			back(){
+				uni.reLaunch({
+					url: '/pages/wallets/index'
 				})
 			}
 		}
@@ -104,6 +118,13 @@
 </script>
 
 <style scoped lang="scss">
+	.line-more {
+		width: 27vh;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
 	.u-navbar-right {
 		margin-right: 20px;
 	}

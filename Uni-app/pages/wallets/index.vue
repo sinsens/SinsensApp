@@ -27,11 +27,14 @@
 			<view class="" slot="body">
 				<view v-for="(item,index) in transactions" :key="index"
 					class="u-body-item u-flex u-row-between u-p-b-0">
-					<view class="u-body-item-title u-line-2">{{item.note}}</view>
+					<view class="line-more">
+						{{item.note || (item.category ? item.category.title : item.transactionTypeDescription)}}
+					</view>
 					{{item.transactionType === 1?'-':''}}{{item.amount}} {{item.symbol}}
 				</view>
 			</view>
 		</u-card>
+		<view style="height:20rpx"></view>
 	</view>
 </template>
 
@@ -138,6 +141,13 @@
 </script>
 
 <style scoped lang="scss">
+	.line-more {
+		width: 27vh;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
 	.info-color {
 		color: $u-type-info-dark
 	}

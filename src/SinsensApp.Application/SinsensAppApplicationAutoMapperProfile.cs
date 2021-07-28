@@ -29,7 +29,8 @@ namespace SinsensApp
                 .ForMember(x => x.AccountFrom, e => e.Ignore())
                 .ForMember(x => x.AccountFromId, e => e.MapFrom(dto => dto.AccountFrom.Id))
                 .ForMember(x => x.AccountTo, e => e.Ignore())
-                .ForMember(x => x.AccountToId, e => e.MapFrom(dto => dto.AccountTo.Id));
+                .ForMember(x => x.AccountToId, e => e.MapFrom(dto => dto.AccountTo.Id))
+                .ForMember(x => x.Tags, e => e.Ignore());
 
             CreateMap<Transaction, TransactionDto>()
                 .ForMember(dto => dto.TransactionTypeDescription, e => e.MapFrom(entity => entity.TransactionType.GetEnumDescription()))

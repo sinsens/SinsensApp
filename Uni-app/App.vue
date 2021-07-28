@@ -25,6 +25,10 @@
 	.height-15 {
 		height: 15px;
 	}
+	
+	.m-l-15{
+		margin-left: 15rpx;
+	}
 
 	.category-icon {
 		margin-right: 20rpx;

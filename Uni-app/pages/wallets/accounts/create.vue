@@ -107,7 +107,9 @@
 				}
 			},
 			back() {
-				uni.navigateBack()
+				uni.redirectTo({
+					url: './index'
+				})
 			},
 			submit() {
 				const that = this

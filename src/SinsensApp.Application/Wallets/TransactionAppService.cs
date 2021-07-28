@@ -56,7 +56,8 @@ namespace SinsensApp.Wallets
 
         public override async Task<TransactionDto> UpdateAsync(Guid id, CreateUpdateTransactionDto input)
         {
-            var entity = await Repository.GetAsync(id);
+            var query = await DefaultQuery();
+            var entity = await query.SingleOrDefaultAsync(x => x.Id == id);
 
             MapToEntity(input, entity);
             if (input.TransactionType == TransactionType.Transfer && input.AccountFrom != null && input.AccountTo != null)
@@ -70,22 +71,15 @@ namespace SinsensApp.Wallets
                     }
                 }
             }
-            entity.AccountFrom = null;
-            entity.AccountTo = null;
-            if (input.AccountFrom != null)
-            {
-                entity.AccountFrom = await _repositoryAccount.GetAsync(x => x.Id == input.AccountFrom.Id);
-            }
-            if (input.AccountTo != null)
-            {
-                entity.AccountTo = await _repositoryAccount.GetAsync(x => x.Id == input.AccountTo.Id);
-            }
-            entity.Tags.Clear();
             if (input.Tags.Any())
             {
                 var tagIds = input.Tags.Select(x => x.Id).ToList();
-                var tags = await _repositoryTag.GetListAsync(x => tagIds.Contains(x.Id));
+                var tags = await _repositoryTag.Where(x => tagIds.Contains(x.Id)).ToArrayAsync();
                 entity.Tags = tags;
+            }
+            else
+            {
+                entity.Tags.Clear();
             }
             await Repository.UpdateAsync(entity);
             await _localEventBus.PublishAsync(new TransactionUpdatedEventEto(entity));
@@ -108,22 +102,16 @@ namespace SinsensApp.Wallets
                     }
                 }
             }
-            entity.AccountFrom = null;
-            entity.AccountTo = null;
-            if (input.AccountFrom != null)
-            {
-                entity.AccountFrom = await _repositoryAccount.GetAsync(x => x.Id == input.AccountFrom.Id);
-            }
-            if (input.AccountTo != null)
-            {
-                entity.AccountTo = await _repositoryAccount.GetAsync(x => x.Id == input.AccountTo.Id);
-            }
-            entity.Tags.Clear();
+
             if (input.Tags.Any())
             {
                 var tagIds = input.Tags.Select(x => x.Id).ToList();
                 var tags = await _repositoryTag.GetListAsync(x => tagIds.Contains(x.Id));
                 entity.Tags = tags;
+            }
+            else
+            {
+                entity.Tags = null;
             }
             await _localEventBus.PublishAsync(new TransactionCreatingEventEto(entity));
             await Repository.InsertAsync(entity);

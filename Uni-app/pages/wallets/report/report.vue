@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-navbar title="报表">
+		<u-navbar :customBack="back" title="报表">
 			<view class="u-navbar-right" slot="right">
 			</view>
 		</u-navbar>
@@ -88,6 +88,11 @@
 				}
 				return ''
 			},
+			back(){
+				uni.reLaunch({
+					url: '/pages/wallets/index'
+				})
+			}
 		}
 	}
 </script>

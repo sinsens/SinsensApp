@@ -68,7 +68,7 @@ namespace SinsensApp.Wallets
             {
                 throw new UserFriendlyException("没有可用账户信息");
             }
-            return await _cache.GetOrAddAsync($"JSON_backup_{CurrentTenant.Name}_{CurrentUser.UserName}", async () =>
+            return await _cache.GetOrAddAsync($"WALLETS_BACKUP_backup_{CurrentTenant.Name}_{CurrentUser.UserName}", async () =>
                 {
                     return await BackupToJson();
                 },
@@ -106,7 +106,7 @@ namespace SinsensApp.Wallets
             }
 
             // 先进行备份
-            var cacheKey = $"JSON_restore_{CurrentTenant.Name}_{CurrentUser.UserName}";
+            var cacheKey = $"WALLETS_BACKUP_restore_{CurrentTenant.Name}_{CurrentUser.UserName}";
             var backupJson = await _cache.GetAsync(cacheKey);
             if (backupJson == null)
             {
@@ -200,6 +200,14 @@ namespace SinsensApp.Wallets
                         await _repositoryAccount.InsertManyAsync(accountForInsert);
                         await _repositoryCategory.InsertManyAsync(categoryForInsert);
                         await _repositoryTag.InsertManyAsync(tagForInsert);
+                        await CurrentUnitOfWork.SaveChangesAsync();
+                        var tagsAll = await _repositoryTag.GetListAsync();
+                        // 处理交易标签
+                        foreach (var item in transactionForInsert)
+                        {
+                            var transaction = restoreJson.transactions.Find(x => x.id == item.Id);
+                            item.Tags = tagsAll.Where(x => transaction.tag_ids.Contains(x.Id)).ToList();
+                        }
                         await _repositoryTransaction.InsertManyAsync(transactionForInsert);
                     }
                 }
@@ -221,12 +229,12 @@ namespace SinsensApp.Wallets
             using (_dataFilter.Disable<ISoftDelete>())
             using (_dataFilter.Disable<IMultiTenant>())
             {
-                var accounts = await _repositoryAccount.GetListAsync(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id, false);
+                var accounts = await _repositoryAccount.AsNoTracking().Where(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id).ToListAsync();
 
-                var currencies = await _repositoryCurrency.GetListAsync(false);
-                var categories = await _repositoryCategory.GetListAsync(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id, false);
-                var tags = await _repositoryTag.GetListAsync(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id);
-                var transactions = await _repositoryTransaction.IncludeDetails(true).Where(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id).ToListAsync();
+                var currencies = await _repositoryCurrency.AsNoTracking().ToListAsync();
+                var categories = await _repositoryCategory.AsNoTracking().Where(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id).ToListAsync();
+                var tags = await _repositoryTag.AsNoTracking().Where(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id).ToListAsync();
+                var transactions = await _repositoryTransaction.AsNoTracking().IncludeDetails(true).Where(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id).ToListAsync();
 
                 foreach (var item in accounts)
                 {

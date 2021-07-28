@@ -50,7 +50,7 @@ namespace SinsensApp.Wallets
 
         public async Task<PeriodExpenseStatRequestResultDto> GetPeriodResultList(PeriodExpenseStatRequestDto input)
         {
-            var cacheKey = $"STAT_result_{CurrentTenant.Id}_{CurrentUser.UserName}_{input.StartTime}_{input.EndTime}";
+            var cacheKey = $"WALLETS_STAT_result_{CurrentTenant.Id}_{CurrentUser.UserName}_{input.StartTime}_{input.EndTime}";
             return await _cache.GetOrAddAsync(cacheKey,
                 async () => { return await GetPeriodResult(input); },
                 () =>
@@ -72,7 +72,7 @@ namespace SinsensApp.Wallets
             input.EndTime = input.EndTime.HasValue ? input.EndTime.Value.AddSeconds(1) : (DateTime?)null;
 
             var query = await _repositoryTransaction.GetQueryableAsync();
-            query = query.IncludeDetails()
+            query = query.AsNoTracking().IncludeDetails()
                 .Where(x => x.IncludeInReports)
                 .Where(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id)
                 .WhereIf(input.StartTime.HasValue, x => x.Date >= input.StartTime)

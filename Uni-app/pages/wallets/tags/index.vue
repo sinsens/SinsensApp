@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-navbar title="标签">
+		<u-navbar :customBack="back" title="标签">
 			<view class="u-navbar-right" slot="right">
 				<u-icon name="plus" @tap="showCreateModal = true"></u-icon>
 			</view>
@@ -121,6 +121,11 @@
 						title: err.error_description || err.error || err || '保存失败',
 						icon: 'none'
 					})
+				})
+			},
+			back() {
+				uni.reLaunch({
+					url: '/pages/wallets/index'
 				})
 			}
 		}
