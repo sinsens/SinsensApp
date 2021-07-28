@@ -90,20 +90,7 @@ namespace SinsensApp.Wallets
             }
 
             BackupJsonDto restoreJson = null;
-            using (var stream = postFile.OpenReadStream())
-            {
-                var bytes = await stream.GetAllBytesAsync();
-                if (bytes.LongLength > 1024 * 1024 * 10)
-                {
-                    throw new UserFriendlyException("上传文件大小不得超过 10 MB");
-                }
-                var content = Encoding.Default.GetString(bytes);
-                restoreJson = JsonConvert.DeserializeObject<BackupJsonDto>(content);
-                if (restoreJson == null)
-                {
-                    throw new UserFriendlyException("上传文件格式不正确，反序列化失败");
-                }
-            }
+            restoreJson = await ReadBackupJsonFromPostFile(postFile, restoreJson);
 
             // 先进行备份
             var cacheKey = $"WALLETS_BACKUP_restore_{CurrentTenant.Name}_{CurrentUser.UserName}";
@@ -124,10 +111,16 @@ namespace SinsensApp.Wallets
                 return "操作过于频繁，请 5 分钟后再试";
             }
 
+            await RestoreFromBackupJson(clearBeforeRestore, skipIfExists, restoreJson, cacheKey);
+
+            return $"还原成功，原有数据已自动备份到：{backupJson.Url}， 备份大小为：{backupJson.Size / 1024 } KB";
+        }
+
+        private async Task RestoreFromBackupJson(bool clearBeforeRestore, bool skipIfExists, BackupJsonDto restoreJson, string cacheKey)
+        {
             try
             {
                 using (_dataFilter.Disable<ISoftDelete>())
-                using (_dataFilter.Disable<IMultiTenant>())
                 {
                     var accounts = await _repositoryAccount.Where(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id).ToListAsync();
                     var categories = await _repositoryCategory.Where(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id).ToListAsync();
@@ -149,24 +142,36 @@ namespace SinsensApp.Wallets
                         await _repositoryTag.HardDeleteAsync(x => oldTagsIds.Contains(x.Id));
                     }
 
-                    var accountForInsert = restoreJson.accounts.WhereIf(!clearBeforeRestore, x => !oldAccountIds.Contains(x.id))
+                    var accountForInsert = restoreJson.accounts
+                        .WhereIf(!clearBeforeRestore, x => !oldAccountIds.Contains(x.id))
                         .Select(x => ObjectMapper.Map<AccountsItemDto, Account>(x)).ToList();
-                    var categoryForInsert = restoreJson.categories.WhereIf(!clearBeforeRestore, x => !oldCategoryIds.Contains(x.id))
+
+                    var categoryForInsert = restoreJson.categories
+                        .WhereIf(!clearBeforeRestore, x => !oldCategoryIds.Contains(x.id))
                         .Select(x => ObjectMapper.Map<CategoriesItemDto, Category>(x)).ToList();
-                    var tagForInsert = restoreJson.tags.WhereIf(!clearBeforeRestore, x => !oldTagsIds.Contains(x.id))
+
+                    var tagForInsert = restoreJson.tags
+                        .WhereIf(!clearBeforeRestore, x => !oldTagsIds.Contains(x.id))
                         .Select(x => ObjectMapper.Map<TagsItemDto, Tag>(x)).ToList();
-                    var transactionForInsert = restoreJson.transactions.WhereIf(!clearBeforeRestore, x => !oldTransactionIds.Contains(x.id))
+
+                    var transactionForInsert = restoreJson.transactions
+                        .WhereIf(!clearBeforeRestore, x => !oldTransactionIds.Contains(x.id))
                         .GroupBy(x => x.id)
                         .Select(ls => ObjectMapper.Map<TransactionsItemDto, Transaction>(ls.FirstOrDefault())).ToList();
 
                     // 执行更新
                     if (!clearBeforeRestore && !skipIfExists)
                     {
-                        var accountForUpdate = restoreJson.accounts.Where(x => oldAccountIds.Contains(x.id))
+                        var accountForUpdate = restoreJson.accounts
+                            .Where(x => oldAccountIds.Contains(x.id))
                             .Select(x => ObjectMapper.Map<AccountsItemDto, Account>(x)).ToList();
-                        var categoryForUpdate = restoreJson.categories.Where(x => oldCategoryIds.Contains(x.id))
+
+                        var categoryForUpdate = restoreJson.categories
+                            .Where(x => oldCategoryIds.Contains(x.id))
                             .Select(x => ObjectMapper.Map<CategoriesItemDto, Category>(x)).ToList();
-                        var tagForUpdate = restoreJson.tags.Where(x => oldTagsIds.Contains(x.id))
+
+                        var tagForUpdate = restoreJson.tags
+                            .Where(x => oldTagsIds.Contains(x.id))
                             .Select(x => ObjectMapper.Map<TagsItemDto, Tag>(x)).ToList();
 
                         await _repositoryAccount.UpdateManyAsync(accountForUpdate);
@@ -180,36 +185,37 @@ namespace SinsensApp.Wallets
                             var transaction = restoreJson.transactions.Find(x => x.id == item.Id);
                             item.Tags = await _repositoryTag.Where(x => transaction.tag_ids.Contains(x.Id)).ToListAsync();
                         }
-                        var transactionForUpdate = restoreJson.transactions.Where(x => oldTransactionIds.Contains(x.id))
+
+                        var transactionForUpdate = restoreJson.transactions
+                            .Where(x => oldTransactionIds.Contains(x.id))
                             .Select(x => ObjectMapper.Map<TransactionsItemDto, Transaction>(x)).ToList();
+
                         await _repositoryTransaction.UpdateManyAsync(transactionForUpdate);
                     }
 
                     // 执行插入
+                    foreach (var item in restoreJson.currencies)
                     {
-                        foreach (var item in restoreJson.currencies)
+                        if (currencies.Any(x => x.Code == item.code) == false)
                         {
-                            if (currencies.Any(x => x.Code == item.code) == false)
-                            {
-                                var model = ObjectMapper.Map(item, new Currency());
-                                await _repositoryCurrency.InsertAsync(model);
-                                currencies.Add(model);
-                            }
+                            var model = ObjectMapper.Map(item, new Currency());
+                            await _repositoryCurrency.InsertAsync(model);
+                            currencies.Add(model);
                         }
-
-                        await _repositoryAccount.InsertManyAsync(accountForInsert);
-                        await _repositoryCategory.InsertManyAsync(categoryForInsert);
-                        await _repositoryTag.InsertManyAsync(tagForInsert);
-                        await CurrentUnitOfWork.SaveChangesAsync();
-                        var tagsAll = await _repositoryTag.GetListAsync();
-                        // 处理交易标签
-                        foreach (var item in transactionForInsert)
-                        {
-                            var transaction = restoreJson.transactions.Find(x => x.id == item.Id);
-                            item.Tags = tagsAll.Where(x => transaction.tag_ids.Contains(x.Id)).ToList();
-                        }
-                        await _repositoryTransaction.InsertManyAsync(transactionForInsert);
                     }
+
+                    await _repositoryAccount.InsertManyAsync(accountForInsert);
+                    await _repositoryCategory.InsertManyAsync(categoryForInsert);
+                    await _repositoryTag.InsertManyAsync(tagForInsert);
+                    await CurrentUnitOfWork.SaveChangesAsync();
+                    var tagsAll = await _repositoryTag.GetListAsync();
+                    // 处理交易标签
+                    foreach (var item in transactionForInsert)
+                    {
+                        var transaction = restoreJson.transactions.Find(x => x.id == item.Id);
+                        item.Tags = tagsAll.Where(x => transaction.tag_ids.Contains(x.Id)).ToList();
+                    }
+                    await _repositoryTransaction.InsertManyAsync(transactionForInsert);
                 }
             }
             catch (Exception)
@@ -217,24 +223,70 @@ namespace SinsensApp.Wallets
                 await _cache.RemoveAsync(cacheKey);
                 throw;
             }
+        }
 
-            return $"还原成功，原有数据已自动备份到：{backupJson.Url}， 备份大小为：{backupJson.Size / 1024 } KB";
+        private static async Task<BackupJsonDto> ReadBackupJsonFromPostFile(IFormFile postFile, BackupJsonDto restoreJson)
+        {
+            using (var stream = postFile.OpenReadStream())
+            {
+                var bytes = await stream.GetAllBytesAsync();
+                if (bytes.LongLength > 1024 * 1024 * 10)
+                {
+                    throw new UserFriendlyException("上传文件大小不得超过 10 MB");
+                }
+                var content = Encoding.Default.GetString(bytes);
+                restoreJson = JsonConvert.DeserializeObject<BackupJsonDto>(content);
+                if (restoreJson == null)
+                {
+                    throw new UserFriendlyException("上传文件格式不正确，反序列化失败");
+                }
+            }
+
+            return restoreJson;
         }
 
         private async Task<WalletBackupRequestResultDto> BackupToJson()
         {
             var result = new WalletBackupRequestResultDto();
+
+            BackupJsonDto backupJson = await CreateBackupJson();
+
+            var filename = $"WalletBackupJson_{Clock.Now.ToString("yyyy-MM-dd")}_{GuidGenerator.Create().ToString("n").Substring(20, 5)}.json";
+            var tempSaveDir = Path.Combine(_hostingEnvironment.WebRootPath, $"Temp{Path.DirectorySeparatorChar}Downloads{Path.DirectorySeparatorChar}{CurrentTenant.Name}{Path.DirectorySeparatorChar}{CurrentUser.UserName}{Path.DirectorySeparatorChar}");
+            var tempSavePath = $"{tempSaveDir}{filename}";
+            var jsonContent = _jsonSerializer.Serialize(backupJson);
+
+            if (Directory.Exists(tempSaveDir) == false)
+            {
+                Directory.CreateDirectory(tempSaveDir);
+            }
+            await File.WriteAllTextAsync(tempSavePath, jsonContent);
+
+            result.Url = $"/Temp/Downloads/{CurrentTenant.Name}/{CurrentUser.UserName}/{filename}";
+            result.Size = new FileInfo(tempSavePath).Length;
+
+            return result;
+        }
+
+        private async Task<BackupJsonDto> CreateBackupJson()
+        {
             var backupJson = new BackupJsonDto();
 
             using (_dataFilter.Disable<ISoftDelete>())
-            using (_dataFilter.Disable<IMultiTenant>())
             {
-                var accounts = await _repositoryAccount.AsNoTracking().Where(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id).ToListAsync();
+                var accounts = await _repositoryAccount.AsNoTracking()
+                    .Where(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id).ToListAsync();
 
                 var currencies = await _repositoryCurrency.AsNoTracking().ToListAsync();
-                var categories = await _repositoryCategory.AsNoTracking().Where(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id).ToListAsync();
-                var tags = await _repositoryTag.AsNoTracking().Where(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id).ToListAsync();
-                var transactions = await _repositoryTransaction.AsNoTracking().IncludeDetails(true).Where(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id).ToListAsync();
+
+                var categories = await _repositoryCategory.AsNoTracking()
+                    .Where(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id).ToListAsync();
+
+                var tags = await _repositoryTag.AsNoTracking()
+                    .Where(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id).ToListAsync();
+
+                var transactions = await _repositoryTransaction.AsNoTracking()
+                    .IncludeDetails(true).Where(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id).ToListAsync();
 
                 foreach (var item in accounts)
                 {
@@ -255,26 +307,12 @@ namespace SinsensApp.Wallets
                 foreach (var item in transactions)
                 {
                     var transaction = new TransactionsItemDto();
-                    ObjectMapper.Map<Transaction, TransactionsItemDto>(item, transaction);
+                    ObjectMapper.Map(item, transaction);
                     backupJson.transactions.Add(transaction);
                 }
             }
 
-            var filename = $"WalletBackupJson_{Clock.Now.ToString("yyyy-MM-dd")}_{GuidGenerator.Create().ToString("n").Substring(20, 5)}.json";
-            var tempSaveDir = Path.Combine(_hostingEnvironment.WebRootPath, $"Temp{Path.DirectorySeparatorChar}Downloads{Path.DirectorySeparatorChar}{CurrentTenant.Name}{Path.DirectorySeparatorChar}{CurrentUser.UserName}{Path.DirectorySeparatorChar}");
-            var tempSavePath = $"{tempSaveDir}{filename}";
-            var jsonContent = _jsonSerializer.Serialize(backupJson);
-
-            if (Directory.Exists(tempSaveDir) == false)
-            {
-                Directory.CreateDirectory(tempSaveDir);
-            }
-            await File.WriteAllTextAsync(tempSavePath, jsonContent);
-
-            result.Url = $"/Temp/Downloads/{CurrentTenant.Name}/{CurrentUser.UserName}/{filename}";
-            result.Size = new FileInfo(tempSavePath).Length;
-
-            return result;
+            return backupJson;
         }
     }
 }

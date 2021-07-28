@@ -71,16 +71,7 @@ namespace SinsensApp.Wallets
                     }
                 }
             }
-            if (input.Tags.Any())
-            {
-                var tagIds = input.Tags.Select(x => x.Id).ToList();
-                var tags = await _repositoryTag.Where(x => tagIds.Contains(x.Id)).ToArrayAsync();
-                entity.Tags = tags;
-            }
-            else
-            {
-                entity.Tags.Clear();
-            }
+            await UpdateTags(input, entity);
             await Repository.UpdateAsync(entity);
             await _localEventBus.PublishAsync(new TransactionUpdatedEventEto(entity));
             await CurrentUnitOfWork.SaveChangesAsync();
@@ -103,16 +94,7 @@ namespace SinsensApp.Wallets
                 }
             }
 
-            if (input.Tags.Any())
-            {
-                var tagIds = input.Tags.Select(x => x.Id).ToList();
-                var tags = await _repositoryTag.GetListAsync(x => tagIds.Contains(x.Id));
-                entity.Tags = tags;
-            }
-            else
-            {
-                entity.Tags = null;
-            }
+            await UpdateTags(input, entity);
             await _localEventBus.PublishAsync(new TransactionCreatingEventEto(entity));
             await Repository.InsertAsync(entity);
             await CurrentUnitOfWork.SaveChangesAsync();
@@ -137,6 +119,20 @@ namespace SinsensApp.Wallets
         protected override IQueryable<Transaction> ApplyDefaultSorting(IQueryable<Transaction> query)
         {
             return query.OrderBy(x => x.TransactionState).ThenByDescending(x => x.Date);
+        }
+
+        private async Task UpdateTags(CreateUpdateTransactionDto input, Transaction entity)
+        {
+            if (input.Tags.Any())
+            {
+                var tagIds = input.Tags.Select(x => x.Id).ToList();
+                var tags = await _repositoryTag.Where(x => tagIds.Contains(x.Id)).ToArrayAsync();
+                entity.Tags = tags;
+            }
+            else
+            {
+                entity.Tags.Clear();
+            }
         }
 
         private async Task<List<Transaction>> IncludeDetails(List<Transaction> entities)

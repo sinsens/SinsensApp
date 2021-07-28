@@ -99,35 +99,40 @@ namespace SinsensApp.Wallets
                 }
                 result.Total += transaction.Amount;
 
-                if (transaction.Category != null && transaction.TransactionType == TransactionType.Expenditure)
-                {
-                    var category = result.Items.Where(x => x.Text == transaction.Category.Title).FirstOrDefault();
-                    if (category == null)
-                    {
-                        category = new PeriodResultListItemDto();
-                        ObjectMapper.Map(transaction.Category, category);
-                        result.Items.Add(category);
-                    }
-                    category.Value += transaction.Amount;
+                CalculateCategory(result, transaction);
+            }
+            return CalculateResultPercent(result);
+        }
 
-                    if (transaction.Tags.Any())
+        private void CalculateCategory(PeriodExpenseStatRequestResultDto result, Transaction transaction)
+        {
+            if (transaction.Category != null && transaction.TransactionType == TransactionType.Expenditure)
+            {
+                var category = result.Items.Where(x => x.Text == transaction.Category.Title).FirstOrDefault();
+                if (category == null)
+                {
+                    category = new PeriodResultListItemDto();
+                    ObjectMapper.Map(transaction.Category, category);
+                    result.Items.Add(category);
+                }
+                category.Value += transaction.Amount;
+                foreach (var item in transaction.Tags)
+                {
+                    var tag = category.Children.Where(x => x.Text == item.Title).FirstOrDefault();
+                    if (tag == null)
                     {
-                        foreach (var item in transaction.Tags)
-                        {
-                            var tag = category.Children.Where(x => x.Text == item.Title).FirstOrDefault();
-                            if (tag == null)
-                            {
-                                tag = new PeriodResultListItemDto();
-                                ObjectMapper.Map(item, tag);
-                                category.Children.Add(tag);
-                            }
-                            tag.Value += transaction.Amount;
-                        }
+                        tag = new PeriodResultListItemDto();
+                        ObjectMapper.Map(item, tag);
+                        category.Children.Add(tag);
                     }
+                    tag.Value += transaction.Amount;
                 }
             }
+        }
 
-            if (result.Expenditure > 0)
+        private PeriodExpenseStatRequestResultDto CalculateResultPercent(PeriodExpenseStatRequestResultDto result)
+        {
+            if (result != null && result.Expenditure > 0)
                 foreach (var item in result.Items)
                 {
                     item.Percent = (float)Math.Round(item.Value / result.Expenditure, 4);
