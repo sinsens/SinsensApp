@@ -12,7 +12,7 @@ try {
 }
 
 // 需要永久存储，且下次APP启动需要取出的，在state中的变量名
-let saveStateKeys = ['vuex_user', 'vuex_token', 'vuex_lang'];
+let saveStateKeys = ['vuex_user', 'vuex_token', 'vuex_lang', 'vuex_api_base_url'];
 
 // 保存变量到本地存储中
 const saveLifeData = function(key, value) {
