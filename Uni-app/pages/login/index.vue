@@ -106,6 +106,14 @@
 					title: '加载中'
 				})
 				try {
+					this.$store.commit('$uStore', {
+						name: 'vuex_token_end_points',
+						value: null
+					})
+					this.$store.commit('$uStore', {
+						name: 'vuex_token',
+						value: null
+					})
 					request({
 						url: '/.well-known/openid-configuration'
 					}).then(res => {
