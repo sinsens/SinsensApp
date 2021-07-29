@@ -40,6 +40,7 @@ using Volo.Abp.VirtualFileSystem;
 using Microsoft.AspNetCore.Components;
 using System.Linq;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace SinsensApp.Web
 {
@@ -256,6 +257,19 @@ namespace SinsensApp.Web
             }
 
             app.UseUnitOfWork();
+
+            app.UseHsts();
+            // 提供反向代理 https 支持
+            var forwardOptions = new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+                RequireHeaderSymmetry = false
+            };
+
+            forwardOptions.KnownNetworks.Clear();
+            forwardOptions.KnownProxies.Clear();
+            app.UseForwardedHeaders(forwardOptions);
+
             app.UseIdentityServer();
             app.UseAuthorization();
             app.UseSwagger();
