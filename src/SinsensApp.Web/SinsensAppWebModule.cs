@@ -233,6 +233,14 @@ namespace SinsensApp.Web
             var app = context.GetApplicationBuilder();
             var env = context.GetEnvironment();
 
+            // 提供反向代理 https 支持 https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/linux-nginx?view=aspnetcore-5.0
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+                RequireHeaderSymmetry = false
+            }
+            );
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -257,19 +265,6 @@ namespace SinsensApp.Web
             }
 
             app.UseUnitOfWork();
-
-            app.UseHsts();
-            // 提供反向代理 https 支持
-            var forwardOptions = new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
-                RequireHeaderSymmetry = false
-            };
-
-            forwardOptions.KnownNetworks.Clear();
-            forwardOptions.KnownProxies.Clear();
-            app.UseForwardedHeaders(forwardOptions);
-
             app.UseIdentityServer();
             app.UseAuthorization();
             app.UseSwagger();
