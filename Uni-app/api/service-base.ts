@@ -86,17 +86,33 @@ export function request<U = any>(option: RequestOptions<U>) {
 			}
 		} else {
 			option.success = (response) => {
+				uni.hideLoading()
+				if(response.data && typeof(response.data) == 'string' && response.data.indexOf('<head>') > -1){
+					// 一般是未登录跳转，这里直接判断为未登录
+					uni.showToast({
+						title: '未登录',
+						icon: 'error'
+					})
+					setTimeout(()=>{
+						uni.reLaunch({
+							url: '/'
+						})
+					}, 1200)
+					return
+				}
 				const { error,error_description } = response.data
 				if(error && error_description){
 					reject(response.data)
 				}else if(response.statusCode !== 200){
 					const { error: { message, details } } = response.data
-					uni.hideLoading()
+					
 					uni.showModal({
 						title: message || '请求错误',
 						content: details,
 						showCancel: false
 					})
+					console.log('err', response)
+					reject('failed')
 				}else{
 					resolve(response)
 				}

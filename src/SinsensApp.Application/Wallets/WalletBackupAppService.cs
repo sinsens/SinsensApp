@@ -116,6 +116,7 @@ namespace SinsensApp.Wallets
             return $"还原成功，原有数据已自动备份到：{backupJson.Url}， 备份大小为：{backupJson.Size / 1024 } KB";
         }
 
+        [UnitOfWork]
         private async Task RestoreFromBackupJson(bool clearBeforeRestore, bool skipIfExists, BackupJsonDto restoreJson, string cacheKey)
         {
             try
@@ -207,8 +208,8 @@ namespace SinsensApp.Wallets
                     await _repositoryAccount.InsertManyAsync(accountForInsert);
                     await _repositoryCategory.InsertManyAsync(categoryForInsert);
                     await _repositoryTag.InsertManyAsync(tagForInsert);
-                    await CurrentUnitOfWork.SaveChangesAsync();
                     var tagsAll = await _repositoryTag.GetListAsync();
+                    await CurrentUnitOfWork.SaveChangesAsync();
                     // 处理交易标签
                     foreach (var item in transactionForInsert)
                     {
@@ -221,7 +222,12 @@ namespace SinsensApp.Wallets
             catch (Exception)
             {
                 await _cache.RemoveAsync(cacheKey);
+                await CurrentUnitOfWork.RollbackAsync();
                 throw;
+            }
+            finally
+            {
+                GC.Collect();
             }
         }
 
@@ -262,7 +268,8 @@ namespace SinsensApp.Wallets
             }
             await File.WriteAllTextAsync(tempSavePath, jsonContent);
 
-            result.Url = $"/Temp/Downloads/{CurrentTenant.Name}/{CurrentUser.UserName}/{filename}";
+            var request = _httpContextAccessor.HttpContext.Request;
+            result.Url = $"{request.Scheme}://{request.Host}{request.PathBase}/Temp/Downloads/{CurrentTenant.Name}/{CurrentUser.UserName}/{filename}";
             result.Size = new FileInfo(tempSavePath).Length;
 
             return result;
