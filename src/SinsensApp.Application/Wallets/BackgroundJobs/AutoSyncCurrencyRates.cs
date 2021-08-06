@@ -47,8 +47,6 @@ namespace SinsensApp.Wallets
             _clock = clock;
 
             timer.Period = 24 * 3600 * 1000; // 每天执行一次
-
-            Task.Run(() => Sync());
         }
 
         protected override void DoWork(PeriodicBackgroundWorkerContext workerContext)
