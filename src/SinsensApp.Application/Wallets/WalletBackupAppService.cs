@@ -18,6 +18,10 @@ using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Json;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
+using Volo.Abp.EventBus;
+using Volo.Abp.EventBus.Distributed;
+using SinsensApp.AI.Event.Eto;
+using SinsensApp.Wallets.Event;
 
 namespace SinsensApp.Wallets
 {
@@ -34,6 +38,7 @@ namespace SinsensApp.Wallets
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IDataFilter _dataFilter;
         private readonly IDistributedCache<WalletBackupRequestResultDto, string> _cache;
+        private readonly IDistributedEventBus _eventBus;
 
         public WalletBackupAppService(
             IWebHostEnvironment webHostEnvironment,
@@ -45,7 +50,8 @@ namespace SinsensApp.Wallets
             IRepository<Currency, string> currencies,
             IHttpContextAccessor httpContextAccessor,
             IDataFilter dataFilter,
-            IDistributedCache<WalletBackupRequestResultDto, string> cache
+            IDistributedCache<WalletBackupRequestResultDto, string> cache,
+            IDistributedEventBus eventBus
         )
         {
             _hostingEnvironment = webHostEnvironment;
@@ -58,6 +64,7 @@ namespace SinsensApp.Wallets
             _httpContextAccessor = httpContextAccessor;
             _dataFilter = dataFilter;
             _cache = cache;
+            _eventBus = eventBus;
         }
 
         [HttpGet]
@@ -137,10 +144,10 @@ namespace SinsensApp.Wallets
                     // 清理现有数据，硬删除
                     if (clearBeforeRestore)
                     {
-                        await _repositoryTransaction.HardDeleteAsync(x => oldTransactionIds.Contains(x.Id));
-                        await _repositoryAccount.HardDeleteAsync(x => oldAccountIds.Contains(x.Id));
-                        await _repositoryCategory.HardDeleteAsync(x => oldCategoryIds.Contains(x.Id));
-                        await _repositoryTag.HardDeleteAsync(x => oldTagsIds.Contains(x.Id));
+                        await _repositoryTransaction.HardDeleteAsync(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id);
+                        await _repositoryAccount.HardDeleteAsync(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id);
+                        await _repositoryCategory.HardDeleteAsync(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id);
+                        await _repositoryTag.HardDeleteAsync(x => x.UserId == CurrentUser.Id || x.CreatorId == CurrentUser.Id);
                     }
 
                     var accountForInsert = restoreJson.accounts
@@ -217,6 +224,8 @@ namespace SinsensApp.Wallets
                         item.Tags = tagsAll.Where(x => transaction.tag_ids.Contains(x.Id)).ToList();
                     }
                     await _repositoryTransaction.InsertManyAsync(transactionForInsert);
+                    await CurrentUnitOfWork.SaveChangesAsync();
+                    await _eventBus.PublishAsync(new StartExpenseForcastModelBuilderEto(CurrentUser.Id.Value, CurrentUser.TenantId));
                 }
             }
             catch (Exception)
@@ -224,10 +233,6 @@ namespace SinsensApp.Wallets
                 await _cache.RemoveAsync(cacheKey);
                 await CurrentUnitOfWork.RollbackAsync();
                 throw;
-            }
-            finally
-            {
-                GC.Collect();
             }
         }
 

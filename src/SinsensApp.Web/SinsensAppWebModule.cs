@@ -41,11 +41,13 @@ using Microsoft.AspNetCore.Components;
 using System.Linq;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.HttpOverrides;
+using SinsensApp.AI;
 
 namespace SinsensApp.Web
 {
     [DependsOn(
         typeof(SinsensAppHttpApiModule),
+        typeof(SinsensAppAIModule),
         typeof(SinsensAppApplicationModule),
         typeof(SinsensAppEntityFrameworkCoreDbMigrationsModule),
         typeof(AbpAutofacModule),
@@ -205,6 +207,7 @@ namespace SinsensApp.Web
             Configure<AbpAspNetCoreMvcOptions>(options =>
             {
                 options.ConventionalControllers.Create(typeof(SinsensAppApplicationModule).Assembly);
+                options.ConventionalControllers.Create(typeof(SinsensAppAIModule).Assembly);
             });
         }
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SinsensApp.AI;
 using SinsensApp.Wallets;
 using Volo.Abp;
 using Volo.Abp.Account;
@@ -23,7 +24,8 @@ namespace SinsensApp
         typeof(AbpPermissionManagementApplicationModule),
         typeof(AbpTenantManagementApplicationModule),
         typeof(AbpFeatureManagementApplicationModule),
-        typeof(AbpSettingManagementApplicationModule)
+        typeof(AbpSettingManagementApplicationModule),
+        typeof(SinsensAppAIModule)
         )]
     public class SinsensAppApplicationModule : AbpModule
     {
