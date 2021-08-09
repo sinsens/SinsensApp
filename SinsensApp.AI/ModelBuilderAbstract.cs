@@ -8,6 +8,7 @@ using Volo.Abp.BackgroundJobs;
 using System.Threading.Tasks;
 using Volo.Abp.EventBus.Distributed;
 using SinsensApp.AI.Event.Eto;
+using Microsoft.Extensions.Logging;
 
 namespace SinsensApp.AI
 {
@@ -36,20 +37,20 @@ namespace SinsensApp.AI
 
         public ITransformer TrainModel(MLContext mlContext, IDataView trainingDataView, IEstimator<ITransformer> trainingPipeline)
         {
-            Console.WriteLine("=============== Training  model ===============");
+            Logger.Log(LogLevel.Information, "=============== Training  model ===============");
 
             ITransformer model = trainingPipeline.Fit(trainingDataView);
 
-            Console.WriteLine("=============== End of training process ===============");
+            Logger.Log(LogLevel.Information, "=============== End of training process ===============");
             return model;
         }
 
-        protected static void SaveModel(MLContext mlContext, ITransformer mlModel, string modelRelativePath, DataViewSchema modelInputSchema)
+        protected void SaveModel(MLContext mlContext, ITransformer mlModel, string modelRelativePath, DataViewSchema modelInputSchema)
         {
             // Save/persist the trained model to a .ZIP file
-            Console.WriteLine($"=============== Saving the model  ===============");
+            Logger.Log(LogLevel.Information, $"=============== Saving the model  ===============");
             mlContext.Model.Save(mlModel, modelInputSchema, GetAbsolutePath(modelRelativePath));
-            Console.WriteLine("The model is saved to {0}", GetAbsolutePath(modelRelativePath));
+            Logger.Log(LogLevel.Information, "The model is saved to {0}", GetAbsolutePath(modelRelativePath));
         }
 
         public static string GetAbsolutePath(string relativePath)

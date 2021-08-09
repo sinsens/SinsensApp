@@ -207,7 +207,6 @@ namespace SinsensApp.Web
             Configure<AbpAspNetCoreMvcOptions>(options =>
             {
                 options.ConventionalControllers.Create(typeof(SinsensAppApplicationModule).Assembly);
-                options.ConventionalControllers.Create(typeof(SinsensAppAIModule).Assembly);
             });
         }
 

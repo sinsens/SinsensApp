@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,9 +10,9 @@ using Volo.Abp.Users;
 
 namespace SinsensApp.Wallets.Event
 {
-    public class StartExpenseForcastModelBuilderEto
+    public class WalletRestoreFromJsonEto
     {
-        public StartExpenseForcastModelBuilderEto(Guid userId, Guid? tenantId)
+        public WalletRestoreFromJsonEto(Guid userId, Guid? tenantId)
         {
             UserId = userId;
             TenantId = tenantId;

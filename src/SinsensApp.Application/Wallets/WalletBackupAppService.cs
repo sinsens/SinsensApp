@@ -20,7 +20,6 @@ using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
 using Volo.Abp.EventBus;
 using Volo.Abp.EventBus.Distributed;
-using SinsensApp.AI.Event.Eto;
 using SinsensApp.Wallets.Event;
 
 namespace SinsensApp.Wallets
@@ -119,6 +118,7 @@ namespace SinsensApp.Wallets
             }
 
             await RestoreFromBackupJson(clearBeforeRestore, skipIfExists, restoreJson, cacheKey);
+            await _eventBus.PublishAsync(new WalletRestoreFromJsonEto(CurrentUser.Id.Value, CurrentUser.TenantId));
 
             return $"还原成功，原有数据已自动备份到：{backupJson.Url}， 备份大小为：{backupJson.Size / 1024 } KB";
         }
@@ -185,7 +185,6 @@ namespace SinsensApp.Wallets
                         await _repositoryAccount.UpdateManyAsync(accountForUpdate);
                         await _repositoryCategory.UpdateManyAsync(categoryForUpdate);
                         await _repositoryTag.UpdateManyAsync(tagForUpdate);
-                        await CurrentUnitOfWork.SaveChangesAsync();
 
                         // 处理交易标签
                         foreach (var item in transactionForInsert)
@@ -216,7 +215,7 @@ namespace SinsensApp.Wallets
                     await _repositoryCategory.InsertManyAsync(categoryForInsert);
                     await _repositoryTag.InsertManyAsync(tagForInsert);
                     var tagsAll = await _repositoryTag.GetListAsync();
-                    await CurrentUnitOfWork.SaveChangesAsync();
+
                     // 处理交易标签
                     foreach (var item in transactionForInsert)
                     {
@@ -225,7 +224,6 @@ namespace SinsensApp.Wallets
                     }
                     await _repositoryTransaction.InsertManyAsync(transactionForInsert);
                     await CurrentUnitOfWork.SaveChangesAsync();
-                    await _eventBus.PublishAsync(new StartExpenseForcastModelBuilderEto(CurrentUser.Id.Value, CurrentUser.TenantId));
                 }
             }
             catch (Exception)

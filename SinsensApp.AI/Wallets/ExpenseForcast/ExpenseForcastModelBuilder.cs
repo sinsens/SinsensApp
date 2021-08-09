@@ -12,6 +12,7 @@ using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.ML.Trainers;
+using Microsoft.Extensions.Logging;
 
 namespace SinsensApp.AI.Wallets.ExpenseForcast
 {
@@ -29,13 +30,13 @@ namespace SinsensApp.AI.Wallets.ExpenseForcast
         {
             if (input.DataFilePath.IsNullOrWhiteSpace())
             {
-                throw new Exception("数据文件路径不能为空！");
+                throw new ArgumentException("数据文件路径不能为空！");
             }
             var fileInfo = new FileInfo(input.DataFilePath);
 
             if (!fileInfo.Exists)
             {
-                throw new Exception("指定的数据文件不存在！");
+                throw new FileNotFoundException($"指定的数据文件不存在！路径：{input.DataFilePath}");
             }
 
             mlContext = new MLContext(seed: 1);
@@ -46,32 +47,10 @@ namespace SinsensApp.AI.Wallets.ExpenseForcast
             {
                 if (saveModelFileInfo.CreationTime > fileInfo.CreationTime.AddDays(1))
                 {
+                    Logger.LogInformation("该数据集 {0} 近期已训练过", fileInfo.Name);
                     return;
                 }
-                // 重新训练
-                DataViewSchema modelSchema;
-                var trainedModel = mlContext.Model.Load(saveModelFileInfo.FullName, out modelSchema);
-
-                // Extract trained model parameters
-                LinearRegressionModelParameters originalModelParameters =
-                    ((ISingleFeaturePredictionTransformer<object>)trainedModel).Model as LinearRegressionModelParameters;
-
-                // Load Data
-                IDataView trainingDataView = mlContext.Data.LoadFromTextFile<ExpenseForcastModelBuilderTrainDataInputDto>(path: fileInfo.FullName,
-                                                    hasHeader: false,
-                                                    separatorChar: ',',
-                                                    allowQuoting: true,
-                                                    allowSparse: false);
-
-                // Retrain model
-                RegressionPredictionTransformer<LinearRegressionModelParameters> retrainedModel =
-                    mlContext.Regression.Trainers.OnlineGradientDescent()
-                        .Fit(trainingDataView, originalModelParameters);
-                // Save model
-                SaveModel(mlContext, retrainedModel, saveModelFileInfo.FullName, trainingDataView.Schema);
-            }
-            else
-            {
+                Logger.LogInformation("训练数据集 {0}", fileInfo.Name);
                 // Load Data
                 IDataView trainingDataView = mlContext.Data.LoadFromTextFile<ExpenseForcastModelBuilderTrainDataInputDto>(path: fileInfo.FullName,
                                                     hasHeader: false,
@@ -84,8 +63,12 @@ namespace SinsensApp.AI.Wallets.ExpenseForcast
 
                 // Train Model
                 ITransformer mlModel = TrainModel(mlContext, trainingDataView, trainingPipeline);
+
+                Logger.LogInformation("训练数据集 {0} 完成", fileInfo.Name);
                 // Save model
                 SaveModel(mlContext, mlModel, saveModelFileInfo.FullName, trainingDataView.Schema);
+
+                Logger.LogInformation("训练数据集 {0} 保存完成", fileInfo.Name);
             }
         }
 
@@ -96,18 +79,16 @@ namespace SinsensApp.AI.Wallets.ExpenseForcast
             {
                 CreateModel(args);
                 output.Result = true;
-            }
-            catch (Exception ex)
-            {
-                output.Message = ex.Message;
-            }
-            finally
-            {
                 output.End = DateTime.Now;
                 Task.Run(() =>
                 {
                     _eventBus.PublishAsync(output);
                 });
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "训练数据集 {0} 时发生错误", args.DataFilePath);
+                throw;
             }
         }
     }
