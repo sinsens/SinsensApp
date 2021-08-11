@@ -42,10 +42,12 @@ using System.Linq;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.HttpOverrides;
 using SinsensApp.AI;
+using SinsensApp.ChatRoom;
 
 namespace SinsensApp.Web
 {
     [DependsOn(
+        typeof(SinsensAppChatRoomModule),
         typeof(SinsensAppHttpApiModule),
         typeof(SinsensAppAIModule),
         typeof(SinsensAppApplicationModule),

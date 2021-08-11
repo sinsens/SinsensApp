@@ -1,0 +1,64 @@
+﻿@page
+@model SinsensApp.Web.Pages.ChatRoomModel
+@{
+    ViewData["Title"] = "聊天室";
+}
+@section styles {
+    <abp-style src="/Pages/Index.css" />
+}
+@section scripts {
+    <abp-script src="/Pages/Index.js" />
+}
+
+<h2>Chat Room</h2>
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">聊天室列表</div>
+    </div>
+</div>
+<div class="">
+    <div id="msgPanel" style="min-height:120px; min-width:320px"></div>
+    <textarea class="form-control input-group-text" id="msg" rows="6" cols="30"></textarea>
+    <button class="btn btn-primary" id="sendMsg">Send</button>
+</div>
+
+<script src="~/lib/aspnet-signalr/signalr.min.js"></script>
+<script>
+    const setupConn = async () => {
+        conn = new signalR.HubConnectionBuilder()
+            .withUrl("/hub/chatroom")
+            .build();
+
+        conn.on("AddUserMsg", (obj) => {
+            console.log(obj);
+            $('#msgPanel').append(`<p>${obj}</p>`);
+        });
+
+        conn.on("Finished", () => {
+            conn.stop();
+            $('#msgPanel').text('log out!');
+        });
+
+        conn.on("Self", (obj) => {
+            $('#userId').text(obj);
+        });
+
+        document.getElementById("sendMsg").addEventListener("click", function () {
+            console.log('click me')
+            var msgBox = document.getElementById("msg");
+
+            conn.invoke("AddUserMsg", msgBox.value).catch(err => {
+                console.error(err)
+            }).then(() => {
+                msgBox.value = ''
+            })
+        });
+
+        await conn.start().catch(err => console.log(err));
+        conn.invoke("GetChatRooms").then(res => {
+            console.log('GetChatRooms', res)
+        })
+    }
+    document.onload = setupConn();
+</script>
