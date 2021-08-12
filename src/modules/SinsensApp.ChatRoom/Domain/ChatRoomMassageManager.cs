@@ -37,31 +37,31 @@ namespace SinsensApp.ChatRoom.Domain
             _database = _connectionMultiplexer.GetDatabase(0);
         }
 
-        public async Task AddMessageAsync(IMessage msg)
+        public async Task AddMessageAsync(string roomId, IMessage msg)
         {
-            await _database.ListRightPushAsync(Id, _serializer.Serialize(msg));
+            await _database.ListRightPushAsync(roomId, _serializer.Serialize(msg));
         }
 
-        public async Task<IEnumerable<IMessage>> GetAllMessages()
+        public async Task<IEnumerable<IMessage>> GetAllMessages(string roomId)
         {
-            var list = await _database.ListRangeAsync(Id);
-            var result = list.Select(x => _serializer.Deserialize<IMessage>(x));
+            var list = await _database.ListRangeAsync(roomId);
+            var result = list.Select(x => _serializer.Deserialize<Message>(x));
             return result;
         }
 
-        public async Task<IEnumerable<IMessage>> GetMessages(long index, long count = 10)
+        public async Task<IEnumerable<IMessage>> GetMessages(string roomId, long index, long count = 10)
         {
             var stop = count < 2 ? 1 : count - 1;
-            var list = await _database.ListRangeAsync(Id, index, index + stop);
-            var result = list.Select(x => _serializer.Deserialize<IMessage>(x));
+            var list = await _database.ListRangeAsync(roomId, index, index + stop);
+            var result = list.Select(x => _serializer.Deserialize<Message>(x));
             return result;
         }
 
-        public async Task AddMessagesAsync(IEnumerable<IMessage> msgs)
+        public async Task AddMessagesAsync(string roomId, IEnumerable<IMessage> msgs)
         {
             foreach (var msg in msgs)
             {
-                await _database.ListRightPushAsync(Id, _serializer.Serialize(msg));
+                await _database.ListRightPushAsync(roomId, _serializer.Serialize(msg));
             }
         }
     }

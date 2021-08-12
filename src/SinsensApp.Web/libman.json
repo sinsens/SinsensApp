@@ -8,13 +8,6 @@
       "files": [
         "signalr.min.js"
       ]
-    },
-    {
-      "library": "vue@3.2.1",
-      "destination": "wwwroot/vue/",
-      "files": [
-        "vue.esm-browser.min.js"
-      ]
     }
   ]
 }

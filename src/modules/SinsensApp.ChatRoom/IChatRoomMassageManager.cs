@@ -19,20 +19,20 @@ namespace SinsensApp.ChatRoom
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
-        Task AddMessageAsync(IMessage msg);
+        Task AddMessageAsync(string roomId, IMessage msg);
 
         /// <summary>
         /// 加入聊天记录
         /// </summary>
         /// <param name="msgs"></param>
         /// <returns></returns>
-        Task AddMessagesAsync(IEnumerable<IMessage> msgs);
+        Task AddMessagesAsync(string roomId, IEnumerable<IMessage> msgs);
 
         /// <summary>
         /// 获取全部聊天记录
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<IMessage>> GetAllMessages();
+        Task<IEnumerable<IMessage>> GetAllMessages(string roomId);
 
         /// <summary>
         /// 获取聊天记录
@@ -40,6 +40,6 @@ namespace SinsensApp.ChatRoom
         /// <param name="index">起始下标，从 0 开始</param>
         /// <param name="count">获取记录数</param>
         /// <returns></returns>
-        Task<IEnumerable<IMessage>> GetMessages(long index, long count);
+        Task<IEnumerable<IMessage>> GetMessages(string roomId, long index, long count);
     }
 }

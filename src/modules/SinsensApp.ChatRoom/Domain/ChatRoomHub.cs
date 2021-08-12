@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Volo.Abp.AspNetCore.SignalR;
 
@@ -23,67 +24,114 @@ namespace SinsensApp.ChatRoom.Domain
             _massageManager = massageManager;
         }
 
-        public virtual async Task<ResponseMessage> JoinGroup(string roomName, string userName)
+        public override async Task OnConnectedAsync()
+        {
+            await Clients.Caller.SendAsync("OnConnected", Context.ConnectionId);
+        }
+
+        public virtual async Task<ResponseMessage> JoinGroupAsync(string roomName)
         {
             if (_roomManager.IsExist(roomName))
             {
-                await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
-                var msg = new Message { Name = userName, MessagePublisherType = Definitions.MessagePublisherType.System, Value = $"{userName} 进入房间" };
-                await Clients.Group(roomName).SendAsync("AddSysMsg", msg);
-                return ResponseMessage.ResponseOk();
+                var user = _roomManager.FindUser(Context.ConnectionId);
+                if(user == null)
+                {
+                    return ResponseMessage.ResponseError("登录已过期，请重新登录");
+                }
+                var result = _roomManager.JoinRoom(roomName, Context.ConnectionId);
+                if (result.isOk)
+                {
+                    var message = new Message { Name = user.Name, MessagePublisherType = Definitions.MessagePublisherType.System, Value = $"{user.Name} 进入房间" };
+                    await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
+                    await Clients.Clients(_roomManager.GetChatRoom(roomName).Clients).SendAsync("AddUserMsg", message);
+                    return ResponseMessage.ResponseOk();
+                }
+                else
+                {
+                    return ResponseMessage.ResponseError(result.message);
+                }
             }
             return ResponseMessage.ResponseError("房间名称不存在");
         }
 
-        public virtual async Task<ResponseMessage> CreateRoom(string roomName)
+        public virtual async Task<ResponseMessage> CreateRoomAsync(string roomName)
         {
-            if (_roomManager.IsExist(roomName))
+            var result = _roomManager.CreateRoom(roomName, Context.ConnectionId);
+            if (result.isOk == false)
             {
-                return ResponseMessage.ResponseError("房间名称已存在");
+                return ResponseMessage.ResponseError(result.message);
             }
-            await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
             _roomManager.CreateRoom(roomName, Context.ConnectionId);
+            await JoinGroupAsync(roomName);
             return ResponseMessage.ResponseOk();
         }
 
-        public virtual async Task<ResponseMessage> AddUserMsg(string roomName, string msg)
+        public virtual async Task<ResponseMessage> AddUserMsgAsync(string roomName, string msg)
         {
             var cid = Context.ConnectionId;
-
-            var message = new Message()
-            {
-                Value = msg,
-                Name = cid,
-                MessagePublisherType = Definitions.MessagePublisherType.User
-            };
             // 向所有用户发送消息
             if (_roomManager.HasJoinRoom(roomName, cid) == false)
             {
                 return ResponseMessage.ResponseError("未加入该房间");
             }
-            await Clients.Groups(roomName).SendAsync("AddUserMsg", message);
-            await _massageManager.AddMessageAsync(message);
+            var user = _roomManager.FindUser(roomName, cid);
+            var room = _roomManager.GetChatRoom(roomName);
+            var message = new Message()
+            {
+                RoomId = room.Id,
+                Value = msg,
+                Name = user.Name,
+                MessagePublisherType = Definitions.MessagePublisherType.User
+            };
+
+            await Clients.Clients(_roomManager.GetChatRoom(roomName).Clients).SendAsync("AddUserMsg", message);
+            await _massageManager.AddMessageAsync(room.Id, message);
             return ResponseMessage.ResponseOk();
         }
 
-        public virtual async Task<IEnumerable<IMessage>> GetMessagesAsync()
+        public virtual async Task<IEnumerable<IMessage>> GetMessagesAsync(string roomName)
         {
-            return await _massageManager.GetAllMessages();
+            var room = _roomManager.GetChatRoom(roomName);
+            return await _massageManager.GetAllMessages(room.Id);
         }
 
-        public virtual async Task<IEnumerable<IMessage>> GetMessagesRangeAsync(int index, int count)
+        public virtual async Task<IEnumerable<IMessage>> GetMessagesRangeAsync(string roomName, int index, int count)
         {
-            return await _massageManager.GetMessages(index, count);
+            var room = _roomManager.GetChatRoom(roomName);
+            return await _massageManager.GetMessages(room.Id, index, count);
         }
 
-        public virtual IEnumerable<ChatRoom> GetChatRooms()
+        public virtual async Task<IEnumerable<ChatRoom>> GetChatRoomsAsync()
         {
-            return _roomManager.Rooms;
+            return await Task.Run(() => _roomManager.Rooms);
         }
 
-        public virtual void LeaveOutRoom(string roomName)
+        public virtual async Task LeaveOutRoomAsync(string roomName)
         {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
             _roomManager.LeaveRoom(roomName, Context.ConnectionId);
+        }
+
+        public virtual async Task ReConnectedAsync(string clientId)
+        {
+            await Task.Run(() => _roomManager.ReConnect(clientId, Context.ConnectionId));
+        }
+
+        public virtual async Task<ResponseMessage> UpdateMyNameAsync(string nickName)
+        {
+            return await Task.Run(() =>
+            {
+                var user = _roomManager.FindUser(Context.ConnectionId);
+                if (user != null)
+                {
+                    user.Name = nickName;
+                }
+                else
+                {
+                    _roomManager.Login(Context.ConnectionId, nickName);
+                }
+                return ResponseMessage.ResponseOk("更新成功");
+            });
         }
     }
 }

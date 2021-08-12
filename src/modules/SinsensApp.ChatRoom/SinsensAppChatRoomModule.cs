@@ -36,5 +36,15 @@ namespace SinsensApp.ChatRoom
                 endpoints.MapHub<ChatRoom.Domain.ChatRoomHub>("/hub/chatroom");
             });
         }
+
+        public override void OnApplicationShutdown(ApplicationShutdownContext context)
+        {
+            var roomManager = context.ServiceProvider.GetService<IChatRoomManager>();
+            if (roomManager != null)
+            {
+                roomManager.SaveData();
+            }
+            base.OnApplicationShutdown(context);
+        }
     }
 }

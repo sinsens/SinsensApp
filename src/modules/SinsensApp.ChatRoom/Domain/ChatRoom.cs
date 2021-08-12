@@ -12,13 +12,20 @@ namespace SinsensApp.ChatRoom.Domain
         {
             Managers = new List<RoomUser>();
             Users = new List<RoomUser>();
+            Id = Guid.NewGuid().ToString("n");
+            userClients = new HashSet<string>();
+            userHasChanges = true;
         }
+
+        private HashSet<string> userClients;
+        private bool userHasChanges;
 
         public void Login(RoomUser user)
         {
             if (Users.Any(x => x.Id == user.Id) == false)
             {
                 Users.Add(user);
+                userHasChanges = true;
             }
         }
 
@@ -28,6 +35,26 @@ namespace SinsensApp.ChatRoom.Domain
             if (idx > -1)
             {
                 Users.RemoveAt(idx);
+                userHasChanges = true;
+            }
+        }
+
+        public IEnumerable<string> Clients
+        {
+            get
+            {
+                userClients.Clear();
+                foreach (var user in Users)
+                {
+                    userClients.Add(user.Id);
+                }
+                foreach (var user in Managers)
+                {
+                    userClients.Add(user.Id);
+                }
+                if (Owner != null)
+                    userClients.Add(Owner.Id);
+                return userClients;
             }
         }
 
@@ -41,10 +68,19 @@ namespace SinsensApp.ChatRoom.Domain
         /// </summary>
         public string Id { get; set; }
 
-        public string OwnerId { get; set; }
+        /// <summary>
+        /// 房主
+        /// </summary>
+        public RoomUser Owner { get; set; }
 
+        /// <summary>
+        /// 房管
+        /// </summary>
         public IList<RoomUser> Managers { get; set; }
 
+        /// <summary>
+        /// 用户
+        /// </summary>
         public IList<RoomUser> Users { get; set; }
 
         /// <summary>

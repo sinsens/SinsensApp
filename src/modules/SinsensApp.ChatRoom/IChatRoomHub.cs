@@ -7,18 +7,63 @@ namespace SinsensApp.ChatRoom
 {
     public interface IChatRoomHub : IScopedDependency
     {
-        Task<ResponseMessage> AddUserMsg(string roomName, string msg);
+        /// <summary>
+        /// 发送消息
+        /// </summary>
+        /// <param name="roomName"></param>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        Task<ResponseMessage> AddUserMsgAsync(string roomName, string msg);
 
-        Task<ResponseMessage> CreateRoom(string roomName);
+        /// <summary>
+        /// 创建房间
+        /// </summary>
+        /// <param name="roomName"></param>
+        /// <returns></returns>
+        Task<ResponseMessage> CreateRoomAsync(string roomName);
 
-        IEnumerable<Domain.ChatRoom> GetChatRooms();
+        /// <summary>
+        /// 获取房间列表
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<Domain.ChatRoom>> GetChatRoomsAsync();
 
-        Task<IEnumerable<IMessage>> GetMessagesAsync();
+        /// <summary>
+        /// 获取房间所有消息
+        /// </summary>
+        /// <param name="roomName"></param>
+        /// <returns></returns>
+        Task<IEnumerable<IMessage>> GetMessagesAsync(string roomName);
 
-        Task<IEnumerable<IMessage>> GetMessagesRangeAsync(int index, int count);
+        /// <summary>
+        /// 按批次获取房间消息
+        /// </summary>
+        /// <param name="roomName"></param>
+        /// <param name="index"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        Task<IEnumerable<IMessage>> GetMessagesRangeAsync(string roomName, int index, int count);
 
-        Task<ResponseMessage> JoinGroup(string roomName, string userName);
+        /// <summary>
+        /// 加入房间
+        /// </summary>
+        /// <param name="roomName"></param>
+        /// <returns></returns>
+        Task<ResponseMessage> JoinGroupAsync(string roomName);
 
-        void LeaveOutRoom(string roomName);
+        /// <summary>
+        /// 退出房间
+        /// </summary>
+        /// <param name="roomName"></param>
+        Task LeaveOutRoomAsync(string roomName);
+
+        /// <summary>
+        /// 断线重连
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <returns></returns>
+        Task ReConnectedAsync(string clientId);
+
+        Task<ResponseMessage> UpdateMyNameAsync(string nickName);
     }
 }
