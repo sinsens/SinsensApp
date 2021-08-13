@@ -14,18 +14,20 @@ namespace SinsensApp.ChatRoom.Domain
             Users = new List<RoomUser>();
             Id = Guid.NewGuid().ToString("n");
             userClients = new HashSet<string>();
-            userHasChanges = true;
         }
 
         private HashSet<string> userClients;
-        private bool userHasChanges;
 
         public void Login(RoomUser user)
         {
             if (Users.Any(x => x.Id == user.Id) == false)
             {
+                user.Online = true;
                 Users.Add(user);
-                userHasChanges = true;
+            }
+            else
+            {
+                user.Online = true;
             }
         }
 
@@ -35,7 +37,6 @@ namespace SinsensApp.ChatRoom.Domain
             if (idx > -1)
             {
                 Users.RemoveAt(idx);
-                userHasChanges = true;
             }
         }
 
@@ -46,13 +47,15 @@ namespace SinsensApp.ChatRoom.Domain
                 userClients.Clear();
                 foreach (var user in Users)
                 {
-                    userClients.Add(user.Id);
+                    if (user.Online)
+                        userClients.Add(user.Id);
                 }
                 foreach (var user in Managers)
                 {
-                    userClients.Add(user.Id);
+                    if (user.Online)
+                        userClients.Add(user.Id);
                 }
-                if (Owner != null)
+                if (Owner != null && Owner.Online)
                     userClients.Add(Owner.Id);
                 return userClients;
             }
@@ -76,12 +79,12 @@ namespace SinsensApp.ChatRoom.Domain
         /// <summary>
         /// 房管
         /// </summary>
-        public IList<RoomUser> Managers { get; set; }
+        public List<RoomUser> Managers { get; set; }
 
         /// <summary>
         /// 用户
         /// </summary>
-        public IList<RoomUser> Users { get; set; }
+        public List<RoomUser> Users { get; set; }
 
         /// <summary>
         /// 排序
@@ -89,10 +92,12 @@ namespace SinsensApp.ChatRoom.Domain
         public int Order { get; set; }
     }
 
-    public class RoomUser
+    public class RoomUser : IRoomUser
     {
         public string Id { get; set; }
 
         public string Name { get; set; }
+
+        public bool Online { get; set; }
     }
 }

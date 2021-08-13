@@ -29,19 +29,32 @@ namespace SinsensApp.ChatRoom.Domain
             await Clients.Caller.SendAsync("OnConnected", Context.ConnectionId);
         }
 
-        public virtual async Task<ResponseMessage> JoinGroupAsync(string roomName)
+        public override Task OnDisconnectedAsync(Exception exception)
         {
-            if (_roomManager.IsExist(roomName))
+            return Task.Run(() =>
             {
                 var user = _roomManager.FindUser(Context.ConnectionId);
-                if(user == null)
+                if (user is IRoomUser)
+                {
+                    user.Online = false;
+                }
+            });
+        }
+
+        public virtual async Task<ResponseMessage> JoinGroupAsync(string roomName)
+        {
+            var room = _roomManager.GetChatRoom(roomName);
+            if (room is ChatRoom)
+            {
+                var user = _roomManager.FindUser(Context.ConnectionId);
+                if (user == null)
                 {
                     return ResponseMessage.ResponseError("登录已过期，请重新登录");
                 }
                 var result = _roomManager.JoinRoom(roomName, Context.ConnectionId);
                 if (result.isOk)
                 {
-                    var message = new Message { Name = user.Name, MessagePublisherType = Definitions.MessagePublisherType.System, Value = $"{user.Name} 进入房间" };
+                    var message = new Message { RoomId = room.Id, Name = user.Name, MessagePublisherType = Definitions.MessagePublisherType.System, Value = $"{user.Name} 进入房间" };
                     await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
                     await Clients.Clients(_roomManager.GetChatRoom(roomName).Clients).SendAsync("AddUserMsg", message);
                     return ResponseMessage.ResponseOk();

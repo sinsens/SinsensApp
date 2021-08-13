@@ -4,23 +4,29 @@
     ViewData["Title"] = "聊天室";
 }
 @section styles {
-<abp-style src="/Pages/Index.css" />
+    <abp-style src="/Pages/Index.css" />
 }
 @section scripts {
-<abp-script src="/Pages/Index.js" />
+    <abp-script src="/Pages/Index.js" />
 }
 
 <div id="app" class="chat-box">
     <div class="left">
         <ul class="ul">
-            <li v-bind:class="'room-list-item li ' + (item.id == activeRoom.id ? 'bg-info':'')"
-                v-for="(item, index) in roomList" v-on:click="switchRoom(item)">{{item.name}}
+            <li v-bind:class="'room-list-item li ' + (item.id == activeRoom.id ? 'bg-success text-warning':'bg-primary text-white')"
+                v-for="(item, index) in roomList" v-on:click="switchRoom(item)">
+                {{item.name}} <small class="">在线人数 {{item.clients.length}}</small>
             </li>
-            <li class="li"><button class="btn btn-block btn-primary" v-on:click="onCreateRoom=true">开个房间</button></li>
+            <li class="room-list-item li bg-primary text-white" v-on:click="onCreateRoom=true">开个房间</li>
         </ul>
     </div>
     <div class="right">
-        <div class="right-title">{{activeRoom.name}}</div>
+        <div class="right-title">
+            {{activeRoom.name}} <small class="">
+                在线人数 {{activeRoom.clients &&
+                activeRoom.clients.length}}
+            </small>
+        </div>
         <div id="chat-container">
             <ul>
                 <li class="chat" v-for="chat in chatList">
@@ -32,7 +38,8 @@
                                 <div class="chat-time" style="text-align: right;">{{ chat.sendAt }}</div>
                             </div>
                         </div>
-                        <p class="chat-detail" style="clear:both;float:right">{{ chat.value }}</p>
+                        <p v-bind:class="'chat-detail ' + (chat.messagePublisherType == 0? '.bg-info':'')"
+                           style="clear:both;float:right">{{ chat.value }}</p>
                     </template>
                 </li>
             </ul>
@@ -64,13 +71,14 @@
                 <div class="modal-header">
                     <h5 class="modal-title">登录到房间 {{onLoginRoom.name}}</h5>
                     <button type="button" class="close" v-on:click="onLogin=false" data-dismiss="modal"
-                        aria-label="Close">
+                            aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" v-on:click="onLogin=false"
-                        data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-secondary" v-on:click="onLogin=false" data-dismiss="modal">
+                        取消
+                    </button>
                     <button type="button" class="btn btn-primary" v-on:click="login">登录</button>
                 </div>
             </div>
@@ -83,7 +91,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title">开房</h5>
                     <button type="button" class="close" v-on:click="onCreateRoom=false" data-dismiss="modal"
-                        aria-label="Close">
+                            aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -92,7 +100,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" v-on:click="onCreateRoom=false"
-                        data-dismiss="modal">取消</button>
+                            data-dismiss="modal">
+                        取消
+                    </button>
                     <button type="button" class="btn btn-primary" v-on:click="createRoom">创建</button>
                 </div>
             </div>
@@ -100,7 +110,7 @@
     </div>
 </div>
 
-<script src="~/lib/aspnet-signalr/signalr.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/aspnet-signalr/1.0.27/signalr.min.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.9/vue.min.js"></script>
 <script>
     const conn = new signalR.HubConnectionBuilder()
@@ -119,33 +129,23 @@
             onLoginRoom: {},
             onCreateRoom: false,
             createRoomName: '',
-            userInfo:{
+            autoRefresh: true,
+            userInfo: {
                 isNamed: false,
                 nickName: '',
                 clientId: ''
             }
         },
         async mounted() {
-            await this.setupConn()
-            try{
-                const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-                console.log('userInfo', userInfo)
-                if(userInfo){
-                    this.userInfo = userInfo
-                }
-            }catch{
-
-            }
-            
-            this.refreshRoomList()
+            await this.connect();
         },
         methods: {
-            saveUserInfo(){
+            saveUserInfo() {
                 localStorage.setItem('userInfo', JSON.stringify(this.userInfo))
             },
             switchRoom(room) {
                 console.log('switchRoom')
-                if(!this.userInfo.isNamed){
+                if (!this.userInfo.isNamed) {
                     alert('请先设置昵称')
                     return
                 }
@@ -158,18 +158,20 @@
                     this.toBottom()
                 }
             },
-            makeName(){
-                if(this.userInfo.nickName == '')
-                {
+            makeName() {
+                if (this.userInfo.nickName == '') {
                     alert('请输入昵称')
                     return
                 }
-                conn.invoke("UpdateMyNameAsync", this.userInfo.nickName).then(res=>{
-                    if(!res.result){
+                conn.invoke("UpdateMyNameAsync", this.userInfo.nickName).then(res => {
+                    if (!res.result) {
                         alert(res.detail)
                     }
                     this.userInfo.isNamed = true
                     this.saveUserInfo()
+                    if(this.onLoginRoom.id){
+                        this.login()
+                    }
                 })
             },
             createRoom() {
@@ -213,6 +215,7 @@
                             that.tempMessages[that.onLoginRoom.id] = res
                             that.chatList = that.tempMessages[that.onLoginRoom.id]
                             that.toBottom()
+                            that.onLoginRoom = {}
                         })
                     }
                 }).catch(err => {
@@ -222,7 +225,7 @@
             sendMsg() {
                 const { id, name } = this.activeRoom
                 const message = this.inputBox[id]
-                if(message == '') return
+                if (message == '') return
                 conn.invoke("AddUserMsgAsync", name, message).then(res => {
                     console.log('AddUserMsg', res)
                     if (!res.result) {
@@ -234,8 +237,37 @@
                     console.error(err)
                 })
             },
+            async connect() {
+                await this.setupConn()
+                try {
+                    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+                    console.log('userInfo', userInfo)
+                    if (userInfo) {
+                        this.userInfo = userInfo
+                    }
+                } catch {
+                }
+
+                this.refreshRoomList()
+            },
             async setupConn() {
                 const that = this
+                conn.onclose = () => {
+                    let err_count = 0;
+                    let online = false;
+                    let task = setInterval(async () => {
+                        if (!online && err_count < 3) {
+                            await conn.start().then(() => {
+                                online = true
+                            }).catch(err => {
+                                err_count += 1
+                                online = false
+                            })
+                        } else {
+                            clearInterval(task)
+                        }
+                    }, 10000)
+                };
                 conn.on("AddUserMsg", (obj) => {
                     console.log(obj);
                     const { roomId } = obj
@@ -244,11 +276,11 @@
                         if (!this.tempMessages[roomId]) {
                             this.tempMessages[roomId] = []
                         }
-                        setTimeout(()=>{
+                        setTimeout(() => {
                             that.tempMessages[roomId].push(obj)
                             that.toBottom()
                         }, 120)
-                        
+
                     }
                     console.log(this.tempMessages)
                 });
@@ -264,18 +296,32 @@
                         that.saveUserInfo()
                     }
                 })
-                await conn.start().catch(err => console.log(err));
+                await conn.start().then(() => {
+                    if (this.autoRefresh) {
+                        this.autoRefreshTask = setInterval(() => {
+                            // 自动刷新在线人数
+                            that.refreshRoomList()
+                        }, 5000)
+                    }
+                }).catch(err => console.log(err));
             },
             refreshRoomList() {
                 conn.invoke("GetChatRoomsAsync").then(res => {
                     console.log('GetChatRooms', res)
-                    this.roomList = res;
+                    for (const room of res) {
+                        const r = this.roomList.find(r => r.id == room.id)
+                        if (r) {
+                            r.clients = room.clients
+                        } else {
+                            this.roomList.push(room)
+                        }
+                    }
                 }).catch(err => {
                     console.error('GetChatRooms', err)
                 })
             },
-            toBottom(){
-                this.$nextTick(()=>{
+            toBottom() {
+                this.$nextTick(() => {
                     var scrollDom = document.getElementById('chat-container');
                     scrollDom.scrollTop = scrollDom.scrollHeight
                 })
@@ -292,12 +338,28 @@
         padding: 0;
         box-sizing: border-box;
     }
-    .room-list-item{
-        padding: 10px;
+
+    .btn-flat-mid {
+        position: absolute;
+        top: 50%;
+        left: 0
     }
-    .modal{
-        background: rgba(6,6,6, 0.5)
+
+    .room-list-item {
+        padding: 8px;
+        background: #007bff;
+        border-bottom: #aaa 1px solid;
     }
+
+        .room-list-item:hover {
+            padding: 15px;
+            border-bottom: #aaa 1px solid;
+        }
+
+    .modal {
+        background: rgba(6, 6, 6, 0.5)
+    }
+
     li {
         list-style: none;
     }
@@ -317,14 +379,14 @@
         float: left;
     }
 
-    .left ul {
-        height: 100%;
-        overflow-y: auto;
-    }
+        .left ul {
+            height: 100%;
+            overflow-y: auto;
+        }
 
-    .left ul::-webkit-scrollbar {
-        display: none;
-    }
+            .left ul::-webkit-scrollbar {
+                display: none;
+            }
 
     .right {
         width: 598px;
@@ -347,14 +409,15 @@
         overflow-x: hidden;
     }
 
-    #chat-container::-webkit-scrollbar {
-        display: none;
-    }
+        #chat-container::-webkit-scrollbar {
+            display: none;
+        }
 
     .chat-detail {
-        word-wrap:break-word;
+        word-wrap: break-word;
         width: 50%
     }
+
     .text {
         height: 150px;
         border-top: 1px solid #d2d2d2;
@@ -368,20 +431,20 @@
         padding-left: 10px;
     }
 
-    .express li {
-        height: 30px;
-        float: left;
-        list-style: none;
-        margin-right: 10px;
-        cursor: pointer;
-    }
+        .express li {
+            height: 30px;
+            float: left;
+            list-style: none;
+            margin-right: 10px;
+            cursor: pointer;
+        }
 
-    .express img {
-        display: block;
-        height: 25px;
-        width: 25px;
-        margin-top: 3px;
-    }
+        .express img {
+            display: block;
+            height: 25px;
+            width: 25px;
+            margin-top: 3px;
+        }
 
     .txt {
         height: 80px;
@@ -398,7 +461,7 @@
     }
 
     .button {
-        float:right;
+        float: right;
         height: 30px;
         width: 100%;
     }
@@ -472,7 +535,7 @@
     }
 
     .chat-content {
-        margin-top:5px;
+        margin-top: 5px;
         float: left;
     }
 
@@ -496,20 +559,21 @@
         border-radius: 2px;
     }
 
-    .name-div p {
-        color: #fff;
-        text-align: center;
-        margin-top: 20px;
-    }
+        .name-div p {
+            color: #fff;
+            text-align: center;
+            margin-top: 20px;
+            padding-bottom: 20px;
+        }
 
     .make-div {
         width: 150px;
         margin: 10px auto;
     }
 
-    .make-div input {
-        width: 100px;
-    }
+        .make-div input {
+            width: 100px;
+        }
 
     .named {
         z-index: -999;

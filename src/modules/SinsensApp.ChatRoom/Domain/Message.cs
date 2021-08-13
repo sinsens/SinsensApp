@@ -11,7 +11,9 @@ namespace SinsensApp.ChatRoom.Domain
     public class Message : IMessage
     {
         public string Name { get; set; }
-        public DateTime SendAt { get; set; } = DateTime.Now;
+
+        private DateTime _sendAt = DateTime.Now;
+        public string SendAt { get => _sendAt.ToString("yyyy-M-d HH:mm:ss"); }
         public string Value { get; set; }
         public MessageType MessageType => Value.GetMessageType();
         public string RoomId { get; set; }

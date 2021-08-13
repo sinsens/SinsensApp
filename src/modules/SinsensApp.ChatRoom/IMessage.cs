@@ -13,8 +13,8 @@ namespace SinsensApp.ChatRoom
         /// </summary>
         public string RoomId { get; }
 
-        string Name { get; set; }
-        DateTime SendAt { get; set; }
-        string Value { get; set; }
+        string Name { get; }
+        string SendAt { get; }
+        string Value { get; }
     }
 }

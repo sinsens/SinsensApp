@@ -9,20 +9,23 @@ using Volo.Abp.Json;
 
 namespace SinsensApp.ChatRoom.Domain
 {
-    public class ChatRoomManager : IChatRoomManager
+    public class ChatRoomManager : IChatRoomManager, IDisposable
     {
         private readonly IConnectionMultiplexer _connectionMultiplexer;
         private readonly IJsonSerializer _jsonSerializer;
         private readonly IDatabase _database;
+        private readonly System.Threading.Timer _timer;
 
         public ChatRoomManager(IConnectionMultiplexer connection, IJsonSerializer serializer)
         {
             _connectionMultiplexer = connection;
             _jsonSerializer = serializer;
             _database = connection.GetDatabase(2);
-            Rooms = new List<ChatRoom>(10);
-            Users = new List<RoomUser>(10);
             LoadData();
+            _timer = new System.Threading.Timer((callback) =>
+            {
+                SaveData(); // 启动后每 10 分钟保存一次数据
+            }, _database, 600000, 600000);
         }
 
         public IList<ChatRoom> Rooms { protected set; get; }
@@ -41,14 +44,19 @@ namespace SinsensApp.ChatRoom.Domain
             {
                 Rooms = _jsonSerializer.Deserialize<List<ChatRoom>>(rooms);
             }
-            else
-            {
-                Rooms.Add(new ChatRoom { Name = "公开房间" });
-            }
             var users = _database.StringGet("Users");
             if (users.HasValue)
             {
                 Users = _jsonSerializer.Deserialize<List<RoomUser>>(users);
+            }
+            if (Rooms == null)
+            {
+                Rooms = new List<ChatRoom>(10);
+                Rooms.Add(new ChatRoom { Name = "公开房间" });
+            }
+            if (Users == null)
+            {
+                Users = new List<RoomUser>(10);
             }
         }
 
@@ -101,6 +109,10 @@ namespace SinsensApp.ChatRoom.Domain
             {
                 return (true, "您已加入该房间");
             }
+            else if (room.Users.Any(x => x.Name == user.Name))
+            {
+                return (false, "该房间已存在同名用户");
+            }
             room.Login(user);
 
             return (true, "成功加入该房间");
@@ -135,7 +147,12 @@ namespace SinsensApp.ChatRoom.Domain
                 {
                     Id = clientId,
                     Name = nickName,
+                    Online = true
                 };
+            }
+            else
+            {
+                user.Online = true;
             }
             Users.Add(user);
             return user;
@@ -154,7 +171,7 @@ namespace SinsensApp.ChatRoom.Domain
             {
                 return room.Users.Where(x => x.Id == clientId).FirstOrDefault();
             }
-            return new RoomUser { Id = clientId, Name = clientId };
+            return FindUser(clientId);
         }
 
         public void ReConnect(string oldClientId, string newClientId)
@@ -163,7 +180,14 @@ namespace SinsensApp.ChatRoom.Domain
             if (user != null)
             {
                 user.Id = newClientId;
+                user.Online = true;
             }
+        }
+
+        public void Dispose()
+        {
+            if (_connectionMultiplexer.IsConnected)
+                _connectionMultiplexer.Close();
         }
     }
 }
