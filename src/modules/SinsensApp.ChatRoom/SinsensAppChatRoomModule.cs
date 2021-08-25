@@ -1,15 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.SignalR;
+using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
 
 namespace SinsensApp.ChatRoom
@@ -24,6 +19,10 @@ namespace SinsensApp.ChatRoom
             {
                 var connectionString = context.Services.GetConfiguration().GetConnectionString("Redis");
                 return ConfigurationOptions.Parse(connectionString ?? "localhost");
+            });
+            Configure<AbpAutoMapperOptions>(options =>
+            {
+                options.AddMaps<SinsensAppChatRoomModule>();
             });
         }
 

@@ -5,7 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Volo.Abp.DependencyInjection;
 using Volo.Abp.AspNetCore.SignalR;
+using SinsensApp.ChatRoom.Domain.Dto;
+using Volo.Abp.ObjectMapping;
 
 namespace SinsensApp.ChatRoom.Domain
 {
@@ -16,12 +19,16 @@ namespace SinsensApp.ChatRoom.Domain
 
         private readonly IChatRoomMassageManager _massageManager;
 
+        private readonly IObjectMapper _objectMapper;
+
         public ChatRoomHub(
             IChatRoomManager roomManager,
-            IChatRoomMassageManager massageManager)
+            IChatRoomMassageManager massageManager,
+            IObjectMapper objectMapper)
         {
             _roomManager = roomManager;
             _massageManager = massageManager;
+            _objectMapper = objectMapper;
         }
 
         public override async Task OnConnectedAsync()
@@ -37,11 +44,12 @@ namespace SinsensApp.ChatRoom.Domain
                 if (user is IRoomUser)
                 {
                     user.Online = false;
+                    _roomManager.SaveData();
                 }
             });
         }
 
-        public virtual async Task<ResponseMessage> JoinGroupAsync(string roomName)
+        public virtual async Task<ResponseMessage> JoinRoomAsync(string roomName, string password = null)
         {
             var room = _roomManager.GetChatRoom(roomName);
             if (room is ChatRoom)
@@ -51,7 +59,11 @@ namespace SinsensApp.ChatRoom.Domain
                 {
                     return ResponseMessage.ResponseError("登录已过期，请重新登录");
                 }
-                var result = _roomManager.JoinRoom(roomName, Context.ConnectionId);
+                if (room.Clients.Contains(user.Id))
+                {
+                    return ResponseMessage.ResponseOk();
+                }
+                var result = _roomManager.JoinRoom(roomName, Context.ConnectionId, password);
                 if (result.isOk)
                 {
                     var message = new Message { RoomId = room.Id, Name = user.Name, MessagePublisherType = Definitions.MessagePublisherType.System, Value = $"{user.Name} 进入房间" };
@@ -67,15 +79,21 @@ namespace SinsensApp.ChatRoom.Domain
             return ResponseMessage.ResponseError("房间名称不存在");
         }
 
-        public virtual async Task<ResponseMessage> CreateRoomAsync(string roomName)
+        public virtual async Task<ResponseMessage> CreateRoomAsync(string roomName, string password = null)
         {
-            var result = _roomManager.CreateRoom(roomName, Context.ConnectionId);
+            var user = _roomManager.FindUser(Context.ConnectionId);
+            if (user == null)
+            {
+                return ResponseMessage.ResponseError("登录已过期，请重新登录");
+            }
+            var result = _roomManager.CreateRoom(roomName, Context.ConnectionId, password);
             if (result.isOk == false)
             {
                 return ResponseMessage.ResponseError(result.message);
             }
             _roomManager.CreateRoom(roomName, Context.ConnectionId);
-            await JoinGroupAsync(roomName);
+            var message = new Message { MessagePublisherType = Definitions.MessagePublisherType.System, Value = "" };
+            await Clients.All.SendAsync("RefreshRooms", message); // 刷新房间信息
             return ResponseMessage.ResponseOk();
         }
 
@@ -114,9 +132,13 @@ namespace SinsensApp.ChatRoom.Domain
             return await _massageManager.GetMessages(room.Id, index, count);
         }
 
-        public virtual async Task<IEnumerable<ChatRoom>> GetChatRoomsAsync()
+        public virtual async Task<IEnumerable<ChatRoomDto>> GetChatRoomsAsync()
         {
-            return await Task.Run(() => _roomManager.Rooms);
+            return await Task.Run(() =>
+            {
+                var rooms = _roomManager.Rooms;
+                return _objectMapper.Map<IList<ChatRoom>, List<ChatRoomDto>>(rooms);
+            });
         }
 
         public virtual async Task LeaveOutRoomAsync(string roomName)

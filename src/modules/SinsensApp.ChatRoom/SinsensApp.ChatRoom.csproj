@@ -5,8 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="StackExchange.Redis" Version="2.2.62" />
     <PackageReference Include="Volo.Abp.AspNetCore.SignalR" Version="4.4.0" />
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="4.4.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -8,12 +8,13 @@ namespace SinsensApp.ChatRoom.Domain
 {
     public class ChatRoom
     {
-        public ChatRoom()
+        public ChatRoom(int number)
         {
             Managers = new List<RoomUser>();
             Users = new List<RoomUser>();
             Id = Guid.NewGuid().ToString("n");
             userClients = new HashSet<string>();
+            Number = number;
         }
 
         private HashSet<string> userClients;
@@ -67,9 +68,21 @@ namespace SinsensApp.ChatRoom.Domain
         public string Name { get; set; }
 
         /// <summary>
+        /// 房间密码
+        /// </summary>
+        public string Password { get; set; }
+
+        /// <summary>
+        /// 房间号 ID
+        /// </summary>
+        public string Id { get; protected set; }
+
+        /// <summary>
         /// 房间号
         /// </summary>
-        public string Id { get; set; }
+        public int Number { get; protected set; }
+
+        public bool HasPassword { get => string.IsNullOrWhiteSpace(Password) == false; }
 
         /// <summary>
         /// 房主

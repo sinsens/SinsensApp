@@ -8,7 +8,14 @@ namespace SinsensApp.ChatRoom
     {
         IList<Domain.ChatRoom> Rooms { get; }
 
-        (bool isOk, string message) CreateRoom(string roomName, string ownerId);
+        /// <summary>
+        /// 创建房间
+        /// </summary>
+        /// <param name="roomName">房间名称</param>
+        /// <param name="ownerId"></param>
+        /// <param name="password">密码</param>
+        /// <returns></returns>
+        (bool isOk, string message) CreateRoom(string roomName, string ownerId, string password = null);
 
         /// <summary>
         /// 查找用户是否存在于指定房间
@@ -53,7 +60,7 @@ namespace SinsensApp.ChatRoom
         /// <param name="roomName">房间名</param>
         /// <param name="clientId"></param>
         /// <returns></returns>
-        (bool isOk, string message) JoinRoom(string roomName, string clientId);
+        (bool isOk, string message) JoinRoom(string roomName, string clientId, string password = null);
 
         /// <summary>
         /// 退出房间

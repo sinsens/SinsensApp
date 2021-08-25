@@ -10,7 +10,7 @@ using Volo.Abp.Json;
 
 namespace SinsensApp.ChatRoom.Domain
 {
-    public class ChatRoomMassageManager : IChatRoomMassageManager
+    public class ChatRoomMassageManager : IChatRoomMassageManager, IDisposable
     {
         public string Id { get; set; }
 
@@ -34,12 +34,12 @@ namespace SinsensApp.ChatRoom.Domain
         {
             _serializer = serializer;
             _connectionMultiplexer = connection;
-            _database = _connectionMultiplexer.GetDatabase(0);
+            _database = _connectionMultiplexer.GetDatabase(1);
         }
 
         public async Task AddMessageAsync(string roomId, IMessage msg)
         {
-            await _database.ListRightPushAsync(roomId, _serializer.Serialize(msg));
+            await _database.ListRightPushAsync(BuildKey(roomId), _serializer.Serialize(msg));
         }
 
         public async Task<IEnumerable<IMessage>> GetAllMessages(string roomId)
@@ -61,7 +61,20 @@ namespace SinsensApp.ChatRoom.Domain
         {
             foreach (var msg in msgs)
             {
-                await _database.ListRightPushAsync(roomId, _serializer.Serialize(msg));
+                await _database.ListRightPushAsync(BuildKey(roomId), _serializer.Serialize(msg));
+            }
+        }
+
+        private string BuildKey(string roomId)
+        {
+            return $"ChatRoom:Messages:{roomId}";
+        }
+
+        public void Dispose()
+        {
+            if (_connectionMultiplexer != null && _connectionMultiplexer.IsConnected)
+            {
+                _connectionMultiplexer.Close();
             }
         }
     }

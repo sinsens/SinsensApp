@@ -10,7 +10,7 @@ namespace SinsensApp.ChatRoom
         /// <summary>
         /// 发送消息
         /// </summary>
-        /// <param name="roomName"></param>
+        /// <param name="roomName">房间名称</param>
         /// <param name="msg"></param>
         /// <returns></returns>
         Task<ResponseMessage> AddUserMsgAsync(string roomName, string msg);
@@ -18,15 +18,16 @@ namespace SinsensApp.ChatRoom
         /// <summary>
         /// 创建房间
         /// </summary>
-        /// <param name="roomName"></param>
+        /// <param name="roomName">房间名称</param>
+        /// <param name="password">房间密码</param>
         /// <returns></returns>
-        Task<ResponseMessage> CreateRoomAsync(string roomName);
+        Task<ResponseMessage> CreateRoomAsync(string roomName, string password = null);
 
         /// <summary>
         /// 获取房间列表
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<Domain.ChatRoom>> GetChatRoomsAsync();
+        Task<IEnumerable<Domain.Dto.ChatRoomDto>> GetChatRoomsAsync();
 
         /// <summary>
         /// 获取房间所有消息
@@ -48,8 +49,9 @@ namespace SinsensApp.ChatRoom
         /// 加入房间
         /// </summary>
         /// <param name="roomName"></param>
+        /// <param name="password">房间密码</param>
         /// <returns></returns>
-        Task<ResponseMessage> JoinGroupAsync(string roomName);
+        Task<ResponseMessage> JoinRoomAsync(string roomName, string password = null);
 
         /// <summary>
         /// 退出房间

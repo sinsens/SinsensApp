@@ -15,7 +15,7 @@
         <ul class="ul">
             <li v-bind:class="'room-list-item li ' + (item.id == activeRoom.id ? 'bg-success text-warning':'bg-primary text-white')"
                 v-for="(item, index) in roomList" v-on:click="switchRoom(item)">
-                {{item.name}} <small class="">在线人数 {{item.clients.length}}</small>
+                {{item.name}} <small class="">在线人数 {{item.clients && item.clients.length}}</small>
             </li>
             <li class="room-list-item li bg-primary text-white" v-on:click="onCreateRoom=true">开个房间</li>
         </ul>
@@ -24,7 +24,7 @@
         <div class="right-title">
             {{activeRoom.name}} <small class="">
                 在线人数 {{activeRoom.clients &&
-                activeRoom.clients.length}}
+                activeRoom.clients.length || ''}}
             </small>
         </div>
         <div id="chat-container">
@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div class="name-div" v-bind:class="{ named: userInfo.isNamed }">
-                <p>取个网名先，头像随机分配噢~</p>
+                <p>取个网名先~</p>
                 <div class="make-div">
                     <input type="text" v-model="userInfo.nickName" placeholder="请输入昵称">
                     <button class="name-btn" v-on:click="makeName()">确定</button>
@@ -70,6 +70,9 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">登录到房间 {{onLoginRoom.name}}</h5>
+                    <div v-if="onLoginRoom.hasPassword">
+                        <p><input v-model="password" type="password" placeholder="请输入密码" class="form-contro" maxlength="10" /></p>
+                    </div>
                     <button type="button" class="close" v-on:click="onLogin=false" data-dismiss="modal"
                             aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -97,6 +100,7 @@
                 </div>
                 <div class="modal-body">
                     <p><input class="form-control" placeholder="请输入房间名称" v-model="createRoomName" /></p>
+                    <input v-model="password" type="password" placeholder="房间密码，可空" class="input-append" maxlength="10" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" v-on:click="onCreateRoom=false"
@@ -129,6 +133,7 @@
             onLoginRoom: {},
             onCreateRoom: false,
             createRoomName: '',
+            password: '',
             autoRefresh: true,
             userInfo: {
                 isNamed: false,
@@ -140,6 +145,11 @@
             await this.connect();
         },
         methods: {
+            setUserOffline() {
+                this.userInfo.isNamed = false;
+                this.onLoginRoom = {};
+                this.onCreateRoom = false;
+            },
             saveUserInfo() {
                 localStorage.setItem('userInfo', JSON.stringify(this.userInfo))
             },
@@ -148,6 +158,9 @@
                 if (!this.userInfo.isNamed) {
                     alert('请先设置昵称')
                     return
+                }
+                if (room.clients.indexOf(this.userInfo.clientId) > -1) {
+                    room.isLogin = true
                 }
                 if (!room.isLogin) {
                     this.onLoginRoom = room
@@ -166,10 +179,13 @@
                 conn.invoke("UpdateMyNameAsync", this.userInfo.nickName).then(res => {
                     if (!res.result) {
                         alert(res.detail)
+                        if (res.detail == '登录已过期，请重新登录') {
+                            this.setUserOffline()
+                        }
                     }
                     this.userInfo.isNamed = true
                     this.saveUserInfo()
-                    if(this.onLoginRoom.id){
+                    if (this.onLoginRoom.id) {
                         this.login()
                     }
                 })
@@ -183,30 +199,42 @@
                     alert('请输入昵称')
                     return
                 }
-                conn.invoke("CreateRoomAsync", this.createRoomName).then(res => {
+                conn.invoke("CreateRoomAsync", this.createRoomName, this.password).then(res => {
                     if (!res.result) {
                         alert(res.detail)
+                        if (res.detail == '登录已过期，请重新登录') {
+                            this.setUserOffline()
+                        }
                     } else {
                         this.onCreateRoom = false
+                        this.password = ''
                         this.refreshRoomList()
                     }
                 })
             },
             login() {
                 const that = this
-                const { name } = this.onLoginRoom
+                const { name, hasPassword } = this.onLoginRoom
                 if (name == '') {
                     alert('请选择房间')
                     return
                 }
-                conn.invoke("JoinGroupAsync", name).then(res => {
+                if (hasPassword && this.password == '') {
+                    alert('请输入密码');
+                    return
+                }
+
+                conn.invoke("JoinRoomAsync", name, this.password).then(res => {
                     console.log(res)
                     if (!res.result) {
                         alert(res.detail)
-                        this.userInfo.isNamed = false
+                        if (res.detail == '登录已过期，请重新登录') {
+                            this.setUserOffline()
+                        }
                         this.saveUserInfo()
                         this.onLogin = false
                     } else {
+                        this.password = ''
                         this.onLoginRoom.isLogin = true
                         this.activeRoom = this.onLoginRoom
                         this.onLogin = false
@@ -230,6 +258,9 @@
                     console.log('AddUserMsg', res)
                     if (!res.result) {
                         alert(res.detail)
+                        if (res.detail == '登录已过期，请重新登录') {
+                            this.setUserOffline()
+                        }
                     } else {
                         this.inputBox[id] = ''
                     }
@@ -331,8 +362,8 @@
 </script>
 <style>
     /*
-    fork styles from https://github.com/lukedever/php-chatroom/index.css
-    */
+        fork styles from https://github.com/lukedever/php-chatroom/index.css
+        */
     * {
         margin: 0;
         padding: 0;
