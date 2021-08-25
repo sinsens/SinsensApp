@@ -38,6 +38,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\SinsensApp.AI\SinsensApp.AI.csproj" />
+    <ProjectReference Include="..\modules\SinsensApp.ChatRoom\SinsensApp.ChatRoom.csproj" />
     <ProjectReference Include="..\SinsensApp.Application\SinsensApp.Application.csproj" />
     <ProjectReference Include="..\SinsensApp.HttpApi\SinsensApp.HttpApi.csproj" />
     <ProjectReference Include="..\SinsensApp.EntityFrameworkCore.DbMigrations\SinsensApp.EntityFrameworkCore.DbMigrations.csproj" />

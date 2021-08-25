@@ -1,0 +1,626 @@
+﻿@page
+@model SinsensApp.Web.Pages.ChatRoomModel
+@{
+    ViewData["Title"] = "聊天室";
+}
+@section styles {
+    <abp-style src="/Pages/Index.css" />
+}
+@section scripts {
+    <abp-script src="/Pages/Index.js" />
+}
+
+<div id="app" class="chat-box">
+    <div class="left">
+        <ul class="ul">
+            <li v-bind:class="'room-list-item li ' + (item.id == activeRoom.id ? 'bg-success text-warning':'bg-primary text-white')"
+                v-for="(item, index) in roomList" v-on:click="switchRoom(item)">
+                {{item.name}} <small class="">在线人数 {{item.clients && item.clients.length}}</small>
+            </li>
+            <li class="room-list-item li bg-primary text-white" v-on:click="onCreateRoom=true">开个房间</li>
+        </ul>
+    </div>
+    <div class="right">
+        <div class="right-title">
+            {{activeRoom.name}} <small class="">
+                在线人数 {{activeRoom.clients &&
+                activeRoom.clients.length || ''}}
+            </small>
+        </div>
+        <div id="chat-container">
+            <ul>
+                <li class="chat" v-for="chat in chatList">
+                    <template>
+                        <div>
+                            <img class="avatar-s" style="float: right;">
+                            <div class="chat-content" style="float: right;margin-right: 10px;">
+                                {{chat.name}}
+                                <div class="chat-time" style="text-align: right;">{{ chat.sendAt }}</div>
+                            </div>
+                        </div>
+                        <p v-bind:class="'chat-detail ' + (chat.messagePublisherType == 0? '.bg-info':'')"
+                           style="clear:both;float:right">{{ chat.value }}</p>
+                    </template>
+                </li>
+            </ul>
+        </div>
+        <div class="text">
+            <div class="chat-div">
+                <ul class="express">
+                    <li><img src="images/express.png"></li>
+                    <li><img src="images/message.png"></li>
+                </ul>
+                <textarea class="txt" v-model="inputBox[activeRoom.id]" v-on:keyup.13="sendMsg()"></textarea>
+                <div class="button">
+                    <button class="btn btn-primary" v-on:click="sendMsg">发送(enter)</button>
+                </div>
+            </div>
+            <div class="name-div" v-bind:class="{ named: userInfo.isNamed }">
+                <p>取个网名先~</p>
+                <div class="make-div">
+                    <input type="text" v-model="userInfo.nickName" placeholder="请输入昵称">
+                    <button class="name-btn" v-on:click="makeName()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 登录到该房间 -->
+    <div class="modal" v-bind:style="{'display':(onLogin?'block':'none')}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">登录到房间 {{onLoginRoom.name}}</h5>
+                    <div v-if="onLoginRoom.hasPassword">
+                        <p><input v-model="password" type="password" placeholder="请输入密码" class="form-contro" maxlength="10" /></p>
+                    </div>
+                    <button type="button" class="close" v-on:click="onLogin=false" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" v-on:click="onLogin=false" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" v-on:click="login">登录</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 创建房间 -->
+    <div class="modal" v-bind:style="{'display':(onCreateRoom?'block':'none')}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">开房</h5>
+                    <button type="button" class="close" v-on:click="onCreateRoom=false" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><input class="form-control" placeholder="请输入房间名称" v-model="createRoomName" /></p>
+                    <input v-model="password" type="password" placeholder="房间密码，可空" class="input-append" maxlength="10" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" v-on:click="onCreateRoom=false"
+                            data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" v-on:click="createRoom">创建</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/aspnet-signalr/1.0.27/signalr.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.9/vue.min.js"></script>
+<script>
+    const conn = new signalR.HubConnectionBuilder()
+        .withUrl("/hub/chatroom")
+        .build();
+
+    const vm = new Vue({
+        el: "#app",
+        data: {
+            roomList: [],
+            chatList: [],
+            activeRoom: {},
+            tempMessages: {},
+            inputBox: {},
+            onLogin: false,
+            onLoginRoom: {},
+            onCreateRoom: false,
+            createRoomName: '',
+            password: '',
+            autoRefresh: true,
+            userInfo: {
+                isNamed: false,
+                nickName: '',
+                clientId: ''
+            }
+        },
+        async mounted() {
+            await this.connect();
+        },
+        methods: {
+            setUserOffline() {
+                this.userInfo.isNamed = false;
+                this.onLoginRoom = {};
+                this.onCreateRoom = false;
+            },
+            saveUserInfo() {
+                localStorage.setItem('userInfo', JSON.stringify(this.userInfo))
+            },
+            switchRoom(room) {
+                console.log('switchRoom')
+                if (!this.userInfo.isNamed) {
+                    alert('请先设置昵称')
+                    return
+                }
+                if (room.clients.indexOf(this.userInfo.clientId) > -1) {
+                    room.isLogin = true
+                }
+                if (!room.isLogin) {
+                    this.onLoginRoom = room
+                    this.onLogin = true
+                } else {
+                    this.activeRoom = room
+                    this.chatList = this.tempMessages[room.id]
+                    this.toBottom()
+                }
+            },
+            makeName() {
+                if (this.userInfo.nickName == '') {
+                    alert('请输入昵称')
+                    return
+                }
+                conn.invoke("UpdateMyNameAsync", this.userInfo.nickName).then(res => {
+                    if (!res.result) {
+                        alert(res.detail)
+                        if (res.detail == '登录已过期，请重新登录') {
+                            this.setUserOffline()
+                        }
+                    }
+                    this.userInfo.isNamed = true
+                    this.saveUserInfo()
+                    if (this.onLoginRoom.id) {
+                        this.login()
+                    }
+                })
+            },
+            createRoom() {
+                if (this.createRoomName == '') {
+                    alert('请输入房间名称')
+                    return
+                }
+                if (this.userInfo.nickName == '') {
+                    alert('请输入昵称')
+                    return
+                }
+                conn.invoke("CreateRoomAsync", this.createRoomName, this.password).then(res => {
+                    if (!res.result) {
+                        alert(res.detail)
+                        if (res.detail == '登录已过期，请重新登录') {
+                            this.setUserOffline()
+                        }
+                    } else {
+                        this.onCreateRoom = false
+                        this.password = ''
+                        this.refreshRoomList()
+                    }
+                })
+            },
+            login() {
+                const that = this
+                const { name, hasPassword } = this.onLoginRoom
+                if (name == '') {
+                    alert('请选择房间')
+                    return
+                }
+                if (hasPassword && this.password == '') {
+                    alert('请输入密码');
+                    return
+                }
+
+                conn.invoke("JoinRoomAsync", name, this.password).then(res => {
+                    console.log(res)
+                    if (!res.result) {
+                        alert(res.detail)
+                        if (res.detail == '登录已过期，请重新登录') {
+                            this.setUserOffline()
+                        }
+                        this.saveUserInfo()
+                        this.onLogin = false
+                    } else {
+                        this.password = ''
+                        this.onLoginRoom.isLogin = true
+                        this.activeRoom = this.onLoginRoom
+                        this.onLogin = false
+                        conn.invoke("GetMessagesAsync", this.onLoginRoom.name).then(res => {
+                            console.log('GetMessagesAsync', res)
+                            that.tempMessages[that.onLoginRoom.id] = res
+                            that.chatList = that.tempMessages[that.onLoginRoom.id]
+                            that.toBottom()
+                            that.onLoginRoom = {}
+                        })
+                    }
+                }).catch(err => {
+                    console.error(err)
+                })
+            },
+            sendMsg() {
+                const { id, name } = this.activeRoom
+                const message = this.inputBox[id]
+                if (message == '') return
+                conn.invoke("AddUserMsgAsync", name, message).then(res => {
+                    console.log('AddUserMsg', res)
+                    if (!res.result) {
+                        alert(res.detail)
+                        if (res.detail == '登录已过期，请重新登录') {
+                            this.setUserOffline()
+                        }
+                    } else {
+                        this.inputBox[id] = ''
+                    }
+                }).catch(err => {
+                    console.error(err)
+                })
+            },
+            async connect() {
+                await this.setupConn()
+                try {
+                    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+                    console.log('userInfo', userInfo)
+                    if (userInfo) {
+                        this.userInfo = userInfo
+                    }
+                } catch {
+                }
+
+                this.refreshRoomList()
+            },
+            async setupConn() {
+                const that = this
+                conn.onclose = () => {
+                    let err_count = 0;
+                    let online = false;
+                    let task = setInterval(async () => {
+                        if (!online && err_count < 3) {
+                            await conn.start().then(() => {
+                                online = true
+                            }).catch(err => {
+                                err_count += 1
+                                online = false
+                            })
+                        } else {
+                            clearInterval(task)
+                        }
+                    }, 10000)
+                };
+                conn.on("AddUserMsg", (obj) => {
+                    console.log(obj);
+                    const { roomId } = obj
+                    console.log('id=', roomId)
+                    if (roomId) {
+                        if (!this.tempMessages[roomId]) {
+                            this.tempMessages[roomId] = []
+                        }
+                        setTimeout(() => {
+                            that.tempMessages[roomId].push(obj)
+                            that.toBottom()
+                        }, 120)
+
+                    }
+                    console.log(this.tempMessages)
+                });
+                conn.on("OnConnected", (clientId) => {
+                    console.log("clientId", clientId)
+                    if (that.userInfo.clientId != clientId) {
+                        // 这是断线重连
+                        conn.invoke("ReConnectedAsync", that.userInfo.clientId).then(() => {
+                            that.userInfo.clientId = clientId
+                            that.saveUserInfo()
+                        })
+                    } else {
+                        that.saveUserInfo()
+                    }
+                })
+                await conn.start().then(() => {
+                    if (this.autoRefresh) {
+                        this.autoRefreshTask = setInterval(() => {
+                            // 自动刷新在线人数
+                            that.refreshRoomList()
+                        }, 5000)
+                    }
+                }).catch(err => console.log(err));
+            },
+            refreshRoomList() {
+                conn.invoke("GetChatRoomsAsync").then(res => {
+                    console.log('GetChatRooms', res)
+                    for (const room of res) {
+                        const r = this.roomList.find(r => r.id == room.id)
+                        if (r) {
+                            r.clients = room.clients
+                        } else {
+                            this.roomList.push(room)
+                        }
+                    }
+                }).catch(err => {
+                    console.error('GetChatRooms', err)
+                })
+            },
+            toBottom() {
+                this.$nextTick(() => {
+                    var scrollDom = document.getElementById('chat-container');
+                    scrollDom.scrollTop = scrollDom.scrollHeight
+                })
+            }
+        }
+    })
+</script>
+<style>
+    /*
+        fork styles from https://github.com/lukedever/php-chatroom/index.css
+        */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .btn-flat-mid {
+        position: absolute;
+        top: 50%;
+        left: 0
+    }
+
+    .room-list-item {
+        padding: 8px;
+        background: #007bff;
+        border-bottom: #aaa 1px solid;
+    }
+
+        .room-list-item:hover {
+            padding: 15px;
+            border-bottom: #aaa 1px solid;
+        }
+
+    .modal {
+        background: rgba(6, 6, 6, 0.5)
+    }
+
+    li {
+        list-style: none;
+    }
+
+    .chat-box {
+        width: 800px;
+        height: 600px;
+        border: 1px solid #d2d2d2;
+        margin: 60px auto;
+        border-radius: 2px;
+    }
+
+    .left {
+        width: 200px;
+        height: 100%;
+        background-color: #e2e2e2;
+        float: left;
+    }
+
+        .left ul {
+            height: 100%;
+            overflow-y: auto;
+        }
+
+            .left ul::-webkit-scrollbar {
+                display: none;
+            }
+
+    .right {
+        width: 598px;
+        height: 100%;
+        float: left;
+        background-color: #f2f2f2;
+    }
+
+    .right-title {
+        height: 50px;
+        line-height: 50px;
+        width: 100%;
+        padding-left: 10px;
+        border-bottom: 1px solid #d2d2d2;
+    }
+
+    #chat-container {
+        height: 375px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+        #chat-container::-webkit-scrollbar {
+            display: none;
+        }
+
+    .chat-detail {
+        word-wrap: break-word;
+        width: 50%
+    }
+
+    .text {
+        height: 150px;
+        border-top: 1px solid #d2d2d2;
+        position: relative;
+    }
+
+    .express {
+        display: block;
+        height: 30px;
+        width: 100%;
+        padding-left: 10px;
+    }
+
+        .express li {
+            height: 30px;
+            float: left;
+            list-style: none;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .express img {
+            display: block;
+            height: 25px;
+            width: 25px;
+            margin-top: 3px;
+        }
+
+    .txt {
+        height: 80px;
+        width: 100%;
+        resize: none;
+        border: none;
+        background-color: #f2f2f2;
+        padding: 5px;
+        font-size: 15px;
+    }
+
+    textarea:focus {
+        outline: none;
+    }
+
+    .button {
+        float: right;
+        height: 30px;
+        width: 100%;
+    }
+
+    .send-btn {
+        height: 30px;
+        width: 80px;
+        text-align: center;
+        float: right;
+        margin-right: 20px;
+        margin-bottom: 10px;
+    }
+
+    .user {
+        margin: 10px 0px;
+        height: 50px;
+    }
+
+    .avatar {
+        width: 50px;
+        height: 50px;
+        float: left;
+        margin-left: 10px;
+    }
+
+    .user-des {
+        width: 130px;
+        height: 50px;
+        float: left;
+        margin-left: 5px;
+    }
+
+    .username {
+        height: 30px;
+        line-height: 30px;
+        width: 120px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .user-time {
+        height: 20px;
+        width: 120px;
+        line-height: 20px;
+        font-size: 12px;
+        color: #2F4056;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .chat {
+        width: 578px;
+        display: block;
+        margin: 10px;
+        padding-right: 20px;
+        overflow: hidden;
+    }
+
+    .chat-time {
+        font-size: 12px;
+        color: #2F4056;
+        margin-left: 10px;
+    }
+
+    .avatar-s {
+        width: 40px;
+        height: 40px;
+        float: left;
+        margin-top: 5px;
+    }
+
+    .chat-content {
+        margin-top: 5px;
+        float: left;
+    }
+
+    .chat p {
+        display: block;
+        max-width: 450px;
+        margin-left: 10px;
+        background-color: #5FB878;
+        border-radius: 5px;
+        padding: 5px;
+        word-break: all;
+    }
+
+    .name-div {
+        position: absolute;
+        background: rgba(0, 0, 0, 0.6);
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        border-radius: 2px;
+    }
+
+        .name-div p {
+            color: #fff;
+            text-align: center;
+            margin-top: 20px;
+            padding-bottom: 20px;
+        }
+
+    .make-div {
+        width: 150px;
+        margin: 10px auto;
+    }
+
+        .make-div input {
+            width: 100px;
+        }
+
+    .named {
+        z-index: -999;
+    }
+
+    .dialog {
+        display: block;
+        clear: both;
+        width: 180px;
+        text-align: center;
+        background-color: #5cadff;
+        border-radius: 5px;
+        color: #fff;
+        word-break: break-all;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+    }
+</style>
